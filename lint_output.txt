@@ -1,0 +1,170 @@
+
+/Users/kimdonghyouk/.gemini/antigravity/scratch/vibe-forecast/src/app/match-history/page.tsx
+   16:28  error    Unexpected any. Specify a different type                                                                         @typescript-eslint/no-explicit-any
+   36:52  error    Unexpected any. Specify a different type                                                                         @typescript-eslint/no-explicit-any
+   42:8   warning  React Hook useEffect has a missing dependency: 'fetchHistory'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+   81:37  error    Unexpected any. Specify a different type                                                                         @typescript-eslint/no-explicit-any
+  176:39  error    Unexpected any. Specify a different type                                                                         @typescript-eslint/no-explicit-any
+
+/Users/kimdonghyouk/.gemini/antigravity/scratch/vibe-forecast/src/components/community/AIAnalystHub.tsx
+  29:23  warning  'error' is assigned a value but never used                                                                    @typescript-eslint/no-unused-vars
+  50:27  warning  'error' is assigned a value but never used                                                                    @typescript-eslint/no-unused-vars
+  61:73  error    Unexpected any. Specify a different type                                                                      @typescript-eslint/no-explicit-any
+  86:8   warning  React Hook useCallback has a missing dependency: 'mounted'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/kimdonghyouk/.gemini/antigravity/scratch/vibe-forecast/src/components/dashboard/market-header.tsx
+    4:20  warning  'Timer' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+   23:11  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   36:11  warning  'router' is assigned a value but never used                                                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+   54:33  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  144:69  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  144:81  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+
+/Users/kimdonghyouk/.gemini/antigravity/scratch/vibe-forecast/src/components/dashboard/order-panel.tsx
+    4:112  warning  'Target' is defined but never used                       @typescript-eslint/no-unused-vars
+   15:10   warning  'calculatePotentialWin' is defined but never used        @typescript-eslint/no-unused-vars
+   20:8    warning  'Link' is defined but never used                         @typescript-eslint/no-unused-vars
+   25:11   error    Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+   29:20   error    Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+   30:31   error    Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+   86:12   warning  'userStreakState' is assigned a value but never used     @typescript-eslint/no-unused-vars
+   86:29   warning  'setUserStreakState' is assigned a value but never used  @typescript-eslint/no-unused-vars
+   87:12   warning  'rewardsState' is assigned a value but never used        @typescript-eslint/no-unused-vars
+   87:26   warning  'setRewardsState' is assigned a value but never used     @typescript-eslint/no-unused-vars
+   93:13   warning  'guestPredictions' is assigned a value but never used    @typescript-eslint/no-unused-vars
+  109:39   error    Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  175:121  error    Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  240:117  error    Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  335:25   error    Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+
+/Users/kimdonghyouk/.gemini/antigravity/scratch/vibe-forecast/src/components/dashboard/play-content.tsx
+   20:24   warning  'MarketHero' is defined but never used                                                                                                                           @typescript-eslint/no-unused-vars
+   87:76   error    Unexpected any. Specify a different type                                                                                                                         @typescript-eslint/no-explicit-any
+   92:70   error    Unexpected any. Specify a different type                                                                                                                         @typescript-eslint/no-explicit-any
+  112:8    warning  React Hook useEffect has missing dependencies: 'allAssets', 'selectedAsset.symbol', and 'selectedTimeframe'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  178:102  warning  'e' is defined but never used                                                                                                                                    @typescript-eslint/no-unused-vars
+  190:8    warning  React Hook useEffect has a missing dependency: 'supabase'. Either include it or remove the dependency array                                                      react-hooks/exhaustive-deps
+  269:21   warning  'data' is assigned a value but never used                                                                                                                        @typescript-eslint/no-unused-vars
+  395:172  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                  react/no-unescaped-entities
+
+/Users/kimdonghyouk/.gemini/antigravity/scratch/vibe-forecast/src/components/dashboard/prediction-tabs.tsx
+    4:10  warning  'useEffect' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+    4:21  warning  'useState' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         @typescript-eslint/no-unused-vars
+   37:11  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     @typescript-eslint/no-explicit-any
+   66:38  error    Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/Users/kimdonghyouk/.gemini/antigravity/scratch/vibe-forecast/src/components/dashboard/prediction-tabs.tsx:66:38
+  64 |                 status: "WIN",
+  65 |                 profit: 180,
+> 66 |                 created_at: new Date(Date.now() - 3600000).toISOString(),
+     |                                      ^^^^^^^^^^ Cannot call impure function
+  67 |                 candle_close_at: new Date(Date.now() - 3600000 + 900000).toISOString(),
+  68 |                 is_guest: true,
+  69 |                 is_mock: true                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     react-hooks/purity
+   67:43  error    Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/Users/kimdonghyouk/.gemini/antigravity/scratch/vibe-forecast/src/components/dashboard/prediction-tabs.tsx:67:43
+  65 |                 profit: 180,
+  66 |                 created_at: new Date(Date.now() - 3600000).toISOString(),
+> 67 |                 candle_close_at: new Date(Date.now() - 3600000 + 900000).toISOString(),
+     |                                           ^^^^^^^^^^ Cannot call impure function
+  68 |                 is_guest: true,
+  69 |                 is_mock: true
+  70 |             },                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                react-hooks/purity
+   81:38  error    Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/Users/kimdonghyouk/.gemini/antigravity/scratch/vibe-forecast/src/components/dashboard/prediction-tabs.tsx:81:38
+  79 |                 status: "LOSS",
+  80 |                 profit: -100,
+> 81 |                 created_at: new Date(Date.now() - 7200000).toISOString(),
+     |                                      ^^^^^^^^^^ Cannot call impure function
+  82 |                 candle_close_at: new Date(Date.now() - 7200000 + 3600000).toISOString(),
+  83 |                 is_guest: true,
+  84 |                 is_mock: true                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  react-hooks/purity
+   82:43  error    Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/Users/kimdonghyouk/.gemini/antigravity/scratch/vibe-forecast/src/components/dashboard/prediction-tabs.tsx:82:43
+  80 |                 profit: -100,
+  81 |                 created_at: new Date(Date.now() - 7200000).toISOString(),
+> 82 |                 candle_close_at: new Date(Date.now() - 7200000 + 3600000).toISOString(),
+     |                                           ^^^^^^^^^^ Cannot call impure function
+  83 |                 is_guest: true,
+  84 |                 is_mock: true
+  85 |             }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               react-hooks/purity
+  268:67  error    Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/Users/kimdonghyouk/.gemini/antigravity/scratch/vibe-forecast/src/components/dashboard/prediction-tabs.tsx:268:67
+  266 |                                         <>
+  267 |                                             {[
+> 268 |                                                 { id: 'h1', time: Date.now() - 1000 * 60 * 15, symbol: 'BTC', timeframe: '1m', direction: 'UP', result: 'WIN', profit: 45 },
+      |                                                                   ^^^^^^^^^^ Cannot call impure function
+  269 |                                                 { id: 'h2', time: Date.now() - 1000 * 60 * 45, symbol: 'ETH', timeframe: '5m', direction: 'DOWN', result: 'WIN', profit: 80 },
+  270 |                                                 { id: 'h3', time: Date.now() - 1000 * 60 * 120, symbol: 'BTC', timeframe: '1m', direction: 'UP', result: 'LOSS', profit: -50 },
+  271 |                                                 { id: 'h4', time: Date.now() - 1000 * 60 * 240, symbol: 'SOL', timeframe: '15m', direction: 'DOWN', result: 'WIN', profit: 120 },                                                                                                                                                                                                                    react-hooks/purity
+  269:67  error    Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/Users/kimdonghyouk/.gemini/antigravity/scratch/vibe-forecast/src/components/dashboard/prediction-tabs.tsx:269:67
+  267 |                                             {[
+  268 |                                                 { id: 'h1', time: Date.now() - 1000 * 60 * 15, symbol: 'BTC', timeframe: '1m', direction: 'UP', result: 'WIN', profit: 45 },
+> 269 |                                                 { id: 'h2', time: Date.now() - 1000 * 60 * 45, symbol: 'ETH', timeframe: '5m', direction: 'DOWN', result: 'WIN', profit: 80 },
+      |                                                                   ^^^^^^^^^^ Cannot call impure function
+  270 |                                                 { id: 'h3', time: Date.now() - 1000 * 60 * 120, symbol: 'BTC', timeframe: '1m', direction: 'UP', result: 'LOSS', profit: -50 },
+  271 |                                                 { id: 'h4', time: Date.now() - 1000 * 60 * 240, symbol: 'SOL', timeframe: '15m', direction: 'DOWN', result: 'WIN', profit: 120 },
+  272 |                                             ].map((item) => (                                                                                                                                                                                                 react-hooks/purity
+  270:67  error    Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/Users/kimdonghyouk/.gemini/antigravity/scratch/vibe-forecast/src/components/dashboard/prediction-tabs.tsx:270:67
+  268 |                                                 { id: 'h1', time: Date.now() - 1000 * 60 * 15, symbol: 'BTC', timeframe: '1m', direction: 'UP', result: 'WIN', profit: 45 },
+  269 |                                                 { id: 'h2', time: Date.now() - 1000 * 60 * 45, symbol: 'ETH', timeframe: '5m', direction: 'DOWN', result: 'WIN', profit: 80 },
+> 270 |                                                 { id: 'h3', time: Date.now() - 1000 * 60 * 120, symbol: 'BTC', timeframe: '1m', direction: 'UP', result: 'LOSS', profit: -50 },
+      |                                                                   ^^^^^^^^^^ Cannot call impure function
+  271 |                                                 { id: 'h4', time: Date.now() - 1000 * 60 * 240, symbol: 'SOL', timeframe: '15m', direction: 'DOWN', result: 'WIN', profit: 120 },
+  272 |                                             ].map((item) => (
+  273 |                                                 <div key={item.id} className="grid grid-cols-5 items-center p-2.5 text-xs text-center border-l-2 border-transparent opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all">  react-hooks/purity
+  271:67  error    Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/Users/kimdonghyouk/.gemini/antigravity/scratch/vibe-forecast/src/components/dashboard/prediction-tabs.tsx:271:67
+  269 |                                                 { id: 'h2', time: Date.now() - 1000 * 60 * 45, symbol: 'ETH', timeframe: '5m', direction: 'DOWN', result: 'WIN', profit: 80 },
+  270 |                                                 { id: 'h3', time: Date.now() - 1000 * 60 * 120, symbol: 'BTC', timeframe: '1m', direction: 'UP', result: 'LOSS', profit: -50 },
+> 271 |                                                 { id: 'h4', time: Date.now() - 1000 * 60 * 240, symbol: 'SOL', timeframe: '15m', direction: 'DOWN', result: 'WIN', profit: 120 },
+      |                                                                   ^^^^^^^^^^ Cannot call impure function
+  272 |                                             ].map((item) => (
+  273 |                                                 <div key={item.id} className="grid grid-cols-5 items-center p-2.5 text-xs text-center border-l-2 border-transparent opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all">
+  274 |                                                     <span className="text-gray-500 font-mono text-[10px]">{formatTime(item.time)}</span>                                      react-hooks/purity
+
+/Users/kimdonghyouk/.gemini/antigravity/scratch/vibe-forecast/src/providers/guest-prediction-provider.tsx
+  34:17  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/kimdonghyouk/.gemini/antigravity/scratch/vibe-forecast/src/providers/guest-prediction-provider.tsx:34:17
+  32 |         if (stored) {
+  33 |             try {
+> 34 |                 setGuestPredictions(JSON.parse(stored));
+     |                 ^^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  35 |             } catch (e) {
+  36 |                 console.error("Failed to parse guest predictions", e);
+  37 |             }  react-hooks/set-state-in-effect
+
+✖ 50 problems (28 errors, 22 warnings)
+

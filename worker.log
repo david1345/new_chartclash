@@ -1,0 +1,10 @@
+[dotenv@17.2.3] injecting env (7) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+
+--- 🚀 Render Worker Started (DEV MODE) ---
+Target: http://localhost:3001
+Wait Interval: 5 seconds
+
+[11:49:15 PM] ⚡ Triggering Resolution...
+   ✅ Resolution Success: No candles completed yet
+[11:50:15 PM] ⚡ Triggering Resolution...
+   ✅ Resolution Success: No candles completed yet

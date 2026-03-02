@@ -1,0 +1,282 @@
+[
+  {
+    "id": "f241a891-9df5-4923-9b95-afda4ee7aef0",
+    "email": "gracepk34@gmail.com",
+    "username": "no-one",
+    "points": 988,
+    "tier": "bronze",
+    "streak": 0,
+    "streak_count": 0,
+    "total_games": 2,
+    "total_wins": 1,
+    "total_earnings": 0,
+    "created_at": "2026-02-13T08:00:00.525275+00:00",
+    "is_bot": false,
+    "bot_persona": {}
+  },
+  {
+    "id": "690d9bc7-40d1-4c1c-9a84-d819f8af3542",
+    "email": "sjustone000@gmail.com",
+    "username": "49859459",
+    "points": 845,
+    "tier": "bronze",
+    "streak": 1,
+    "streak_count": 1,
+    "total_games": 28,
+    "total_wins": 14,
+    "total_earnings": null,
+    "created_at": "2026-02-12T14:41:18.290858+00:00",
+    "is_bot": false,
+    "bot_persona": {}
+  },
+  {
+    "id": "bd6880d7-c00d-44d8-abf8-832aeca7bd31",
+    "email": "test1@mail.com",
+    "username": "test_hunter",
+    "points": 1000,
+    "tier": "Bronze",
+    "streak": 0,
+    "streak_count": 0,
+    "total_games": 0,
+    "total_wins": 0,
+    "total_earnings": 0,
+    "created_at": "2026-02-14T03:07:59.55481+00:00",
+    "is_bot": false,
+    "bot_persona": {}
+  },
+  {
+    "id": "76ca42db-540c-4109-b0bf-9cd2eb3e51b9",
+    "email": "kjustone@gmail.com",
+    "username": "kjustone",
+    "points": 1008,
+    "tier": "bronze",
+    "streak": 0,
+    "streak_count": 0,
+    "total_games": 1,
+    "total_wins": 1,
+    "total_earnings": 0,
+    "created_at": "2026-02-13T10:54:09.559204+00:00",
+    "is_bot": false,
+    "bot_persona": {}
+  },
+  {
+    "id": "cae17ff1-ac88-4f5b-8c11-b939ddaf21a9",
+    "email": "breader0909@gmail.com",
+    "username": "breader0909",
+    "points": 1039,
+    "tier": "bronze",
+    "streak": 0,
+    "streak_count": 0,
+    "total_games": 3,
+    "total_wins": 3,
+    "total_earnings": 0,
+    "created_at": "2026-02-14T14:33:26.099839+00:00",
+    "is_bot": false,
+    "bot_persona": {}
+  },
+  {
+    "id": "e957868e-3a99-4053-834b-02b0b6481f3e",
+    "email": "naeiver@naver.com",
+    "username": "naeiver",
+    "points": 1000,
+    "tier": "bronze",
+    "streak": 0,
+    "streak_count": 0,
+    "total_games": 0,
+    "total_wins": 0,
+    "total_earnings": 0,
+    "created_at": "2026-02-15T14:06:05.323162+00:00",
+    "is_bot": false,
+    "bot_persona": {}
+  },
+  {
+    "id": "d4dc6026-2080-4148-bb90-d03a16a858db",
+    "email": "bot_breakout@chartclash.app",
+    "username": "Analyst_Breakout",
+    "points": 1000135,
+    "tier": "PRO",
+    "streak": 0,
+    "streak_count": 0,
+    "total_games": 221,
+    "total_wins": 3,
+    "total_earnings": 135,
+    "created_at": "2026-02-16T09:07:57.900839+00:00",
+    "is_bot": true,
+    "bot_persona": {
+      "focus": "Donchian Channels, Range expansion",
+      "style": "Aggressive, Signal-oriented",
+      "description": "Detects the moment price breaks out of established ranges."
+    }
+  },
+  {
+    "id": "dc6a9467-a28b-43a3-9c1e-b250b037b791",
+    "email": "bot_reversal@chartclash.app",
+    "username": "Analyst_Reversal",
+    "points": 1000135,
+    "tier": "PRO",
+    "streak": 0,
+    "streak_count": 0,
+    "total_games": 221,
+    "total_wins": 3,
+    "total_earnings": 135,
+    "created_at": "2026-02-16T09:07:58.322271+00:00",
+    "is_bot": true,
+    "bot_persona": {
+      "focus": "Candlestick Patterns, Pin-bars, Engulfing",
+      "style": "Observant, Pattern-focused",
+      "description": "Spots early signs of exhaustion and trend flips."
+    }
+  },
+  {
+    "id": "bf7b728d-2815-4120-868f-cba63d187e4c",
+    "email": "bot_correlation@chartclash.app",
+    "username": "Analyst_Correlation",
+    "points": 1000135,
+    "tier": "PRO",
+    "streak": 0,
+    "streak_count": 0,
+    "total_games": 215,
+    "total_wins": 3,
+    "total_earnings": 135,
+    "created_at": "2026-02-16T09:07:58.822751+00:00",
+    "is_bot": true,
+    "bot_persona": {
+      "focus": "BTC vs Equity, DXY Impact",
+      "style": "Academic, Global",
+      "description": "Monitors how external markets influence crypto prices."
+    }
+  },
+  {
+    "id": "4105630f-f7c5-489a-a237-4cb34759581c",
+    "email": "bot_regime@chartclash.app",
+    "username": "Analyst_Regime",
+    "points": 1000135,
+    "tier": "PRO",
+    "streak": 0,
+    "streak_count": 0,
+    "total_games": 215,
+    "total_wins": 3,
+    "total_earnings": 135,
+    "created_at": "2026-02-16T09:07:59.339916+00:00",
+    "is_bot": true,
+    "bot_persona": {
+      "focus": "ADX, Market Phase (Trend vs Range)",
+      "style": "Strategic, Holistic",
+      "description": "Categorizes the current market environment to guide strategy selection."
+    }
+  },
+  {
+    "id": "6c607592-9dcc-4265-b61a-190717ee697a",
+    "email": "bot_rsi@chartclash.app",
+    "username": "Analyst_RSI",
+    "points": 1000135,
+    "tier": "PRO",
+    "streak": 0,
+    "streak_count": 0,
+    "total_games": 223,
+    "total_wins": 3,
+    "total_earnings": 135,
+    "created_at": "2026-02-16T09:07:54.727843+00:00",
+    "is_bot": true,
+    "bot_persona": {
+      "focus": "Overbought/Oversold levels, RSI Divergence",
+      "style": "Conservative, Data-driven",
+      "description": "Expert in identifying market reversals using Relative Strength Index."
+    }
+  },
+  {
+    "id": "cf705a0d-cdb0-47fe-b63c-8849d894ab01",
+    "email": "bot_momentum@chartclash.app",
+    "username": "Analyst_Momentum",
+    "points": 1000135,
+    "tier": "PRO",
+    "streak": 0,
+    "streak_count": 0,
+    "total_games": 223,
+    "total_wins": 3,
+    "total_earnings": 135,
+    "created_at": "2026-02-16T09:07:55.309431+00:00",
+    "is_bot": true,
+    "bot_persona": {
+      "focus": "MACD Crossovers, Momentum Histogram",
+      "style": "Agile, Trend-following",
+      "description": "Analyzes the speed and strength of price movements."
+    }
+  },
+  {
+    "id": "cc155294-90c7-4089-81b0-d6397bc63e4d",
+    "email": "bot_trend@chartclash.app",
+    "username": "Analyst_Trend",
+    "points": 1000135,
+    "tier": "PRO",
+    "streak": 0,
+    "streak_count": 0,
+    "total_games": 221,
+    "total_wins": 3,
+    "total_earnings": 135,
+    "created_at": "2026-02-16T09:07:56.023273+00:00",
+    "is_bot": true,
+    "bot_persona": {
+      "focus": "Moving Averages (50/200), HTF Structure",
+      "style": "Patient, Macro-oriented",
+      "description": "Provides big-picture context by monitoring long-term trends."
+    }
+  },
+  {
+    "id": "5101c8cb-2975-49c3-9a16-51008dfc2478",
+    "email": "bot_volatility@chartclash.app",
+    "username": "Analyst_Volatility",
+    "points": 1000135,
+    "tier": "PRO",
+    "streak": 0,
+    "streak_count": 0,
+    "total_games": 221,
+    "total_wins": 3,
+    "total_earnings": 135,
+    "created_at": "2026-02-16T09:07:56.466224+00:00",
+    "is_bot": true,
+    "bot_persona": {
+      "focus": "Bollinger Bands, ATR, Squeeze play",
+      "style": "Risk-focused, Neutral",
+      "description": "Measures market uncertainty and breakout potential."
+    }
+  },
+  {
+    "id": "2ad71517-e9ec-498f-b81f-2c321584810d",
+    "email": "bot_levels@chartclash.app",
+    "username": "Analyst_Levels",
+    "points": 1000135,
+    "tier": "PRO",
+    "streak": 0,
+    "streak_count": 0,
+    "total_games": 215,
+    "total_wins": 3,
+    "total_earnings": 135,
+    "created_at": "2026-02-16T09:07:56.991001+00:00",
+    "is_bot": true,
+    "bot_persona": {
+      "focus": "Support/Resistance, Pivot Points",
+      "style": "Precise, Technical",
+      "description": "Identifies key price levels where buyers and sellers clash."
+    }
+  },
+  {
+    "id": "cf45254d-5d99-409d-8cde-8155439c2d26",
+    "email": "bot_volume@chartclash.app",
+    "username": "Analyst_Volume",
+    "points": 1000180,
+    "tier": "PRO",
+    "streak": 0,
+    "streak_count": 0,
+    "total_games": 218,
+    "total_wins": 4,
+    "total_earnings": 180,
+    "created_at": "2026-02-16T09:07:57.406948+00:00",
+    "is_bot": true,
+    "bot_persona": {
+      "focus": "Volume Spikes, OBV, Buying/Selling Pressure",
+      "style": "Analytical, Fact-based",
+      "description": "Tracks institutional and retail money flow."
+    }
+  }
+]

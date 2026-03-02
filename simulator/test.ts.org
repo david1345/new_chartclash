@@ -1,0 +1,135 @@
+import { createClient } from '@supabase/supabase-js';
+import dotenv from 'dotenv';
+import path from 'path';
+
+// 환경변수 로드 (.env.local 우선)
+dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
+if (!supabaseUrl || !supabaseKey) {
+  console.error('❌ Missing environment variables in .env.local');
+  process.exit(1);
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+interface TestScenario {
+  name: string;
+  symbol: string;
+  direction: 'UP' | 'DOWN';
+  amount: number;
+  timeframe: string;
+  targetPercent: number;
+}
+
+const testUsers = [
+  { email: 'test1@mail.com', password: '123456', name: 'Test1' },
+  { email: 'test2@mail.com', password: '123456', name: 'Test2' },
+  { email: 'test3@mail.com', password: '123456', name: 'Test3' },
+  { email: 'test4@mail.com', password: '123456', name: 'Test4' },
+  { email: 'test5@mail.com', password: '123456', name: 'Test5' },
+];
+
+const testScenarios: TestScenario[] = [
+  { name: 'BTC 1m UP 0.5%', symbol: 'BTC', direction: 'UP', amount: 50, timeframe: '1m', targetPercent: 0.5 },
+  { name: 'ETH 1m DOWN 1.0%', symbol: 'ETH', direction: 'DOWN', amount: 100, timeframe: '1m', targetPercent: 1.0 },
+  { name: 'BTC 5m UP 1.5%', symbol: 'BTC', direction: 'UP', amount: 200, timeframe: '5m', targetPercent: 1.5 },
+];
+
+async function getMarketPrice(symbol: string) {
+  // 실제 API를 호출하거나 기본가 반환 (여기서는 간단히 시세를 조회하는 척하거나 실제 API 호출)
+  // 실제 앱의 /api/market/entry-price 로직을 참고
+  try {
+    const res = await fetch(`${supabaseUrl.replace('.supabase.co', '.supabase.co/rest/v1')}/rpc/get_market_price_placeholder`, {
+      headers: {
+        'apikey': supabaseKey,
+        'Authorization': `Bearer ${supabaseKey}`
+      }
+    });
+    // 현실적으로는 그냥 dummy entry price를 주거나, 
+    // 실제 서버가 떠있다면 해당 API를 fetch 합니다.
+    // 여기서는 테스트 목적이므로 60000 (BTC), 3000 (ETH) 등 적당한 값을 주거나 
+    // 실제 API를 쓸 수 없으니 고정값으로 시뮬레이션 합니다.
+    if (symbol === 'BTC') return 65000;
+    if (symbol === 'ETH') return 3500;
+    return 100;
+  } catch (e) {
+    return 100;
+  }
+}
+
+async function runSimulation(user: any, scenario: TestScenario) {
+  console.log(`👤 [${user.name}] Attempting: ${scenario.name}...`);
+
+  try {
+    // 1. 로그인
+    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+      email: user.email,
+      password: user.password,
+    });
+
+    if (authError || !authData.session) {
+      throw new Error(`Login failed: ${authError?.message}`);
+    }
+
+    const { user: supabaseUser } = authData.session;
+
+    // 2. 시세 조회 (예시용 고정가)
+    const entryPrice = scenario.symbol === 'BTC' ? 65432.1 : 3210.5;
+
+    // 3. submit_prediction RPC 호출
+    const { data: rpcData, error: rpcError } = await supabase.rpc('submit_prediction', {
+      p_user_id: supabaseUser.id,
+      p_asset_symbol: scenario.symbol,
+      p_timeframe: scenario.timeframe,
+      p_direction: scenario.direction,
+      p_target_percent: scenario.targetPercent,
+      p_entry_price: entryPrice,
+      p_bet_amount: scenario.amount
+    });
+
+    if (rpcError) {
+      throw new Error(`RPC Failed: ${rpcError.message}`);
+    }
+
+    if (rpcData && rpcData.success) {
+      console.log(`   ✅ Success! Prediction ID: ${rpcData.prediction_id}, Remaining: ${rpcData.new_points}pt`);
+      return { success: true };
+    } else {
+      throw new Error(rpcData?.error || 'Unknown error');
+    }
+
+  } catch (error: any) {
+    console.error(`   ❌ Failed: ${error.message}`);
+    return { success: false, error: error.message };
+  }
+}
+
+async function main() {
+  console.log('🚀 Starting V3 Simulation (submit_prediction RPC)...\n');
+
+  let successCount = 0;
+  let failCount = 0;
+
+  for (const user of testUsers) {
+    console.log('-'.repeat(40));
+    for (const scenario of testScenarios) {
+      const result = await runSimulation(user, scenario);
+      if (result.success) successCount++; else failCount++;
+      // 연속 요청 방지
+      await new Promise(r => setTimeout(r, 500));
+    }
+  }
+
+  console.log('\n' + '='.repeat(40));
+  console.log('📊 SIMULATION REPORT');
+  console.log(`Total: ${successCount + failCount}, Success: ${successCount}, Fail: ${failCount}`);
+  console.log('='.repeat(40) + '\n');
+
+  console.log('💡 Predictions are now in "pending" status.');
+  console.log('💡 They will be auto-resolved by Cron or AutoResolver when candles close.\n');
+}
+
+main().catch(console.error);

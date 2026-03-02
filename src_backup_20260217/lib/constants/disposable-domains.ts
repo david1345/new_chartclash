@@ -1,0 +1,27 @@
+export const DISPOSABLE_EMAIL_DOMAINS = [
+    "temp-mail.org",
+    "10minutemail.com",
+    "guerrillamail.com",
+    "maildrop.cc",
+    "mailinator.com",
+    "dispostable.com",
+    "throwawaymail.com",
+    "getnada.com",
+    "yopmail.com",
+    "protonmail.ch", // Optional: Some keep it, some block it as "garbage" for simple games
+    "sharklasers.com",
+    "mail-temp.com",
+    "tempmail.net",
+    "click-away.ru",
+    "tempail.com",
+    "emailondeck.com",
+    "owlymail.com",
+    "moakt.com",
+    "mail.tm",
+    "mail.gw",
+    "crazymailing.com",
+    "tempmailaddress.com",
+    "mintemail.com",
+    "block-spam.com",
+    "instant-mail.io"
+];

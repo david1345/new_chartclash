@@ -1,0 +1,12 @@
+{
+    "project_name": "ChartClash",
+    "environment": "Development",
+    "supabase_project_ref": "kgrzcgzseepmwqldfhyb",
+    "supabase_url": "https://kgrzcgzseepmwqldfhyb.supabase.co",
+    "critical_notes": [
+        "ALWAYS use .env.local values for development.",
+        "The production project ref (abpijrmofwiogtjqpwjn) should NOT be used for current feature development.",
+        "Analyst bots are being deployed and tested on the DEVELOPMENT environment."
+    ],
+    "last_verified": "2026-02-16T18:18:00Z"
+}

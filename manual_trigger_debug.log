@@ -1,0 +1,6 @@
+[dotenv@17.2.3] injecting env (6) from .env -- tip: ✅ audit secrets and track compliance: https://dotenvx.com/ops
+--- 🤖 ANALYST HUB SCHEDULER STARTED ---
+Watching: BTCUSDT | TFs: 15m, 30m, 1h, 4h, 1d
+Awaiting candle opens (00, 15, 30, 45)...
+
+[5:46:25 AM] 🚀 ANALYSIS START: BTCUSDT (15m)

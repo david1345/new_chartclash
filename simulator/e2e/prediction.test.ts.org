@@ -1,0 +1,171 @@
+import { test, expect } from '@playwright/test';
+
+// 로그인 헬퍼 함수
+async function login(page: any) {
+    await page.goto('/');
+
+    const loginButton = page.getByRole('button', { name: /login/i }).first();
+    if (await loginButton.isVisible({ timeout: 3000 })) {
+        await loginButton.click();
+        await page.fill('input[type="email"]', 'test1@mail.com');
+        await page.fill('input[type="password"]', '123456');
+        await page.locator('button[type="submit"]').click();
+        await page.waitForTimeout(3000); // 로그인 완료 대기
+    }
+}
+
+test.describe('예측 제출 테스트 (Prediction Submission Tests)', () => {
+    test.beforeEach(async ({ page }) => {
+        await login(page);
+    });
+
+    test('TC-PRED-01: 기본 UP 예측 제출 (Submit UP Prediction)', async ({ page }) => {
+        // 메인 페이지 이동
+        await page.goto('/');
+
+        // UP 버튼 선택
+        const upButton = page.getByRole('button', { name: /up|bull/i }).first();
+        await upButton.click();
+
+        // 목표 퍼센트 선택 (0.5%)
+        const targetButton = page.locator('button:has-text("0.5%")').or(
+            page.locator('[data-target="0.5"]')
+        ).first();
+        if (await targetButton.isVisible({ timeout: 2000 })) {
+            await targetButton.click();
+        }
+
+        // 베팅 금액 입력
+        const betInput = page.locator('input[type="number"]').or(
+            page.locator('input[placeholder*="amount"]')
+        ).first();
+        await betInput.fill('50');
+
+        // 예측 제출
+        const submitButton = page.getByRole('button', { name: /place|submit|predict/i }).first();
+        await submitButton.click();
+
+        // 성공 메시지 확인
+        await expect(
+            page.locator('text=/success|submitted|placed/i').first()
+        ).toBeVisible({ timeout: 10000 });
+    });
+
+    test('TC-PRED-02: 기본 DOWN 예측 제출 (Submit DOWN Prediction)', async ({ page }) => {
+        await page.goto('/');
+
+        // DOWN 버튼 선택
+        const downButton = page.getByRole('button', { name: /down|bear/i }).first();
+        await downButton.click();
+
+        // 목표 퍼센트 선택 (1.0%)
+        const targetButton = page.locator('button:has-text("1.0%")').or(
+            page.locator('[data-target="1.0"]')
+        ).first();
+        if (await targetButton.isVisible({ timeout: 2000 })) {
+            await targetButton.click();
+        }
+
+        // 베팅 금액 입력
+        const betInput = page.locator('input[type="number"]').first();
+        await betInput.fill('100');
+
+        // 예측 제출
+        const submitButton = page.getByRole('button', { name: /place|submit|predict/i }).first();
+        await submitButton.click();
+
+        // 성공 메시지 확인
+        await expect(
+            page.locator('text=/success|submitted|placed/i').first()
+        ).toBeVisible({ timeout: 10000 });
+    });
+
+    test('TC-PRED-03: 최소 베팅 검증 (Minimum Bet Validation)', async ({ page }) => {
+        await page.goto('/');
+
+        // UP 선택
+        const upButton = page.getByRole('button', { name: /up/i }).first();
+        await upButton.click();
+
+        // 최소 금액 미만 입력 (5pt)
+        const betInput = page.locator('input[type="number"]').first();
+        await betInput.fill('5');
+
+        // 제출 시도
+        const submitButton = page.getByRole('button', { name: /place|submit|predict/i }).first();
+        await submitButton.click();
+
+        // 에러 메시지 확인
+        await expect(
+            page.locator('text=/minimum|at least 10/i').first()
+        ).toBeVisible({ timeout: 5000 });
+    });
+
+    test('TC-PRED-04: 최대 베팅 검증 (Maximum Bet Validation - 20%)', async ({ page }) => {
+        await page.goto('/');
+
+        // UP 선택
+        const upButton = page.getByRole('button', { name: /up/i }).first();
+        await upButton.click();
+
+        // 20% 초과 금액 입력 (보유 포인트가 1000pt라면 200pt 초과)
+        const betInput = page.locator('input[type="number"]').first();
+        await betInput.fill('500');
+
+        // 제출 시도
+        const submitButton = page.getByRole('button', { name: /place|submit|predict/i }).first();
+        await submitButton.click();
+
+        // 에러 메시지 확인
+        await expect(
+            page.locator('text=/maximum|20%|exceeds/i').first()
+        ).toBeVisible({ timeout: 5000 });
+    });
+
+    test('TC-PRED-05: 포인트 부족 검증 (Insufficient Balance)', async ({ page }) => {
+        await page.goto('/');
+
+        // 현재 포인트보다 많은 금액 입력
+        const upButton = page.getByRole('button', { name: /up/i }).first();
+        await upButton.click();
+
+        const betInput = page.locator('input[type="number"]').first();
+        await betInput.fill('999999');
+
+        // 제출 시도
+        const submitButton = page.getByRole('button', { name: /place|submit|predict/i }).first();
+        await submitButton.click();
+
+        // 에러 메시지 확인
+        await expect(
+            page.locator('text=/insufficient|not enough|balance/i').first()
+        ).toBeVisible({ timeout: 5000 });
+    });
+
+    test('TC-PRED-07: 코멘트 추가 (Add Comment)', async ({ page }) => {
+        await page.goto('/');
+
+        // UP 선택
+        const upButton = page.getByRole('button', { name: /up/i }).first();
+        await upButton.click();
+
+        // 코멘트 입력 (최대 140자)
+        const commentInput = page.locator('textarea, input[placeholder*="comment"]').first();
+        if (await commentInput.isVisible({ timeout: 2000 })) {
+            await commentInput.fill('Strong bullish momentum! 🚀');
+        }
+
+        // 베팅 금액
+        const betInput = page.locator('input[type="number"]').first();
+        await betInput.fill('50');
+
+        // 제출
+        const submitButton = page.getByRole('button', { name: /place|submit|predict/i }).first();
+        await submitButton.click();
+
+        // 성공 확인
+        await expect(
+            page.locator('text=/success|submitted/i').first()
+        ).toBeVisible({ timeout: 10000 });
+    });
+});

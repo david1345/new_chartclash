@@ -1,0 +1,51 @@
+[WebServer] [33m[1m⚠[22m[39m The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+[WebServer] The width(-1) and height(-1) of chart should be greater than 0,
+[WebServer]        please check the style of container, or the props width(100%) and height(100%),
+[WebServer]        or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+[WebServer]        height and width.
+[WebServer] The width(-1) and height(-1) of chart should be greater than 0,
+[WebServer]        please check the style of container, or the props width(100%) and height(100%),
+[WebServer]        or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+[WebServer]        height and width.
+[WebServer] The width(-1) and height(-1) of chart should be greater than 0,
+[WebServer]        please check the style of container, or the props width(100%) and height(100%),
+[WebServer]        or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+[WebServer]        height and width.
+Loading env from: /Users/kimdonghyouk/.gemini/antigravity/scratch/vibe-forecast/.env.local
+[dotenv@17.2.3] injecting env (5) from ../.env.local -- tip: ✅ audit secrets and track compliance: https://dotenvx.com/ops
+
+Running 1 test using 1 worker
+
+Loading env from: /Users/kimdonghyouk/.gemini/antigravity/scratch/vibe-forecast/.env.local
+[dotenv@17.2.3] injecting env (0) from ../.env.local -- tip: ✅ audit secrets and track compliance: https://dotenvx.com/ops
+Resetting user bd6880d7-c00d-44d8-abf8-832aeca7bd31...
+RPC reset failed, attempting fallback... relation "public.activity_logs" does not exist
+User reset successful (fallback partial)
+[WebServer] The width(-1) and height(-1) of chart should be greater than 0,
+[WebServer]        please check the style of container, or the props width(100%) and height(100%),
+[WebServer]        or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+[WebServer]        height and width.
+[WebServer] The width(-1) and height(-1) of chart should be greater than 0,
+[WebServer]        please check the style of container, or the props width(100%) and height(100%),
+[WebServer]        or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+[WebServer]        height and width.
+[WebServer] The width(-1) and height(-1) of chart should be greater than 0,
+[WebServer]        please check the style of container, or the props width(100%) and height(100%),
+[WebServer]        or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+[WebServer]        height and width.
+[WebServer] The width(-1) and height(-1) of chart should be greater than 0,
+[WebServer]        please check the style of container, or the props width(100%) and height(100%),
+[WebServer]        or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+[WebServer]        height and width.
+[WebServer] The width(-1) and height(-1) of chart should be greater than 0,
+[WebServer]        please check the style of container, or the props width(100%) and height(100%),
+[WebServer]        or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+[WebServer]        height and width.
+[WebServer] The width(-1) and height(-1) of chart should be greater than 0,
+[WebServer]        please check the style of container, or the props width(100%) and height(100%),
+[WebServer]        or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+[WebServer]        height and width.
+✅ Login successful
+  ✓  1 [chromium] › e2e/prediction.test.ts:18:7 › Prediction Submission › Submit UP prediction (16.5s)
+
+  1 passed (27.6s)

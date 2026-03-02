@@ -1,0 +1,1964 @@
+[
+  {
+    "id": "1",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "420",
+    "metadata": "{\"payout\": 23, \"profit\": 11, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 64762.31745067788, \"close_price\": 64984.66407408995, \"is_target_hit\": false}",
+    "created_at": "2026-02-06 09:00:25.111162+00"
+  },
+  {
+    "id": "2",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "XAGUSD",
+    "prediction_id": "428",
+    "metadata": "{\"payout\": 43, \"profit\": 30, \"status\": \"WIN\", \"streak\": 1, \"open_price\": 73.21499633789062, \"close_price\": 30.845, \"is_target_hit\": true}",
+    "created_at": "2026-02-06 09:00:26.340525+00"
+  },
+  {
+    "id": "3",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "429",
+    "metadata": "{\"payout\": 24, \"profit\": 11, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 64727.414074250795, \"close_price\": 64984.66407408995, \"is_target_hit\": false}",
+    "created_at": "2026-02-06 09:00:28.091134+00"
+  },
+  {
+    "id": "4",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "ETHUSDT",
+    "prediction_id": "430",
+    "metadata": "{\"payout\": 0, \"profit\": -12, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 1874.2865624121073, \"close_price\": 1872, \"is_target_hit\": false}",
+    "created_at": "2026-02-06 09:00:29.905025+00"
+  },
+  {
+    "id": "5",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "XRPUSDT",
+    "prediction_id": "431",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"30m\", \"bet_amount\": 113, \"entry_price\": 1.312, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-06T10:00:00+00:00\"}",
+    "created_at": "2026-02-06 09:36:38.503491+00"
+  },
+  {
+    "id": "6",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "XRPUSDT",
+    "prediction_id": "431",
+    "metadata": "{\"payout\": 0, \"profit\": -113, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 1.3097115774550252, \"close_price\": 1.327732680439997, \"is_target_hit\": true}",
+    "created_at": "2026-02-06 10:00:29.65978+00"
+  },
+  {
+    "id": "7",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "432",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1m\", \"bet_amount\": 15, \"entry_price\": 65953.61, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-06T10:32:00+00:00\"}",
+    "created_at": "2026-02-06 10:31:07.257042+00"
+  },
+  {
+    "id": "8",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "BET",
+    "asset_symbol": "XAUUSD",
+    "prediction_id": "433",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1m\", \"bet_amount\": 15, \"entry_price\": 4884.7998046875, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-06T10:33:00+00:00\"}",
+    "created_at": "2026-02-06 10:32:11.417975+00"
+  },
+  {
+    "id": "9",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "432",
+    "metadata": "{\"payout\": 0, \"profit\": -15, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 65953.61, \"close_price\": 65972.99, \"is_target_hit\": false}",
+    "created_at": "2026-02-06 10:32:53.678299+00"
+  },
+  {
+    "id": "10",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "XAUUSD",
+    "prediction_id": "433",
+    "metadata": "{\"payout\": 0, \"profit\": -15, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 4860.375805664063, \"close_price\": 4860.375805664063, \"is_target_hit\": false}",
+    "created_at": "2026-02-06 10:33:53.481471+00"
+  },
+  {
+    "id": "11",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "434",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1m\", \"bet_amount\": 15, \"entry_price\": 66430.57, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-06T12:03:00+00:00\"}",
+    "created_at": "2026-02-06 12:02:16.159555+00"
+  },
+  {
+    "id": "12",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "BET",
+    "asset_symbol": "XAUUSD",
+    "prediction_id": "435",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1m\", \"bet_amount\": 15, \"entry_price\": 4910.39990234375, \"target_percent\": 1, \"candle_close_at\": \"2026-02-06T12:04:00+00:00\"}",
+    "created_at": "2026-02-06 12:03:14.444379+00"
+  },
+  {
+    "id": "13",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "434",
+    "metadata": "{\"payout\": 0, \"profit\": -15, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 66430.57, \"close_price\": 66460.54, \"is_target_hit\": false}",
+    "created_at": "2026-02-06 12:03:52.703865+00"
+  },
+  {
+    "id": "14",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "XAUUSD",
+    "prediction_id": "435",
+    "metadata": "{\"payout\": 0, \"profit\": -15, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 4885.847902832032, \"close_price\": 4885.847902832032, \"is_target_hit\": false}",
+    "created_at": "2026-02-06 12:04:53.674614+00"
+  },
+  {
+    "id": "15",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "XAUUSD",
+    "prediction_id": "436",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1m\", \"bet_amount\": 10, \"entry_price\": 4956.7998046875, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-06T13:50:00+00:00\"}",
+    "created_at": "2026-02-06 13:49:17.757272+00"
+  },
+  {
+    "id": "16",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "XAUUSD",
+    "prediction_id": "436",
+    "metadata": "{\"payout\": 0, \"profit\": -10, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 4951.843004882812, \"close_price\": 4932.015805664062, \"is_target_hit\": false}",
+    "created_at": "2026-02-06 13:50:44.09666+00"
+  },
+  {
+    "id": "17",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "XAUUSD",
+    "prediction_id": "437",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"30m\", \"bet_amount\": 88, \"entry_price\": 4951.7998046875, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-06T14:30:00+00:00\"}",
+    "created_at": "2026-02-06 14:00:24.291682+00"
+  },
+  {
+    "id": "18",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "XAUUSD",
+    "prediction_id": "437",
+    "metadata": "{\"payout\": 162, \"profit\": 74, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 4944.10009765625, \"close_price\": 4927.040805664063, \"is_target_hit\": false}",
+    "created_at": "2026-02-06 14:30:32.747822+00"
+  },
+  {
+    "id": "19",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "BET",
+    "asset_symbol": "AAPL",
+    "prediction_id": "438",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1m\", \"bet_amount\": 15, \"entry_price\": 279.54998779296875, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-06T14:39:00+00:00\"}",
+    "created_at": "2026-02-06 14:38:12.907297+00"
+  },
+  {
+    "id": "20",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "BET",
+    "asset_symbol": "XAGUSD",
+    "prediction_id": "439",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1m\", \"bet_amount\": 18, \"entry_price\": 74.30500030517578, \"target_percent\": 1, \"candle_close_at\": \"2026-02-06T14:40:00+00:00\"}",
+    "created_at": "2026-02-06 14:39:09.705571+00"
+  },
+  {
+    "id": "21",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "AAPL",
+    "prediction_id": "438",
+    "metadata": "{\"payout\": 0, \"profit\": -15, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 279.7650146484375, \"close_price\": 279.2704378051758, \"is_target_hit\": false}",
+    "created_at": "2026-02-06 14:39:57.859029+00"
+  },
+  {
+    "id": "22",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "BET",
+    "asset_symbol": "ETHUSDT",
+    "prediction_id": "440",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1m\", \"bet_amount\": 17, \"entry_price\": 1980.65, \"target_percent\": 2, \"candle_close_at\": \"2026-02-06T14:41:00+00:00\"}",
+    "created_at": "2026-02-06 14:40:19.290148+00"
+  },
+  {
+    "id": "23",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "XAGUSD",
+    "prediction_id": "439",
+    "metadata": "{\"payout\": 32, \"profit\": 14, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 74.23069530487061, \"close_price\": 73.9334753036499, \"is_target_hit\": false}",
+    "created_at": "2026-02-06 14:40:52.783587+00"
+  },
+  {
+    "id": "24",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "ETHUSDT",
+    "prediction_id": "440",
+    "metadata": "{\"payout\": 30, \"profit\": 13, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 1978.25, \"close_price\": 1979.2, \"is_target_hit\": false}",
+    "created_at": "2026-02-06 14:41:52.724+00"
+  },
+  {
+    "id": "25",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "XAUUSD",
+    "prediction_id": "441",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1h\", \"bet_amount\": 103, \"entry_price\": 4974.39990234375, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-06T16:00:00+00:00\"}",
+    "created_at": "2026-02-06 15:11:45.735477+00"
+  },
+  {
+    "id": "26",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "XAUUSD",
+    "prediction_id": "441",
+    "metadata": "{\"payout\": 0, \"profit\": -103, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 4967.60009765625, \"close_price\": 4971.7998046875, \"is_target_hit\": false}",
+    "created_at": "2026-02-06 16:17:22.703401+00"
+  },
+  {
+    "id": "27",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "442",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"30m\", \"bet_amount\": 10, \"entry_price\": 69953.86, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-07T02:00:00+00:00\"}",
+    "created_at": "2026-02-07 01:39:35.936033+00"
+  },
+  {
+    "id": "28",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "ETHUSDT",
+    "prediction_id": "443",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"30m\", \"bet_amount\": 10, \"entry_price\": 2043.76, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-07T02:00:00+00:00\"}",
+    "created_at": "2026-02-07 01:39:53.168557+00"
+  },
+  {
+    "id": "29",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "ETHUSDT",
+    "prediction_id": "444",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1m\", \"bet_amount\": 10, \"entry_price\": 2052.06, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-07T01:41:00+00:00\"}",
+    "created_at": "2026-02-07 01:40:19.099991+00"
+  },
+  {
+    "id": "30",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "ETHUSDT",
+    "prediction_id": "445",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1d\", \"bet_amount\": 10, \"entry_price\": 2062.31, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-08T00:00:00+00:00\"}",
+    "created_at": "2026-02-07 01:40:48.583965+00"
+  },
+  {
+    "id": "31",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "ETHUSDT",
+    "prediction_id": "444",
+    "metadata": "{\"payout\": 18, \"profit\": 8, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 2051.99, \"close_price\": 2051.5, \"is_target_hit\": false}",
+    "created_at": "2026-02-07 01:41:43.48322+00"
+  },
+  {
+    "id": "32",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "442",
+    "metadata": "{\"payout\": 37, \"profit\": 27, \"status\": \"WIN\", \"streak\": 1, \"open_price\": 69953.86, \"close_price\": 70450.01, \"is_target_hit\": true}",
+    "created_at": "2026-02-07 02:01:14.608064+00"
+  },
+  {
+    "id": "33",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "ETHUSDT",
+    "prediction_id": "443",
+    "metadata": "{\"payout\": 0, \"profit\": -10, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 2043.76, \"close_price\": 2061.52, \"is_target_hit\": true}",
+    "created_at": "2026-02-07 02:01:15.823195+00"
+  },
+  {
+    "id": "34",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "446",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1h\", \"bet_amount\": 10, \"entry_price\": 70131.69, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-07T07:00:00+00:00\"}",
+    "created_at": "2026-02-07 06:00:12.838571+00"
+  },
+  {
+    "id": "35",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "ETHUSDT",
+    "prediction_id": "447",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1m\", \"bet_amount\": 10, \"entry_price\": 2080.83, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-07T06:05:00+00:00\"}",
+    "created_at": "2026-02-07 06:04:12.221221+00"
+  },
+  {
+    "id": "36",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "SOLUSDT",
+    "prediction_id": "448",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1m\", \"bet_amount\": 82, \"entry_price\": 87.93, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-07T06:06:00+00:00\"}",
+    "created_at": "2026-02-07 06:05:10.146858+00"
+  },
+  {
+    "id": "37",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "ETHUSDT",
+    "prediction_id": "447",
+    "metadata": "{\"payout\": 18, \"profit\": 8, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 2080.83, \"close_price\": 2083.85, \"is_target_hit\": false}",
+    "created_at": "2026-02-07 06:05:43.818696+00"
+  },
+  {
+    "id": "38",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "SOLUSDT",
+    "prediction_id": "448",
+    "metadata": "{\"payout\": 0, \"profit\": -82, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 87.93, \"close_price\": 87.96, \"is_target_hit\": false}",
+    "created_at": "2026-02-07 06:06:43.952568+00"
+  },
+  {
+    "id": "39",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "SOLUSDT",
+    "prediction_id": "449",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1h\", \"bet_amount\": 10, \"entry_price\": 86.22, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-07T08:00:00+00:00\"}",
+    "created_at": "2026-02-07 07:00:19.588681+00"
+  },
+  {
+    "id": "40",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "446",
+    "metadata": "{\"payout\": 0, \"profit\": -10, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 70131.69, \"close_price\": 68752.2, \"is_target_hit\": true}",
+    "created_at": "2026-02-07 07:01:15.361357+00"
+  },
+  {
+    "id": "41",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "450",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1h\", \"bet_amount\": 67, \"entry_price\": 68752.2, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-07T08:00:00+00:00\"}",
+    "created_at": "2026-02-07 07:10:16.321888+00"
+  },
+  {
+    "id": "42",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "SOLUSDT",
+    "prediction_id": "449",
+    "metadata": "{\"payout\": 0, \"profit\": -10, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 86.22, \"close_price\": 85.25, \"is_target_hit\": true}",
+    "created_at": "2026-02-07 08:01:15.092817+00"
+  },
+  {
+    "id": "43",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "450",
+    "metadata": "{\"payout\": 0, \"profit\": -67, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 68752.2, \"close_price\": 68075.72, \"is_target_hit\": true}",
+    "created_at": "2026-02-07 08:01:16.209035+00"
+  },
+  {
+    "id": "44",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "XRPUSDT",
+    "prediction_id": "451",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1m\", \"bet_amount\": 53, \"entry_price\": 1.423, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-07T09:11:00+00:00\"}",
+    "created_at": "2026-02-07 09:10:11.824923+00"
+  },
+  {
+    "id": "45",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "XRPUSDT",
+    "prediction_id": "451",
+    "metadata": "{\"payout\": 0, \"profit\": -53, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 1.422, \"close_price\": 1.423, \"is_target_hit\": false}",
+    "created_at": "2026-02-07 09:11:44.249147+00"
+  },
+  {
+    "id": "46",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "XRPUSDT",
+    "prediction_id": "452",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1m\", \"bet_amount\": 10, \"entry_price\": 1.391, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-07T12:00:00+00:00\"}",
+    "created_at": "2026-02-07 11:59:10.737895+00"
+  },
+  {
+    "id": "47",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "DOGEUSDT",
+    "prediction_id": "453",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"30m\", \"bet_amount\": 10, \"entry_price\": 0.09541, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-07T12:30:00+00:00\"}",
+    "created_at": "2026-02-07 12:00:16.632419+00"
+  },
+  {
+    "id": "48",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "XRPUSDT",
+    "prediction_id": "452",
+    "metadata": "{\"payout\": 0, \"profit\": -10, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 1.391, \"close_price\": 1.391, \"is_target_hit\": false}",
+    "created_at": "2026-02-07 12:00:33.272474+00"
+  },
+  {
+    "id": "49",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "AVAXUSDT",
+    "prediction_id": "454",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"15m\", \"bet_amount\": 10, \"entry_price\": 8.98, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-07T12:15:00+00:00\"}",
+    "created_at": "2026-02-07 12:00:46.386249+00"
+  },
+  {
+    "id": "50",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "SOLUSDT",
+    "prediction_id": "455",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"30m\", \"bet_amount\": 10, \"entry_price\": 84.86, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-07T12:30:00+00:00\"}",
+    "created_at": "2026-02-07 12:01:18.725032+00"
+  },
+  {
+    "id": "51",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "AVAXUSDT",
+    "prediction_id": "454",
+    "metadata": "{\"payout\": 37, \"profit\": 27, \"status\": \"WIN\", \"streak\": 1, \"open_price\": 8.98, \"close_price\": 9.115, \"is_target_hit\": true}",
+    "created_at": "2026-02-07 12:15:43.975388+00"
+  },
+  {
+    "id": "52",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "DOGEUSDT",
+    "prediction_id": "453",
+    "metadata": "{\"payout\": 46, \"profit\": 36, \"status\": \"WIN\", \"streak\": 2, \"open_price\": 0.09541, \"close_price\": 0.09689, \"is_target_hit\": true}",
+    "created_at": "2026-02-07 12:30:44.245744+00"
+  },
+  {
+    "id": "53",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "SOLUSDT",
+    "prediction_id": "455",
+    "metadata": "{\"payout\": 0, \"profit\": -10, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 84.86, \"close_price\": 86.16, \"is_target_hit\": true}",
+    "created_at": "2026-02-07 12:30:45.556916+00"
+  },
+  {
+    "id": "54",
+    "user_id": "06d3b907-e06e-466b-a5fe-2dcc3912afaf",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "456",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1m\", \"bet_amount\": 10, \"entry_price\": 68973.56, \"target_percent\": 1, \"candle_close_at\": \"2026-02-07T14:27:00+00:00\"}",
+    "created_at": "2026-02-07 14:26:25.677847+00"
+  },
+  {
+    "id": "55",
+    "user_id": "06d3b907-e06e-466b-a5fe-2dcc3912afaf",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "457",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1m\", \"bet_amount\": 10, \"entry_price\": 69016.06, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-07T14:28:00+00:00\"}",
+    "created_at": "2026-02-07 14:27:18.292937+00"
+  },
+  {
+    "id": "56",
+    "user_id": "06d3b907-e06e-466b-a5fe-2dcc3912afaf",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "456",
+    "metadata": "{\"payout\": 18, \"profit\": 8, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 68973.56, \"close_price\": 69016.06, \"is_target_hit\": false}",
+    "created_at": "2026-02-07 14:27:53.474494+00"
+  },
+  {
+    "id": "57",
+    "user_id": "06d3b907-e06e-466b-a5fe-2dcc3912afaf",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "458",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1m\", \"bet_amount\": 10, \"entry_price\": 68964.87, \"target_percent\": 1, \"candle_close_at\": \"2026-02-07T14:29:00+00:00\"}",
+    "created_at": "2026-02-07 14:28:24.960892+00"
+  },
+  {
+    "id": "58",
+    "user_id": "06d3b907-e06e-466b-a5fe-2dcc3912afaf",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "459",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1m\", \"bet_amount\": 10, \"entry_price\": 68979.9, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-07T14:30:00+00:00\"}",
+    "created_at": "2026-02-07 14:29:23.542779+00"
+  },
+  {
+    "id": "59",
+    "user_id": "06d3b907-e06e-466b-a5fe-2dcc3912afaf",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "457",
+    "metadata": "{\"payout\": 18, \"profit\": 8, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 69016.06, \"close_price\": 68964.87, \"is_target_hit\": false}",
+    "created_at": "2026-02-07 14:29:33.081739+00"
+  },
+  {
+    "id": "60",
+    "user_id": "06d3b907-e06e-466b-a5fe-2dcc3912afaf",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "458",
+    "metadata": "{\"payout\": 0, \"profit\": -10, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 68964.87, \"close_price\": 68979.9, \"is_target_hit\": false}",
+    "created_at": "2026-02-07 14:29:35.202507+00"
+  },
+  {
+    "id": "61",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "460",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1m\", \"bet_amount\": 14, \"entry_price\": 68979.9, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-07T14:30:00+00:00\"}",
+    "created_at": "2026-02-07 14:29:37.657778+00"
+  },
+  {
+    "id": "64",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "460",
+    "metadata": "{\"payout\": 0, \"profit\": -14, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 68979.9, \"close_price\": 68921.84, \"is_target_hit\": false}",
+    "created_at": "2026-02-07 14:30:33.288177+00"
+  },
+  {
+    "id": "62",
+    "user_id": "06d3b907-e06e-466b-a5fe-2dcc3912afaf",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "461",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1m\", \"bet_amount\": 10, \"entry_price\": 68921.84, \"target_percent\": 1, \"candle_close_at\": \"2026-02-07T14:31:00+00:00\"}",
+    "created_at": "2026-02-07 14:30:09.122324+00"
+  },
+  {
+    "id": "65",
+    "user_id": "06d3b907-e06e-466b-a5fe-2dcc3912afaf",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "462",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1m\", \"bet_amount\": 10, \"entry_price\": 68912.79, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-07T14:33:00+00:00\"}",
+    "created_at": "2026-02-07 14:32:46.670669+00"
+  },
+  {
+    "id": "68",
+    "user_id": "06d3b907-e06e-466b-a5fe-2dcc3912afaf",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "462",
+    "metadata": "{\"payout\": 18, \"profit\": 8, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 68912.79, \"close_price\": 68917.49, \"is_target_hit\": false}",
+    "created_at": "2026-02-07 14:34:16.181222+00"
+  },
+  {
+    "id": "69",
+    "user_id": "06d3b907-e06e-466b-a5fe-2dcc3912afaf",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "463",
+    "metadata": "{\"payout\": 0, \"profit\": -10, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 68917.49, \"close_price\": 68901.7, \"is_target_hit\": false}",
+    "created_at": "2026-02-07 14:34:46.274797+00"
+  },
+  {
+    "id": "63",
+    "user_id": "06d3b907-e06e-466b-a5fe-2dcc3912afaf",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "459",
+    "metadata": "{\"payout\": 18, \"profit\": 8, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 68979.9, \"close_price\": 68921.84, \"is_target_hit\": false}",
+    "created_at": "2026-02-07 14:30:32.904337+00"
+  },
+  {
+    "id": "66",
+    "user_id": "06d3b907-e06e-466b-a5fe-2dcc3912afaf",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "461",
+    "metadata": "{\"payout\": 18, \"profit\": 8, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 68921.84, \"close_price\": 68947.01, \"is_target_hit\": false}",
+    "created_at": "2026-02-07 14:33:07.656197+00"
+  },
+  {
+    "id": "70",
+    "user_id": "06d3b907-e06e-466b-a5fe-2dcc3912afaf",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "464",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1m\", \"bet_amount\": 10, \"entry_price\": 68901.7, \"target_percent\": 1, \"candle_close_at\": \"2026-02-07T14:35:00+00:00\"}",
+    "created_at": "2026-02-07 14:34:55.140334+00"
+  },
+  {
+    "id": "71",
+    "user_id": "06d3b907-e06e-466b-a5fe-2dcc3912afaf",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "465",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1m\", \"bet_amount\": 10, \"entry_price\": 68870.55, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-07T14:36:00+00:00\"}",
+    "created_at": "2026-02-07 14:35:10.962605+00"
+  },
+  {
+    "id": "72",
+    "user_id": "06d3b907-e06e-466b-a5fe-2dcc3912afaf",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "464",
+    "metadata": "{\"payout\": 18, \"profit\": 8, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 68901.7, \"close_price\": 68870.55, \"is_target_hit\": false}",
+    "created_at": "2026-02-07 14:35:46.075602+00"
+  },
+  {
+    "id": "73",
+    "user_id": "06d3b907-e06e-466b-a5fe-2dcc3912afaf",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "465",
+    "metadata": "{\"payout\": 0, \"profit\": -10, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 68870.55, \"close_price\": 68817.42, \"is_target_hit\": false}",
+    "created_at": "2026-02-07 14:36:25.482044+00"
+  },
+  {
+    "id": "67",
+    "user_id": "06d3b907-e06e-466b-a5fe-2dcc3912afaf",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "463",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1m\", \"bet_amount\": 10, \"entry_price\": 68917.49, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-07T14:34:00+00:00\"}",
+    "created_at": "2026-02-07 14:33:36.247423+00"
+  },
+  {
+    "id": "74",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "466",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1m\", \"bet_amount\": 14, \"entry_price\": 68691.66, \"target_percent\": 1, \"candle_close_at\": \"2026-02-07T14:42:00+00:00\"}",
+    "created_at": "2026-02-07 14:41:30.717463+00"
+  },
+  {
+    "id": "75",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "466",
+    "metadata": "{\"payout\": 25, \"profit\": 11, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 68691.66, \"close_price\": 68628.4, \"is_target_hit\": false}",
+    "created_at": "2026-02-07 14:42:32.9964+00"
+  },
+  {
+    "id": "76",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "ETHUSDT",
+    "prediction_id": "445",
+    "metadata": "{\"payout\": 43, \"profit\": 33, \"status\": \"WIN\", \"streak\": 1, \"open_price\": 2062.31, \"close_price\": 2088.31, \"is_target_hit\": true}",
+    "created_at": "2026-02-08 00:00:33.269556+00"
+  },
+  {
+    "id": "77",
+    "user_id": "1768c70a-81b5-4b3d-80b2-7e2a8f7d631b",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "467",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1m\", \"bet_amount\": 30, \"entry_price\": 69219.57, \"target_percent\": 1, \"candle_close_at\": \"2026-02-08T05:05:00+00:00\"}",
+    "created_at": "2026-02-08 05:04:46.096237+00"
+  },
+  {
+    "id": "78",
+    "user_id": "1768c70a-81b5-4b3d-80b2-7e2a8f7d631b",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "467",
+    "metadata": "{\"payout\": 53, \"profit\": 23, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 69219.57, \"close_price\": 69208.03, \"is_target_hit\": false}",
+    "created_at": "2026-02-08 05:05:54.461856+00"
+  },
+  {
+    "id": "79",
+    "user_id": "9969cfc6-451e-4ab2-ae2f-5d10a98eaf0a",
+    "action_type": "BET",
+    "asset_symbol": "XRPUSDT",
+    "prediction_id": "468",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1h\", \"bet_amount\": 100, \"entry_price\": 1.437, \"target_percent\": 1, \"candle_close_at\": \"2026-02-08T11:00:00+00:00\"}",
+    "created_at": "2026-02-08 10:09:21.588628+00"
+  },
+  {
+    "id": "80",
+    "user_id": "9969cfc6-451e-4ab2-ae2f-5d10a98eaf0a",
+    "action_type": "BET",
+    "asset_symbol": "SOLUSDT",
+    "prediction_id": "469",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1h\", \"bet_amount\": 50, \"entry_price\": 87.56, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-08T11:00:00+00:00\"}",
+    "created_at": "2026-02-08 10:09:24.644528+00"
+  },
+  {
+    "id": "81",
+    "user_id": "9969cfc6-451e-4ab2-ae2f-5d10a98eaf0a",
+    "action_type": "BET",
+    "asset_symbol": "DOTUSDT",
+    "prediction_id": "470",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1h\", \"bet_amount\": 50, \"entry_price\": 1.359, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-08T11:00:00+00:00\"}",
+    "created_at": "2026-02-08 10:09:43.621065+00"
+  },
+  {
+    "id": "82",
+    "user_id": "9969cfc6-451e-4ab2-ae2f-5d10a98eaf0a",
+    "action_type": "RESOLVE",
+    "asset_symbol": "XRPUSDT",
+    "prediction_id": "468",
+    "metadata": "{\"payout\": 191, \"profit\": 91, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 1.437, \"close_price\": 1.43, \"is_target_hit\": false}",
+    "created_at": "2026-02-08 11:01:26.048863+00"
+  },
+  {
+    "id": "83",
+    "user_id": "9969cfc6-451e-4ab2-ae2f-5d10a98eaf0a",
+    "action_type": "RESOLVE",
+    "asset_symbol": "SOLUSDT",
+    "prediction_id": "469",
+    "metadata": "{\"payout\": 0, \"profit\": -50, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 87.56, \"close_price\": 86.83, \"is_target_hit\": true}",
+    "created_at": "2026-02-08 11:01:27.358289+00"
+  },
+  {
+    "id": "84",
+    "user_id": "9969cfc6-451e-4ab2-ae2f-5d10a98eaf0a",
+    "action_type": "RESOLVE",
+    "asset_symbol": "DOTUSDT",
+    "prediction_id": "470",
+    "metadata": "{\"payout\": 0, \"profit\": -50, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 1.359, \"close_price\": 1.352, \"is_target_hit\": true}",
+    "created_at": "2026-02-08 11:01:28.44998+00"
+  },
+  {
+    "id": "85",
+    "user_id": "9969cfc6-451e-4ab2-ae2f-5d10a98eaf0a",
+    "action_type": "BET",
+    "asset_symbol": "MATICUSDT",
+    "prediction_id": "471",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1h\", \"bet_amount\": 10, \"entry_price\": 0.1995, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-08T12:00:00+00:00\"}",
+    "created_at": "2026-02-08 11:15:36.678184+00"
+  },
+  {
+    "id": "86",
+    "user_id": "9969cfc6-451e-4ab2-ae2f-5d10a98eaf0a",
+    "action_type": "BET",
+    "asset_symbol": "SOLUSDT",
+    "prediction_id": "472",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1h\", \"bet_amount\": 50, \"entry_price\": 86.83, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-08T12:00:00+00:00\"}",
+    "created_at": "2026-02-08 11:16:18.153622+00"
+  },
+  {
+    "id": "87",
+    "user_id": "9969cfc6-451e-4ab2-ae2f-5d10a98eaf0a",
+    "action_type": "BET",
+    "asset_symbol": "XRPUSDT",
+    "prediction_id": "473",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1h\", \"bet_amount\": 100, \"entry_price\": 1.43, \"target_percent\": 1, \"candle_close_at\": \"2026-02-08T12:00:00+00:00\"}",
+    "created_at": "2026-02-08 11:16:18.83312+00"
+  },
+  {
+    "id": "88",
+    "user_id": "9969cfc6-451e-4ab2-ae2f-5d10a98eaf0a",
+    "action_type": "BET",
+    "asset_symbol": "DOTUSDT",
+    "prediction_id": "474",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1h\", \"bet_amount\": 50, \"entry_price\": 1.352, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-08T12:00:00+00:00\"}",
+    "created_at": "2026-02-08 11:17:00.190139+00"
+  },
+  {
+    "id": "89",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "SOLUSDT",
+    "prediction_id": "475",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1m\", \"bet_amount\": 13, \"entry_price\": 88.02, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-08T11:50:00+00:00\"}",
+    "created_at": "2026-02-08 11:49:49.635271+00"
+  },
+  {
+    "id": "90",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "SOLUSDT",
+    "prediction_id": "475",
+    "metadata": "{\"payout\": 23, \"profit\": 10, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 88.02, \"close_price\": 87.98, \"is_target_hit\": false}",
+    "created_at": "2026-02-08 11:50:24.958623+00"
+  },
+  {
+    "id": "91",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "476",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1h\", \"bet_amount\": 15, \"entry_price\": 70216.23, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-08T12:00:00+00:00\"}",
+    "created_at": "2026-02-08 11:52:47.177576+00"
+  },
+  {
+    "id": "92",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "XRPUSDT",
+    "prediction_id": "477",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1m\", \"bet_amount\": 14, \"entry_price\": 1.45, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-08T11:57:00+00:00\"}",
+    "created_at": "2026-02-08 11:56:53.739608+00"
+  },
+  {
+    "id": "93",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "XRPUSDT",
+    "prediction_id": "477",
+    "metadata": "{\"payout\": 25, \"profit\": 11, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 1.45, \"close_price\": 1.448, \"is_target_hit\": false}",
+    "created_at": "2026-02-08 11:57:32.431663+00"
+  },
+  {
+    "id": "94",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "478",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1m\", \"bet_amount\": 15, \"entry_price\": 70932.05, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-08T11:59:00+00:00\"}",
+    "created_at": "2026-02-08 11:58:05.029096+00"
+  },
+  {
+    "id": "95",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "478",
+    "metadata": "{\"payout\": 26, \"profit\": 11, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 70932.05, \"close_price\": 70900.66, \"is_target_hit\": false}",
+    "created_at": "2026-02-08 11:59:32.253285+00"
+  },
+  {
+    "id": "96",
+    "user_id": "9969cfc6-451e-4ab2-ae2f-5d10a98eaf0a",
+    "action_type": "RESOLVE",
+    "asset_symbol": "MATICUSDT",
+    "prediction_id": "471",
+    "metadata": "{\"payout\": 10, \"profit\": 0, \"status\": \"ND\", \"streak\": 0, \"open_price\": 0.1995, \"close_price\": 0.1995, \"is_target_hit\": false}",
+    "created_at": "2026-02-08 12:00:32.772422+00"
+  },
+  {
+    "id": "97",
+    "user_id": "9969cfc6-451e-4ab2-ae2f-5d10a98eaf0a",
+    "action_type": "RESOLVE",
+    "asset_symbol": "SOLUSDT",
+    "prediction_id": "472",
+    "metadata": "{\"payout\": 115, \"profit\": 65, \"status\": \"WIN\", \"streak\": 1, \"open_price\": 86.83, \"close_price\": 88.18, \"is_target_hit\": true}",
+    "created_at": "2026-02-08 12:00:35.997741+00"
+  },
+  {
+    "id": "98",
+    "user_id": "9969cfc6-451e-4ab2-ae2f-5d10a98eaf0a",
+    "action_type": "RESOLVE",
+    "asset_symbol": "XRPUSDT",
+    "prediction_id": "473",
+    "metadata": "{\"payout\": 0, \"profit\": -100, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 1.43, \"close_price\": 1.452, \"is_target_hit\": true}",
+    "created_at": "2026-02-08 12:00:37.729152+00"
+  },
+  {
+    "id": "99",
+    "user_id": "9969cfc6-451e-4ab2-ae2f-5d10a98eaf0a",
+    "action_type": "RESOLVE",
+    "asset_symbol": "DOTUSDT",
+    "prediction_id": "474",
+    "metadata": "{\"payout\": 115, \"profit\": 65, \"status\": \"WIN\", \"streak\": 1, \"open_price\": 1.352, \"close_price\": 1.369, \"is_target_hit\": true}",
+    "created_at": "2026-02-08 12:00:39.330844+00"
+  },
+  {
+    "id": "100",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "476",
+    "metadata": "{\"payout\": 48, \"profit\": 33, \"status\": \"WIN\", \"streak\": 1, \"open_price\": 70216.23, \"close_price\": 70946.1, \"is_target_hit\": true}",
+    "created_at": "2026-02-08 12:00:40.48666+00"
+  },
+  {
+    "id": "101",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "DOGEUSDT",
+    "prediction_id": "479",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1m\", \"bet_amount\": 11, \"entry_price\": 0.09818, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-08T12:02:00+00:00\"}",
+    "created_at": "2026-02-08 12:01:12.522712+00"
+  },
+  {
+    "id": "102",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "AVAXUSDT",
+    "prediction_id": "480",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"30m\", \"bet_amount\": 17, \"entry_price\": 9.259, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-08T12:30:00+00:00\"}",
+    "created_at": "2026-02-08 12:02:12.309718+00"
+  },
+  {
+    "id": "103",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "DOGEUSDT",
+    "prediction_id": "479",
+    "metadata": "{\"payout\": 19, \"profit\": 8, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 0.09818, \"close_price\": 0.09814, \"is_target_hit\": false}",
+    "created_at": "2026-02-08 12:02:32.521762+00"
+  },
+  {
+    "id": "104",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "SOLUSDT",
+    "prediction_id": "481",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"30m\", \"bet_amount\": 10, \"entry_price\": 88.18, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-08T12:30:00+00:00\"}",
+    "created_at": "2026-02-08 12:04:05.204716+00"
+  },
+  {
+    "id": "105",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "XRPUSDT",
+    "prediction_id": "482",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"30m\", \"bet_amount\": 17, \"entry_price\": 1.452, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-08T12:30:00+00:00\"}",
+    "created_at": "2026-02-08 12:04:40.462768+00"
+  },
+  {
+    "id": "106",
+    "user_id": "9969cfc6-451e-4ab2-ae2f-5d10a98eaf0a",
+    "action_type": "BET",
+    "asset_symbol": "DOTUSDT",
+    "prediction_id": "483",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1h\", \"bet_amount\": 50, \"entry_price\": 1.369, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-08T13:00:00+00:00\"}",
+    "created_at": "2026-02-08 12:12:47.4858+00"
+  },
+  {
+    "id": "107",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "AVAXUSDT",
+    "prediction_id": "480",
+    "metadata": "{\"payout\": 31, \"profit\": 14, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 9.259, \"close_price\": 9.239, \"is_target_hit\": false}",
+    "created_at": "2026-02-08 12:30:55.088494+00"
+  },
+  {
+    "id": "108",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "SOLUSDT",
+    "prediction_id": "481",
+    "metadata": "{\"payout\": 18, \"profit\": 8, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 88.18, \"close_price\": 88.08, \"is_target_hit\": false}",
+    "created_at": "2026-02-08 12:30:56.791846+00"
+  },
+  {
+    "id": "109",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "XRPUSDT",
+    "prediction_id": "482",
+    "metadata": "{\"payout\": 17, \"profit\": 0, \"status\": \"ND\", \"streak\": 0, \"open_price\": 1.452, \"close_price\": 1.452, \"is_target_hit\": false}",
+    "created_at": "2026-02-08 12:30:57.753328+00"
+  },
+  {
+    "id": "110",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "484",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"30m\", \"bet_amount\": 11, \"entry_price\": 70914.14, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-08T13:00:00+00:00\"}",
+    "created_at": "2026-02-08 12:33:54.534227+00"
+  },
+  {
+    "id": "111",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "ETHUSDT",
+    "prediction_id": "485",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"15m\", \"bet_amount\": 11, \"entry_price\": 2136.97, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-08T12:45:00+00:00\"}",
+    "created_at": "2026-02-08 12:35:05.699963+00"
+  },
+  {
+    "id": "112",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "ETHUSDT",
+    "prediction_id": "485",
+    "metadata": "{\"payout\": 19, \"profit\": 8, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 2136.97, \"close_price\": 2130.13, \"is_target_hit\": false}",
+    "created_at": "2026-02-08 12:45:55.83292+00"
+  },
+  {
+    "id": "113",
+    "user_id": "9969cfc6-451e-4ab2-ae2f-5d10a98eaf0a",
+    "action_type": "BET",
+    "asset_symbol": "SOLUSDT",
+    "prediction_id": "486",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1h\", \"bet_amount\": 10, \"entry_price\": 88.18, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-08T13:00:00+00:00\"}",
+    "created_at": "2026-02-08 12:49:29.102005+00"
+  },
+  {
+    "id": "114",
+    "user_id": "9969cfc6-451e-4ab2-ae2f-5d10a98eaf0a",
+    "action_type": "RESOLVE",
+    "asset_symbol": "DOTUSDT",
+    "prediction_id": "483",
+    "metadata": "{\"payout\": 0, \"profit\": -50, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 1.369, \"close_price\": 1.365, \"is_target_hit\": false}",
+    "created_at": "2026-02-08 13:00:55.152019+00"
+  },
+  {
+    "id": "115",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "484",
+    "metadata": "{\"payout\": 0, \"profit\": -11, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 70914.14, \"close_price\": 71198.64, \"is_target_hit\": false}",
+    "created_at": "2026-02-08 13:00:56.390136+00"
+  },
+  {
+    "id": "116",
+    "user_id": "9969cfc6-451e-4ab2-ae2f-5d10a98eaf0a",
+    "action_type": "RESOLVE",
+    "asset_symbol": "SOLUSDT",
+    "prediction_id": "486",
+    "metadata": "{\"payout\": 0, \"profit\": -10, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 88.18, \"close_price\": 88.11, \"is_target_hit\": false}",
+    "created_at": "2026-02-08 13:00:57.756653+00"
+  },
+  {
+    "id": "117",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "487",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1m\", \"bet_amount\": 14, \"entry_price\": 71388.84, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-08T13:55:00+00:00\"}",
+    "created_at": "2026-02-08 13:54:03.879696+00"
+  },
+  {
+    "id": "118",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "487",
+    "metadata": "{\"payout\": 0, \"profit\": -14, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 71388.84, \"close_price\": 71367.05, \"is_target_hit\": false}",
+    "created_at": "2026-02-08 13:55:32.252817+00"
+  },
+  {
+    "id": "119",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "488",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"15m\", \"bet_amount\": 14, \"entry_price\": 71180.42, \"target_percent\": 1, \"candle_close_at\": \"2026-02-08T14:00:00+00:00\"}",
+    "created_at": "2026-02-08 13:56:40.480456+00"
+  },
+  {
+    "id": "120",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "489",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"30m\", \"bet_amount\": 14, \"entry_price\": 71407.48, \"target_percent\": 1.5, \"candle_close_at\": \"2026-02-08T14:00:00+00:00\"}",
+    "created_at": "2026-02-08 13:56:59.355834+00"
+  },
+  {
+    "id": "121",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "490",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"4h\", \"bet_amount\": 71, \"entry_price\": 70946.1, \"target_percent\": 2, \"candle_close_at\": \"2026-02-08T16:00:00+00:00\"}",
+    "created_at": "2026-02-08 13:57:45.067315+00"
+  },
+  {
+    "id": "122",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "491",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1d\", \"bet_amount\": 13, \"entry_price\": 69259.24, \"target_percent\": 2, \"candle_close_at\": \"2026-02-09T00:00:00+00:00\"}",
+    "created_at": "2026-02-08 13:58:10.742774+00"
+  },
+  {
+    "id": "123",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "488",
+    "metadata": "{\"payout\": 25, \"profit\": 11, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 71180.42, \"close_price\": 71473.6, \"is_target_hit\": false}",
+    "created_at": "2026-02-08 14:00:51.914473+00"
+  },
+  {
+    "id": "124",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "489",
+    "metadata": "{\"payout\": 0, \"profit\": -14, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 71407.48, \"close_price\": 71473.6, \"is_target_hit\": false}",
+    "created_at": "2026-02-08 14:00:53.073387+00"
+  },
+  {
+    "id": "125",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "490",
+    "metadata": "{\"payout\": 152, \"profit\": 81, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 70946.1, \"close_price\": 71143.15, \"is_target_hit\": false}",
+    "created_at": "2026-02-08 16:01:26.496434+00"
+  },
+  {
+    "id": "126",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "491",
+    "metadata": "{\"payout\": 31, \"profit\": 18, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 69259.24, \"close_price\": 70297.07, \"is_target_hit\": false}",
+    "created_at": "2026-02-09 00:01:26.767869+00"
+  },
+  {
+    "id": "127",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "XAUUSD",
+    "prediction_id": "492",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1m\", \"bet_amount\": 10, \"entry_price\": 5048.60009765625, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-09T06:39:00+00:00\"}",
+    "created_at": "2026-02-09 06:38:06.00335+00"
+  },
+  {
+    "id": "128",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "ETHUSDT",
+    "prediction_id": "493",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"30m\", \"bet_amount\": 10, \"entry_price\": 2073.49, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-09T07:00:00+00:00\"}",
+    "created_at": "2026-02-09 06:39:18.526147+00"
+  },
+  {
+    "id": "129",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "XAUUSD",
+    "prediction_id": "492",
+    "metadata": "{\"payout\": 18, \"profit\": 8, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 5063.7458979492185, \"close_price\": 5043.551497558594, \"is_target_hit\": false}",
+    "created_at": "2026-02-09 06:40:21.526491+00"
+  },
+  {
+    "id": "130",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "ETHUSDT",
+    "prediction_id": "493",
+    "metadata": "{\"payout\": 0, \"profit\": -10, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 2073.49, \"close_price\": 2080.31, \"is_target_hit\": false}",
+    "created_at": "2026-02-09 07:20:53.904902+00"
+  },
+  {
+    "id": "131",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "ETHUSDT",
+    "prediction_id": "494",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"30m\", \"bet_amount\": 10, \"entry_price\": 2080.19, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-09T08:00:00+00:00\"}",
+    "created_at": "2026-02-09 07:32:57.506248+00"
+  },
+  {
+    "id": "132",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "ADAUSDT",
+    "prediction_id": "495",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"15m\", \"bet_amount\": 10, \"entry_price\": 0.2708, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-09T07:45:00+00:00\"}",
+    "created_at": "2026-02-09 07:33:52.541029+00"
+  },
+  {
+    "id": "133",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "DOGEUSDT",
+    "prediction_id": "496",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1m\", \"bet_amount\": 10, \"entry_price\": 0.09554, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-09T07:35:00+00:00\"}",
+    "created_at": "2026-02-09 07:34:49.751145+00"
+  },
+  {
+    "id": "134",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "XAUUSD",
+    "prediction_id": "497",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1m\", \"bet_amount\": 10, \"entry_price\": 5024.2001953125, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-09T07:36:00+00:00\"}",
+    "created_at": "2026-02-09 07:35:09.378367+00"
+  },
+  {
+    "id": "135",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "DOGEUSDT",
+    "prediction_id": "496",
+    "metadata": "{\"payout\": 0, \"profit\": -10, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 0.09554, \"close_price\": 0.09544, \"is_target_hit\": false}",
+    "created_at": "2026-02-09 07:36:06.701902+00"
+  },
+  {
+    "id": "136",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "XAUUSD",
+    "prediction_id": "497",
+    "metadata": "{\"payout\": 37, \"profit\": 27, \"status\": \"WIN\", \"streak\": 1, \"open_price\": 4999.079194335937, \"close_price\": 5029.224395507812, \"is_target_hit\": true}",
+    "created_at": "2026-02-09 07:37:07.308153+00"
+  },
+  {
+    "id": "137",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "NG",
+    "prediction_id": "498",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"15m\", \"bet_amount\": 10, \"entry_price\": 3.194999933242798, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-09T08:15:00+00:00\"}",
+    "created_at": "2026-02-09 08:02:38.170337+00"
+  },
+  {
+    "id": "138",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "CORN",
+    "prediction_id": "499",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"15m\", \"bet_amount\": 10, \"entry_price\": 17.5, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-09T08:15:00+00:00\"}",
+    "created_at": "2026-02-09 08:03:30.551239+00"
+  },
+  {
+    "id": "139",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "ETHUSDT",
+    "prediction_id": "494",
+    "metadata": "{\"payout\": 46, \"profit\": 36, \"status\": \"WIN\", \"streak\": 2, \"open_price\": 2080.19, \"close_price\": 2064.31, \"is_target_hit\": true}",
+    "created_at": "2026-02-09 08:03:59.248324+00"
+  },
+  {
+    "id": "140",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "ADAUSDT",
+    "prediction_id": "495",
+    "metadata": "{\"payout\": 0, \"profit\": -10, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 0.2708, \"close_price\": 0.2693, \"is_target_hit\": true}",
+    "created_at": "2026-02-09 08:04:00.49648+00"
+  },
+  {
+    "id": "141",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "XAGUSD",
+    "prediction_id": "500",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"15m\", \"bet_amount\": 10, \"entry_price\": 80.1050033569336, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-09T08:15:00+00:00\"}",
+    "created_at": "2026-02-09 08:04:15.483459+00"
+  },
+  {
+    "id": "142",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "WHEAT",
+    "prediction_id": "501",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"15m\", \"bet_amount\": 10, \"entry_price\": 100, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-09T08:15:00+00:00\"}",
+    "created_at": "2026-02-09 08:06:20.501686+00"
+  },
+  {
+    "id": "143",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "XRPUSDT",
+    "prediction_id": "502",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1h\", \"bet_amount\": 10, \"entry_price\": 1.424, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-09T09:00:00+00:00\"}",
+    "created_at": "2026-02-09 08:07:25.396723+00"
+  },
+  {
+    "id": "144",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "PA",
+    "prediction_id": "503",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"15m\", \"bet_amount\": 10, \"entry_price\": 100, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-09T12:00:00+00:00\"}",
+    "created_at": "2026-02-09 11:48:02.065837+00"
+  },
+  {
+    "id": "145",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "ETHUSDT",
+    "prediction_id": "504",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1h\", \"bet_amount\": 10, \"entry_price\": 2020.89, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-09T12:00:00+00:00\"}",
+    "created_at": "2026-02-09 11:49:30.690042+00"
+  },
+  {
+    "id": "146",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "PA",
+    "prediction_id": "503",
+    "metadata": "{\"payout\": 0, \"profit\": -10, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 1701.5, \"close_price\": 1696, \"is_target_hit\": false}",
+    "created_at": "2026-02-09 12:35:30.515939+00"
+  },
+  {
+    "id": "147",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "NG",
+    "prediction_id": "498",
+    "metadata": "{\"payout\": 18, \"profit\": 8, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 3.197000026702881, \"close_price\": 3.2019999027252197, \"is_target_hit\": false}",
+    "created_at": "2026-02-09 12:35:31.438283+00"
+  },
+  {
+    "id": "148",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "CORN",
+    "prediction_id": "499",
+    "metadata": "{\"payout\": 10, \"profit\": 0, \"status\": \"ND\", \"streak\": 0, \"open_price\": 429, \"close_price\": 429, \"is_target_hit\": false}",
+    "created_at": "2026-02-09 12:35:32.23525+00"
+  },
+  {
+    "id": "149",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "XAGUSD",
+    "prediction_id": "500",
+    "metadata": "{\"payout\": 18, \"profit\": 8, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 81.26499938964844, \"close_price\": 81.54000091552734, \"is_target_hit\": false}",
+    "created_at": "2026-02-09 12:35:33.428347+00"
+  },
+  {
+    "id": "150",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "WHEAT",
+    "prediction_id": "501",
+    "metadata": "{\"payout\": 18, \"profit\": 8, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 528, \"close_price\": 527.5, \"is_target_hit\": false}",
+    "created_at": "2026-02-09 12:35:34.263793+00"
+  },
+  {
+    "id": "151",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "XRPUSDT",
+    "prediction_id": "502",
+    "metadata": "{\"payout\": 38, \"profit\": 28, \"status\": \"WIN\", \"streak\": 1, \"open_price\": 1.424, \"close_price\": 1.406, \"is_target_hit\": true}",
+    "created_at": "2026-02-09 12:35:35.87856+00"
+  },
+  {
+    "id": "152",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "ETHUSDT",
+    "prediction_id": "504",
+    "metadata": "{\"payout\": 19, \"profit\": 9, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 2020.89, \"close_price\": 2026.55, \"is_target_hit\": false}",
+    "created_at": "2026-02-09 12:35:37.121532+00"
+  },
+  {
+    "id": "153",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "505",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1m\", \"bet_amount\": 15, \"entry_price\": 70304.47, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-09T22:07:00+00:00\"}",
+    "created_at": "2026-02-09 22:06:42.358718+00"
+  },
+  {
+    "id": "154",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "505",
+    "metadata": "{\"payout\": 0, \"profit\": -15, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 70304.47, \"close_price\": 70287.35, \"is_target_hit\": false}",
+    "created_at": "2026-02-09 22:07:32.404393+00"
+  },
+  {
+    "id": "155",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "506",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1m\", \"bet_amount\": 15, \"entry_price\": 70287.35, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-09T22:08:00+00:00\"}",
+    "created_at": "2026-02-09 22:07:33.271406+00"
+  },
+  {
+    "id": "156",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "506",
+    "metadata": "{\"payout\": 0, \"profit\": -15, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 70287.35, \"close_price\": 70289.42, \"is_target_hit\": false}",
+    "created_at": "2026-02-09 22:08:32.367642+00"
+  },
+  {
+    "id": "157",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "XAUUSD",
+    "prediction_id": "507",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1h\", \"bet_amount\": 10, \"entry_price\": 5040.60009765625, \"target_percent\": 2, \"candle_close_at\": \"2026-02-10T02:00:00+00:00\"}",
+    "created_at": "2026-02-10 01:00:09.621024+00"
+  },
+  {
+    "id": "158",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "XAGUSD",
+    "prediction_id": "508",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1h\", \"bet_amount\": 10, \"entry_price\": 80.95500183105469, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-10T02:00:00+00:00\"}",
+    "created_at": "2026-02-10 01:01:13.186961+00"
+  },
+  {
+    "id": "159",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "SOLUSDT",
+    "prediction_id": "509",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1m\", \"bet_amount\": 10, \"entry_price\": 86.36, \"target_percent\": 1, \"candle_close_at\": \"2026-02-10T01:02:00+00:00\"}",
+    "created_at": "2026-02-10 01:01:43.25801+00"
+  },
+  {
+    "id": "160",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "XRPUSDT",
+    "prediction_id": "510",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1m\", \"bet_amount\": 10, \"entry_price\": 1.436, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-10T01:02:00+00:00\"}",
+    "created_at": "2026-02-10 01:01:55.086491+00"
+  },
+  {
+    "id": "161",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "SOLUSDT",
+    "prediction_id": "509",
+    "metadata": "{\"payout\": 18, \"profit\": 8, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 86.36, \"close_price\": 86.39, \"is_target_hit\": false}",
+    "created_at": "2026-02-10 01:02:34.61789+00"
+  },
+  {
+    "id": "162",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "XRPUSDT",
+    "prediction_id": "510",
+    "metadata": "{\"payout\": 0, \"profit\": -10, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 1.436, \"close_price\": 1.437, \"is_target_hit\": false}",
+    "created_at": "2026-02-10 01:02:36.850438+00"
+  },
+  {
+    "id": "163",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "XAUUSD",
+    "prediction_id": "507",
+    "metadata": "{\"payout\": 0, \"profit\": -10, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 5054.89990234375, \"close_price\": 5015.397097167969, \"is_target_hit\": false}",
+    "created_at": "2026-02-10 02:00:22.958262+00"
+  },
+  {
+    "id": "164",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "XAGUSD",
+    "prediction_id": "508",
+    "metadata": "{\"payout\": 0, \"profit\": -10, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 81.80999755859375, \"close_price\": 80.55022682189941, \"is_target_hit\": true}",
+    "created_at": "2026-02-10 02:00:24.334619+00"
+  },
+  {
+    "id": "165",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "511",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1h\", \"bet_amount\": 50, \"entry_price\": 69468.07, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-10T05:00:00+00:00\"}",
+    "created_at": "2026-02-10 04:18:13.805396+00"
+  },
+  {
+    "id": "166",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "512",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1h\", \"bet_amount\": 10, \"entry_price\": 69468.07, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-10T05:00:00+00:00\"}",
+    "created_at": "2026-02-10 04:19:11.78806+00"
+  },
+  {
+    "id": "167",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "511",
+    "metadata": "{\"payout\": 96, \"profit\": 46, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 69468.07, \"close_price\": 69794.25, \"is_target_hit\": false}",
+    "created_at": "2026-02-10 05:00:24.079463+00"
+  },
+  {
+    "id": "168",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "512",
+    "metadata": "{\"payout\": 19, \"profit\": 9, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 69468.07, \"close_price\": 69794.25, \"is_target_hit\": false}",
+    "created_at": "2026-02-10 05:00:24.408163+00"
+  },
+  {
+    "id": "169",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "513",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1h\", \"bet_amount\": 50, \"entry_price\": 69408.77, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-10T07:00:00+00:00\"}",
+    "created_at": "2026-02-10 06:33:54.056957+00"
+  },
+  {
+    "id": "170",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "514",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1h\", \"bet_amount\": 50, \"entry_price\": 69408.77, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-10T07:00:00+00:00\"}",
+    "created_at": "2026-02-10 06:34:00.287311+00"
+  },
+  {
+    "id": "171",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "515",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1h\", \"bet_amount\": 50, \"entry_price\": 69408.77, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-10T07:00:00+00:00\"}",
+    "created_at": "2026-02-10 06:34:24.933238+00"
+  },
+  {
+    "id": "172",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "516",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1h\", \"bet_amount\": 20, \"entry_price\": 69408.77, \"target_percent\": 1, \"candle_close_at\": \"2026-02-10T07:00:00+00:00\"}",
+    "created_at": "2026-02-10 06:34:55.647023+00"
+  },
+  {
+    "id": "173",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "513",
+    "metadata": "{\"payout\": 0, \"profit\": -50, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 69408.77, \"close_price\": 68879.81, \"is_target_hit\": true}",
+    "created_at": "2026-02-10 07:00:23.824178+00"
+  },
+  {
+    "id": "174",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "514",
+    "metadata": "{\"payout\": 0, \"profit\": -50, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 69408.77, \"close_price\": 68879.81, \"is_target_hit\": true}",
+    "created_at": "2026-02-10 07:00:24.540115+00"
+  },
+  {
+    "id": "175",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "515",
+    "metadata": "{\"payout\": 0, \"profit\": -50, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 69408.77, \"close_price\": 68879.81, \"is_target_hit\": true}",
+    "created_at": "2026-02-10 07:00:24.780897+00"
+  },
+  {
+    "id": "176",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "516",
+    "metadata": "{\"payout\": 38, \"profit\": 18, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 69408.77, \"close_price\": 68879.81, \"is_target_hit\": false}",
+    "created_at": "2026-02-10 07:00:25.025522+00"
+  },
+  {
+    "id": "177",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "517",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1h\", \"bet_amount\": 100, \"entry_price\": 68879.81, \"target_percent\": 1, \"candle_close_at\": \"2026-02-10T08:00:00+00:00\"}",
+    "created_at": "2026-02-10 07:28:17.219595+00"
+  },
+  {
+    "id": "178",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "517",
+    "metadata": "{\"payout\": 191, \"profit\": 91, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 68879.81, \"close_price\": 68867.44, \"is_target_hit\": false}",
+    "created_at": "2026-02-10 08:00:24.094047+00"
+  },
+  {
+    "id": "179",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "518",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1m\", \"bet_amount\": 15, \"entry_price\": 68918.22, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-10T08:03:00+00:00\"}",
+    "created_at": "2026-02-10 08:02:20.44163+00"
+  },
+  {
+    "id": "180",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "518",
+    "metadata": "{\"payout\": 0, \"profit\": -15, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 68918.22, \"close_price\": 68908.98, \"is_target_hit\": false}",
+    "created_at": "2026-02-10 08:03:34.497063+00"
+  },
+  {
+    "id": "181",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "519",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"15m\", \"bet_amount\": 15, \"entry_price\": 68867.44, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-10T08:15:00+00:00\"}",
+    "created_at": "2026-02-10 08:06:43.540439+00"
+  },
+  {
+    "id": "182",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "519",
+    "metadata": "{\"payout\": 26, \"profit\": 11, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 68867.44, \"close_price\": 68788.07, \"is_target_hit\": false}",
+    "created_at": "2026-02-10 08:15:48.563231+00"
+  },
+  {
+    "id": "183",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "520",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1h\", \"bet_amount\": 15, \"entry_price\": 69089.22, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-10T11:00:00+00:00\"}",
+    "created_at": "2026-02-10 10:26:38.161778+00"
+  },
+  {
+    "id": "184",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "521",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1m\", \"bet_amount\": 14, \"entry_price\": 69156.47, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-10T10:28:00+00:00\"}",
+    "created_at": "2026-02-10 10:27:03.901195+00"
+  },
+  {
+    "id": "185",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "521",
+    "metadata": "{\"payout\": 0, \"profit\": -14, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 69156.47, \"close_price\": 69175.8, \"is_target_hit\": false}",
+    "created_at": "2026-02-10 10:28:33.524916+00"
+  },
+  {
+    "id": "186",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "520",
+    "metadata": "{\"payout\": 0, \"profit\": -15, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 69089.22, \"close_price\": 68873.5, \"is_target_hit\": false}",
+    "created_at": "2026-02-10 11:00:24.978474+00"
+  },
+  {
+    "id": "187",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "XAGUSD",
+    "prediction_id": "522",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1h\", \"bet_amount\": 23, \"entry_price\": 82.16999816894531, \"target_percent\": 1.5, \"candle_close_at\": \"2026-02-10T12:00:00+00:00\"}",
+    "created_at": "2026-02-10 11:00:50.803217+00"
+  },
+  {
+    "id": "188",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "XAUUSD",
+    "prediction_id": "523",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1h\", \"bet_amount\": 10, \"entry_price\": 5079.60009765625, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-10T12:00:00+00:00\"}",
+    "created_at": "2026-02-10 11:01:21.006393+00"
+  },
+  {
+    "id": "189",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "SOLUSDT",
+    "prediction_id": "524",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1h\", \"bet_amount\": 10, \"entry_price\": 84.16, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-10T12:00:00+00:00\"}",
+    "created_at": "2026-02-10 11:01:33.991006+00"
+  },
+  {
+    "id": "190",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "ADAUSDT",
+    "prediction_id": "525",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"30m\", \"bet_amount\": 10, \"entry_price\": 0.2637, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-10T11:30:00+00:00\"}",
+    "created_at": "2026-02-10 11:01:58.962107+00"
+  },
+  {
+    "id": "191",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "ADAUSDT",
+    "prediction_id": "525",
+    "metadata": "{\"payout\": 0, \"profit\": -10, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 0.2637, \"close_price\": 0.2638, \"is_target_hit\": false}",
+    "created_at": "2026-02-10 11:30:24.935834+00"
+  },
+  {
+    "id": "192",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "XAGUSD",
+    "prediction_id": "522",
+    "metadata": "{\"payout\": 0, \"profit\": -23, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 81.9800033569336, \"close_price\": 81.75914817810059, \"is_target_hit\": false}",
+    "created_at": "2026-02-10 12:00:24.251356+00"
+  },
+  {
+    "id": "193",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "XAUUSD",
+    "prediction_id": "523",
+    "metadata": "{\"payout\": 0, \"profit\": -10, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 5079, \"close_price\": 5054.2020971679685, \"is_target_hit\": false}",
+    "created_at": "2026-02-10 12:00:25.229878+00"
+  },
+  {
+    "id": "194",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "SOLUSDT",
+    "prediction_id": "524",
+    "metadata": "{\"payout\": 19, \"profit\": 9, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 84.16, \"close_price\": 83.77, \"is_target_hit\": false}",
+    "created_at": "2026-02-10 12:00:27.148012+00"
+  },
+  {
+    "id": "195",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "526",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1m\", \"bet_amount\": 14, \"entry_price\": 68750.93, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-10T15:14:00+00:00\"}",
+    "created_at": "2026-02-10 15:13:11.328277+00"
+  },
+  {
+    "id": "196",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "BET",
+    "asset_symbol": "ETHUSDT",
+    "prediction_id": "527",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1m\", \"bet_amount\": 14, \"entry_price\": 2013.85, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-10T15:14:00+00:00\"}",
+    "created_at": "2026-02-10 15:13:36.119238+00"
+  },
+  {
+    "id": "197",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "BET",
+    "asset_symbol": "ETHUSDT",
+    "prediction_id": "528",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"30m\", \"bet_amount\": 14, \"entry_price\": 2008.62, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-10T15:30:00+00:00\"}",
+    "created_at": "2026-02-10 15:14:15.158733+00"
+  },
+  {
+    "id": "198",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "526",
+    "metadata": "{\"payout\": 0, \"profit\": -14, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 68754.5, \"close_price\": 68577.32, \"is_target_hit\": false}",
+    "created_at": "2026-02-10 15:14:38.083463+00"
+  },
+  {
+    "id": "199",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "ETHUSDT",
+    "prediction_id": "527",
+    "metadata": "{\"payout\": 25, \"profit\": 11, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 2013.85, \"close_price\": 2006.44, \"is_target_hit\": false}",
+    "created_at": "2026-02-10 15:14:39.162129+00"
+  },
+  {
+    "id": "200",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "ETHUSDT",
+    "prediction_id": "528",
+    "metadata": "{\"payout\": 0, \"profit\": -14, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 2008.62, \"close_price\": 2020.65, \"is_target_hit\": true}",
+    "created_at": "2026-02-10 16:13:14.134416+00"
+  },
+  {
+    "id": "201",
+    "user_id": "5e4ec0ef-464a-41db-8e2f-9f3bfa2671ee",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "529",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1m\", \"bet_amount\": 11, \"entry_price\": 68643.64, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-10T23:14:00+00:00\"}",
+    "created_at": "2026-02-10 23:13:25.433438+00"
+  },
+  {
+    "id": "202",
+    "user_id": "5e4ec0ef-464a-41db-8e2f-9f3bfa2671ee",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "530",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"15m\", \"bet_amount\": 11, \"entry_price\": 68674.07, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-10T23:30:00+00:00\"}",
+    "created_at": "2026-02-10 23:15:08.177962+00"
+  },
+  {
+    "id": "203",
+    "user_id": "5e4ec0ef-464a-41db-8e2f-9f3bfa2671ee",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "529",
+    "metadata": "{\"payout\": 0, \"profit\": -11, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 68643.64, \"close_price\": 68627.54, \"is_target_hit\": false}",
+    "created_at": "2026-02-11 00:38:38.613387+00"
+  },
+  {
+    "id": "204",
+    "user_id": "5e4ec0ef-464a-41db-8e2f-9f3bfa2671ee",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "530",
+    "metadata": "{\"payout\": 19, \"profit\": 8, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 68674.07, \"close_price\": 68624.53, \"is_target_hit\": false}",
+    "created_at": "2026-02-11 00:38:40.778721+00"
+  },
+  {
+    "id": "205",
+    "user_id": "5e4ec0ef-464a-41db-8e2f-9f3bfa2671ee",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "531",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"1h\", \"bet_amount\": 11, \"entry_price\": 68807.07, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-11T01:00:00+00:00\"}",
+    "created_at": "2026-02-11 00:48:52.150679+00"
+  },
+  {
+    "id": "206",
+    "user_id": "5e4ec0ef-464a-41db-8e2f-9f3bfa2671ee",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "532",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"30m\", \"bet_amount\": 11, \"entry_price\": 68919.06, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-11T02:00:00+00:00\"}",
+    "created_at": "2026-02-11 01:44:49.282652+00"
+  },
+  {
+    "id": "207",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "533",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"30m\", \"bet_amount\": 14, \"entry_price\": 68919.06, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-11T02:00:00+00:00\"}",
+    "created_at": "2026-02-11 01:51:28.891916+00"
+  },
+  {
+    "id": "208",
+    "user_id": "5e4ec0ef-464a-41db-8e2f-9f3bfa2671ee",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "531",
+    "metadata": "{\"payout\": 0, \"profit\": -11, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 68807.07, \"close_price\": 69157.17, \"is_target_hit\": true}",
+    "created_at": "2026-02-11 01:51:58.666102+00"
+  },
+  {
+    "id": "209",
+    "user_id": "5e4ec0ef-464a-41db-8e2f-9f3bfa2671ee",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "532",
+    "metadata": "{\"payout\": 20, \"profit\": 9, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 68919.06, \"close_price\": 68942.72, \"is_target_hit\": false}",
+    "created_at": "2026-02-11 02:00:23.520525+00"
+  },
+  {
+    "id": "210",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "533",
+    "metadata": "{\"payout\": 26, \"profit\": 12, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 68919.06, \"close_price\": 68942.72, \"is_target_hit\": false}",
+    "created_at": "2026-02-11 02:00:23.873628+00"
+  },
+  {
+    "id": "211",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "534",
+    "metadata": "{\"direction\": \"DOWN\", \"timeframe\": \"30m\", \"bet_amount\": 14, \"entry_price\": 68942.72, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-11T02:30:00+00:00\"}",
+    "created_at": "2026-02-11 02:26:14.463052+00"
+  },
+  {
+    "id": "212",
+    "user_id": "95f608be-c1e9-43b1-b885-5e2784e4858f",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "534",
+    "metadata": "{\"payout\": 0, \"profit\": -14, \"status\": \"LOSS\", \"streak\": 0, \"open_price\": 68942.72, \"close_price\": 69019.7, \"is_target_hit\": false}",
+    "created_at": "2026-02-11 02:30:29.54452+00"
+  },
+  {
+    "id": "213",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "535",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1h\", \"bet_amount\": 10, \"entry_price\": 67036.69, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-11T13:00:00+00:00\"}",
+    "created_at": "2026-02-11 12:20:01.404754+00"
+  },
+  {
+    "id": "214",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "536",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1m\", \"bet_amount\": 10, \"entry_price\": 67163.25, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-11T12:21:00+00:00\"}",
+    "created_at": "2026-02-11 12:20:14.902741+00"
+  },
+  {
+    "id": "215",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "536",
+    "metadata": "{\"payout\": 18, \"profit\": 8, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 67163.25, \"close_price\": 67242.15, \"is_target_hit\": false}",
+    "created_at": "2026-02-11 12:21:38.283157+00"
+  },
+  {
+    "id": "216",
+    "user_id": "9969cfc6-451e-4ab2-ae2f-5d10a98eaf0a",
+    "action_type": "BET",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "537",
+    "metadata": "{\"direction\": \"UP\", \"timeframe\": \"1m\", \"bet_amount\": 10, \"entry_price\": 67066.67, \"target_percent\": 0.5, \"candle_close_at\": \"2026-02-11T12:51:00+00:00\"}",
+    "created_at": "2026-02-11 12:50:44.433649+00"
+  },
+  {
+    "id": "217",
+    "user_id": "9969cfc6-451e-4ab2-ae2f-5d10a98eaf0a",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "537",
+    "metadata": "{\"payout\": 18, \"profit\": 8, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 67066.67, \"close_price\": 67077.34, \"is_target_hit\": false}",
+    "created_at": "2026-02-11 12:51:39.960101+00"
+  },
+  {
+    "id": "218",
+    "user_id": "10e558ca-3940-4995-9a8f-165e78efaffc",
+    "action_type": "RESOLVE",
+    "asset_symbol": "BTCUSDT",
+    "prediction_id": "535",
+    "metadata": "{\"payout\": 19, \"profit\": 9, \"status\": \"WIN\", \"streak\": 0, \"open_price\": 67036.69, \"close_price\": 67108.64, \"is_target_hit\": false}",
+    "created_at": "2026-02-11 13:00:40.25114+00"
+  }
+]

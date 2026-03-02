@@ -1,0 +1,34 @@
+# Render.com Configuration
+# AI Analyst Scheduler Cron Job
+
+services:
+  - type: cron
+    name: ai-analyst-scheduler
+    env: node
+    schedule: "*/15 * * * *"  # Every 15 minutes
+    buildCommand: "echo 'No build needed for cron job'"
+    startCommand: "node deployment/render-cron-scheduler.js"
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+      - key: PRODUCTION_URL
+        sync: false  # Set in Render dashboard
+
+      - key: CRON_SECRET
+        sync: false  # Set in Render dashboard (same as Vercel)
+
+      - key: TZ
+        value: UTC
+
+    # Health check (optional)
+    healthCheckPath: /
+
+    # Notifications (optional)
+    notificationEmails:
+      - your-email@example.com  # Update this
+
+    # Auto-deploy
+    autoDeploy: true
+    branch: main

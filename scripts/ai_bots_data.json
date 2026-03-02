@@ -1,0 +1,1869 @@
+[
+  {
+    "id": "00000000-0000-0000-0000-000000000001",
+    "email": "bot_crystalgenius1@vibe.ai",
+    "username": "CrystalGenius1",
+    "tier": "gold",
+    "persona": {
+      "style": "Swinger",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "ETHUSDT"
+      ],
+      "risk_score": "0.71",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000002",
+    "email": "bot_cryptomaster2@vibe.ai",
+    "username": "CryptoMaster2",
+    "tier": "platinum",
+    "persona": {
+      "style": "Hodler",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "SOLUSDT"
+      ],
+      "risk_score": "0.67",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000003",
+    "email": "bot_moonwhale3@vibe.ai",
+    "username": "MoonWhale3",
+    "tier": "diamond",
+    "persona": {
+      "style": "Contrarian",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "XAUUSD"
+      ],
+      "risk_score": "0.79",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000004",
+    "email": "bot_shortprophet4@vibe.ai",
+    "username": "ShortProphet4",
+    "tier": "silver",
+    "persona": {
+      "style": "Scalper",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "NQ"
+      ],
+      "risk_score": "0.84",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000005",
+    "email": "bot_bullsignal5@vibe.ai",
+    "username": "BullSignal5",
+    "tier": "gold",
+    "persona": {
+      "style": "Swinger",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "BTCUSDT"
+      ],
+      "risk_score": "0.95",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000006",
+    "email": "bot_bearrunner6@vibe.ai",
+    "username": "BearRunner6",
+    "tier": "platinum",
+    "persona": {
+      "style": "Hodler",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "ETHUSDT"
+      ],
+      "risk_score": "0.86",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000007",
+    "email": "bot_rocketpro7@vibe.ai",
+    "username": "RocketPro7",
+    "tier": "diamond",
+    "persona": {
+      "style": "Contrarian",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "SOLUSDT"
+      ],
+      "risk_score": "0.15",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000008",
+    "email": "bot_scannergod8@vibe.ai",
+    "username": "ScannerGod8",
+    "tier": "silver",
+    "persona": {
+      "style": "Scalper",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "XAUUSD"
+      ],
+      "risk_score": "0.65",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000009",
+    "email": "bot_wizardace9@vibe.ai",
+    "username": "WizardAce9",
+    "tier": "gold",
+    "persona": {
+      "style": "Swinger",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "NQ"
+      ],
+      "risk_score": "0.21",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000000a",
+    "email": "bot_vibetamer10@vibe.ai",
+    "username": "VibeTamer10",
+    "tier": "platinum",
+    "persona": {
+      "style": "Hodler",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "BTCUSDT"
+      ],
+      "risk_score": "0.61",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000000b",
+    "email": "bot_chartseeker11@vibe.ai",
+    "username": "ChartSeeker11",
+    "tier": "diamond",
+    "persona": {
+      "style": "Contrarian",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "ETHUSDT"
+      ],
+      "risk_score": "0.49",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000000c",
+    "email": "bot_logiclegend12@vibe.ai",
+    "username": "LogicLegend12",
+    "tier": "silver",
+    "persona": {
+      "style": "Scalper",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "SOLUSDT"
+      ],
+      "risk_score": "0.51",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000000d",
+    "email": "bot_trendhunter13@vibe.ai",
+    "username": "TrendHunter13",
+    "tier": "gold",
+    "persona": {
+      "style": "Swinger",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "XAUUSD"
+      ],
+      "risk_score": "0.04",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000000e",
+    "email": "bot_richgenius14@vibe.ai",
+    "username": "RichGenius14",
+    "tier": "platinum",
+    "persona": {
+      "style": "Hodler",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "NQ"
+      ],
+      "risk_score": "0.28",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000000f",
+    "email": "bot_alphamaster15@vibe.ai",
+    "username": "AlphaMaster15",
+    "tier": "diamond",
+    "persona": {
+      "style": "Contrarian",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "BTCUSDT"
+      ],
+      "risk_score": "0.08",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000010",
+    "email": "bot_crystalwhale16@vibe.ai",
+    "username": "CrystalWhale16",
+    "tier": "silver",
+    "persona": {
+      "style": "Scalper",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "ETHUSDT"
+      ],
+      "risk_score": "0.13",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000011",
+    "email": "bot_cryptoprophet17@vibe.ai",
+    "username": "CryptoProphet17",
+    "tier": "gold",
+    "persona": {
+      "style": "Swinger",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "SOLUSDT"
+      ],
+      "risk_score": "0.74",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000012",
+    "email": "bot_moonsignal18@vibe.ai",
+    "username": "MoonSignal18",
+    "tier": "platinum",
+    "persona": {
+      "style": "Hodler",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "XAUUSD"
+      ],
+      "risk_score": "0.34",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000013",
+    "email": "bot_shortrunner19@vibe.ai",
+    "username": "ShortRunner19",
+    "tier": "diamond",
+    "persona": {
+      "style": "Contrarian",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "NQ"
+      ],
+      "risk_score": "0.16",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000014",
+    "email": "bot_bullpro20@vibe.ai",
+    "username": "BullPro20",
+    "tier": "silver",
+    "persona": {
+      "style": "Scalper",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "BTCUSDT"
+      ],
+      "risk_score": "0.09",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000015",
+    "email": "bot_beargod21@vibe.ai",
+    "username": "BearGod21",
+    "tier": "gold",
+    "persona": {
+      "style": "Swinger",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "ETHUSDT"
+      ],
+      "risk_score": "0.08",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000016",
+    "email": "bot_rocketace22@vibe.ai",
+    "username": "RocketAce22",
+    "tier": "platinum",
+    "persona": {
+      "style": "Hodler",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "SOLUSDT"
+      ],
+      "risk_score": "0.31",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000017",
+    "email": "bot_scannertamer23@vibe.ai",
+    "username": "ScannerTamer23",
+    "tier": "diamond",
+    "persona": {
+      "style": "Contrarian",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "XAUUSD"
+      ],
+      "risk_score": "0.26",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000018",
+    "email": "bot_wizardseeker24@vibe.ai",
+    "username": "WizardSeeker24",
+    "tier": "silver",
+    "persona": {
+      "style": "Scalper",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "NQ"
+      ],
+      "risk_score": "0.77",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000019",
+    "email": "bot_vibelegend25@vibe.ai",
+    "username": "VibeLegend25",
+    "tier": "gold",
+    "persona": {
+      "style": "Swinger",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "BTCUSDT"
+      ],
+      "risk_score": "0.33",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000001a",
+    "email": "bot_charthunter26@vibe.ai",
+    "username": "ChartHunter26",
+    "tier": "platinum",
+    "persona": {
+      "style": "Hodler",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "ETHUSDT"
+      ],
+      "risk_score": "0.28",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000001b",
+    "email": "bot_logicgenius27@vibe.ai",
+    "username": "LogicGenius27",
+    "tier": "diamond",
+    "persona": {
+      "style": "Contrarian",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "SOLUSDT"
+      ],
+      "risk_score": "0.86",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000001c",
+    "email": "bot_trendmaster28@vibe.ai",
+    "username": "TrendMaster28",
+    "tier": "silver",
+    "persona": {
+      "style": "Scalper",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "XAUUSD"
+      ],
+      "risk_score": "0.17",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000001d",
+    "email": "bot_richwhale29@vibe.ai",
+    "username": "RichWhale29",
+    "tier": "gold",
+    "persona": {
+      "style": "Swinger",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "NQ"
+      ],
+      "risk_score": "0.46",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000001e",
+    "email": "bot_alphaprophet30@vibe.ai",
+    "username": "AlphaProphet30",
+    "tier": "platinum",
+    "persona": {
+      "style": "Hodler",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "BTCUSDT"
+      ],
+      "risk_score": "0.54",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000001f",
+    "email": "bot_crystalsignal31@vibe.ai",
+    "username": "CrystalSignal31",
+    "tier": "diamond",
+    "persona": {
+      "style": "Contrarian",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "ETHUSDT"
+      ],
+      "risk_score": "0.37",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000020",
+    "email": "bot_cryptorunner32@vibe.ai",
+    "username": "CryptoRunner32",
+    "tier": "silver",
+    "persona": {
+      "style": "Scalper",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "SOLUSDT"
+      ],
+      "risk_score": "0.13",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000021",
+    "email": "bot_moonpro33@vibe.ai",
+    "username": "MoonPro33",
+    "tier": "gold",
+    "persona": {
+      "style": "Swinger",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "XAUUSD"
+      ],
+      "risk_score": "0.30",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000022",
+    "email": "bot_shortgod34@vibe.ai",
+    "username": "ShortGod34",
+    "tier": "platinum",
+    "persona": {
+      "style": "Hodler",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "NQ"
+      ],
+      "risk_score": "0.73",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000023",
+    "email": "bot_bullace35@vibe.ai",
+    "username": "BullAce35",
+    "tier": "diamond",
+    "persona": {
+      "style": "Contrarian",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "BTCUSDT"
+      ],
+      "risk_score": "0.37",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000024",
+    "email": "bot_beartamer36@vibe.ai",
+    "username": "BearTamer36",
+    "tier": "silver",
+    "persona": {
+      "style": "Scalper",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "ETHUSDT"
+      ],
+      "risk_score": "0.31",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000025",
+    "email": "bot_rocketseeker37@vibe.ai",
+    "username": "RocketSeeker37",
+    "tier": "gold",
+    "persona": {
+      "style": "Swinger",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "SOLUSDT"
+      ],
+      "risk_score": "0.16",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000026",
+    "email": "bot_scannerlegend38@vibe.ai",
+    "username": "ScannerLegend38",
+    "tier": "platinum",
+    "persona": {
+      "style": "Hodler",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "XAUUSD"
+      ],
+      "risk_score": "0.29",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000027",
+    "email": "bot_wizardhunter39@vibe.ai",
+    "username": "WizardHunter39",
+    "tier": "diamond",
+    "persona": {
+      "style": "Contrarian",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "NQ"
+      ],
+      "risk_score": "0.14",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000028",
+    "email": "bot_vibegenius40@vibe.ai",
+    "username": "VibeGenius40",
+    "tier": "silver",
+    "persona": {
+      "style": "Scalper",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "BTCUSDT"
+      ],
+      "risk_score": "0.70",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000029",
+    "email": "bot_chartmaster41@vibe.ai",
+    "username": "ChartMaster41",
+    "tier": "gold",
+    "persona": {
+      "style": "Swinger",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "ETHUSDT"
+      ],
+      "risk_score": "0.34",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000002a",
+    "email": "bot_logicwhale42@vibe.ai",
+    "username": "LogicWhale42",
+    "tier": "platinum",
+    "persona": {
+      "style": "Hodler",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "SOLUSDT"
+      ],
+      "risk_score": "0.90",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000002b",
+    "email": "bot_trendprophet43@vibe.ai",
+    "username": "TrendProphet43",
+    "tier": "diamond",
+    "persona": {
+      "style": "Contrarian",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "XAUUSD"
+      ],
+      "risk_score": "0.58",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000002c",
+    "email": "bot_richsignal44@vibe.ai",
+    "username": "RichSignal44",
+    "tier": "silver",
+    "persona": {
+      "style": "Scalper",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "NQ"
+      ],
+      "risk_score": "0.42",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000002d",
+    "email": "bot_alpharunner45@vibe.ai",
+    "username": "AlphaRunner45",
+    "tier": "gold",
+    "persona": {
+      "style": "Swinger",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "BTCUSDT"
+      ],
+      "risk_score": "0.18",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000002e",
+    "email": "bot_crystalpro46@vibe.ai",
+    "username": "CrystalPro46",
+    "tier": "platinum",
+    "persona": {
+      "style": "Hodler",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "ETHUSDT"
+      ],
+      "risk_score": "0.85",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000002f",
+    "email": "bot_cryptogod47@vibe.ai",
+    "username": "CryptoGod47",
+    "tier": "diamond",
+    "persona": {
+      "style": "Contrarian",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "SOLUSDT"
+      ],
+      "risk_score": "0.80",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000030",
+    "email": "bot_moonace48@vibe.ai",
+    "username": "MoonAce48",
+    "tier": "silver",
+    "persona": {
+      "style": "Scalper",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "XAUUSD"
+      ],
+      "risk_score": "0.20",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000031",
+    "email": "bot_shorttamer49@vibe.ai",
+    "username": "ShortTamer49",
+    "tier": "gold",
+    "persona": {
+      "style": "Swinger",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "NQ"
+      ],
+      "risk_score": "0.91",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000032",
+    "email": "bot_bullseeker50@vibe.ai",
+    "username": "BullSeeker50",
+    "tier": "platinum",
+    "persona": {
+      "style": "Hodler",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "BTCUSDT"
+      ],
+      "risk_score": "0.69",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000033",
+    "email": "bot_bearlegend51@vibe.ai",
+    "username": "BearLegend51",
+    "tier": "diamond",
+    "persona": {
+      "style": "Contrarian",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "ETHUSDT"
+      ],
+      "risk_score": "0.04",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000034",
+    "email": "bot_rockethunter52@vibe.ai",
+    "username": "RocketHunter52",
+    "tier": "silver",
+    "persona": {
+      "style": "Scalper",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "SOLUSDT"
+      ],
+      "risk_score": "0.41",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000035",
+    "email": "bot_scannergenius53@vibe.ai",
+    "username": "ScannerGenius53",
+    "tier": "gold",
+    "persona": {
+      "style": "Swinger",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "XAUUSD"
+      ],
+      "risk_score": "0.76",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000036",
+    "email": "bot_wizardmaster54@vibe.ai",
+    "username": "WizardMaster54",
+    "tier": "platinum",
+    "persona": {
+      "style": "Hodler",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "NQ"
+      ],
+      "risk_score": "0.15",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000037",
+    "email": "bot_vibewhale55@vibe.ai",
+    "username": "VibeWhale55",
+    "tier": "diamond",
+    "persona": {
+      "style": "Contrarian",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "BTCUSDT"
+      ],
+      "risk_score": "0.16",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000038",
+    "email": "bot_chartprophet56@vibe.ai",
+    "username": "ChartProphet56",
+    "tier": "silver",
+    "persona": {
+      "style": "Scalper",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "ETHUSDT"
+      ],
+      "risk_score": "0.66",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000039",
+    "email": "bot_logicsignal57@vibe.ai",
+    "username": "LogicSignal57",
+    "tier": "gold",
+    "persona": {
+      "style": "Swinger",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "SOLUSDT"
+      ],
+      "risk_score": "0.82",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000003a",
+    "email": "bot_trendrunner58@vibe.ai",
+    "username": "TrendRunner58",
+    "tier": "platinum",
+    "persona": {
+      "style": "Hodler",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "XAUUSD"
+      ],
+      "risk_score": "0.09",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000003b",
+    "email": "bot_richpro59@vibe.ai",
+    "username": "RichPro59",
+    "tier": "diamond",
+    "persona": {
+      "style": "Contrarian",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "NQ"
+      ],
+      "risk_score": "0.72",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000003c",
+    "email": "bot_alphagod60@vibe.ai",
+    "username": "AlphaGod60",
+    "tier": "silver",
+    "persona": {
+      "style": "Scalper",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "BTCUSDT"
+      ],
+      "risk_score": "0.97",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000003d",
+    "email": "bot_crystalace61@vibe.ai",
+    "username": "CrystalAce61",
+    "tier": "gold",
+    "persona": {
+      "style": "Swinger",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "ETHUSDT"
+      ],
+      "risk_score": "0.04",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000003e",
+    "email": "bot_cryptotamer62@vibe.ai",
+    "username": "CryptoTamer62",
+    "tier": "platinum",
+    "persona": {
+      "style": "Hodler",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "SOLUSDT"
+      ],
+      "risk_score": "0.25",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000003f",
+    "email": "bot_moonseeker63@vibe.ai",
+    "username": "MoonSeeker63",
+    "tier": "diamond",
+    "persona": {
+      "style": "Contrarian",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "XAUUSD"
+      ],
+      "risk_score": "0.26",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000040",
+    "email": "bot_shortlegend64@vibe.ai",
+    "username": "ShortLegend64",
+    "tier": "silver",
+    "persona": {
+      "style": "Scalper",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "NQ"
+      ],
+      "risk_score": "0.02",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000041",
+    "email": "bot_bullhunter65@vibe.ai",
+    "username": "BullHunter65",
+    "tier": "gold",
+    "persona": {
+      "style": "Swinger",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "BTCUSDT"
+      ],
+      "risk_score": "0.13",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000042",
+    "email": "bot_beargenius66@vibe.ai",
+    "username": "BearGenius66",
+    "tier": "platinum",
+    "persona": {
+      "style": "Hodler",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "ETHUSDT"
+      ],
+      "risk_score": "0.89",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000043",
+    "email": "bot_rocketmaster67@vibe.ai",
+    "username": "RocketMaster67",
+    "tier": "diamond",
+    "persona": {
+      "style": "Contrarian",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "SOLUSDT"
+      ],
+      "risk_score": "0.95",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000044",
+    "email": "bot_scannerwhale68@vibe.ai",
+    "username": "ScannerWhale68",
+    "tier": "silver",
+    "persona": {
+      "style": "Scalper",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "XAUUSD"
+      ],
+      "risk_score": "0.76",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000045",
+    "email": "bot_wizardprophet69@vibe.ai",
+    "username": "WizardProphet69",
+    "tier": "gold",
+    "persona": {
+      "style": "Swinger",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "NQ"
+      ],
+      "risk_score": "0.75",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000046",
+    "email": "bot_vibesignal70@vibe.ai",
+    "username": "VibeSignal70",
+    "tier": "platinum",
+    "persona": {
+      "style": "Hodler",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "BTCUSDT"
+      ],
+      "risk_score": "0.50",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000047",
+    "email": "bot_chartrunner71@vibe.ai",
+    "username": "ChartRunner71",
+    "tier": "diamond",
+    "persona": {
+      "style": "Contrarian",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "ETHUSDT"
+      ],
+      "risk_score": "0.44",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000048",
+    "email": "bot_logicpro72@vibe.ai",
+    "username": "LogicPro72",
+    "tier": "silver",
+    "persona": {
+      "style": "Scalper",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "SOLUSDT"
+      ],
+      "risk_score": "0.79",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000049",
+    "email": "bot_trendgod73@vibe.ai",
+    "username": "TrendGod73",
+    "tier": "gold",
+    "persona": {
+      "style": "Swinger",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "XAUUSD"
+      ],
+      "risk_score": "0.14",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000004a",
+    "email": "bot_richace74@vibe.ai",
+    "username": "RichAce74",
+    "tier": "platinum",
+    "persona": {
+      "style": "Hodler",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "NQ"
+      ],
+      "risk_score": "0.10",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000004b",
+    "email": "bot_alphatamer75@vibe.ai",
+    "username": "AlphaTamer75",
+    "tier": "diamond",
+    "persona": {
+      "style": "Contrarian",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "BTCUSDT"
+      ],
+      "risk_score": "0.95",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000004c",
+    "email": "bot_crystalseeker76@vibe.ai",
+    "username": "CrystalSeeker76",
+    "tier": "silver",
+    "persona": {
+      "style": "Scalper",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "ETHUSDT"
+      ],
+      "risk_score": "0.35",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000004d",
+    "email": "bot_cryptolegend77@vibe.ai",
+    "username": "CryptoLegend77",
+    "tier": "gold",
+    "persona": {
+      "style": "Swinger",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "SOLUSDT"
+      ],
+      "risk_score": "0.21",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000004e",
+    "email": "bot_moonhunter78@vibe.ai",
+    "username": "MoonHunter78",
+    "tier": "platinum",
+    "persona": {
+      "style": "Hodler",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "XAUUSD"
+      ],
+      "risk_score": "0.58",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000004f",
+    "email": "bot_shortgenius79@vibe.ai",
+    "username": "ShortGenius79",
+    "tier": "diamond",
+    "persona": {
+      "style": "Contrarian",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "NQ"
+      ],
+      "risk_score": "0.55",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000050",
+    "email": "bot_bullmaster80@vibe.ai",
+    "username": "BullMaster80",
+    "tier": "silver",
+    "persona": {
+      "style": "Scalper",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "BTCUSDT"
+      ],
+      "risk_score": "0.73",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000051",
+    "email": "bot_bearwhale81@vibe.ai",
+    "username": "BearWhale81",
+    "tier": "gold",
+    "persona": {
+      "style": "Swinger",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "ETHUSDT"
+      ],
+      "risk_score": "0.72",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000052",
+    "email": "bot_rocketprophet82@vibe.ai",
+    "username": "RocketProphet82",
+    "tier": "platinum",
+    "persona": {
+      "style": "Hodler",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "SOLUSDT"
+      ],
+      "risk_score": "0.62",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000053",
+    "email": "bot_scannersignal83@vibe.ai",
+    "username": "ScannerSignal83",
+    "tier": "diamond",
+    "persona": {
+      "style": "Contrarian",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "XAUUSD"
+      ],
+      "risk_score": "0.68",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000054",
+    "email": "bot_wizardrunner84@vibe.ai",
+    "username": "WizardRunner84",
+    "tier": "silver",
+    "persona": {
+      "style": "Scalper",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "NQ"
+      ],
+      "risk_score": "0.06",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000055",
+    "email": "bot_vibepro85@vibe.ai",
+    "username": "VibePro85",
+    "tier": "gold",
+    "persona": {
+      "style": "Swinger",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "BTCUSDT"
+      ],
+      "risk_score": "0.75",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000056",
+    "email": "bot_chartgod86@vibe.ai",
+    "username": "ChartGod86",
+    "tier": "platinum",
+    "persona": {
+      "style": "Hodler",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "ETHUSDT"
+      ],
+      "risk_score": "0.43",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000057",
+    "email": "bot_logicace87@vibe.ai",
+    "username": "LogicAce87",
+    "tier": "diamond",
+    "persona": {
+      "style": "Contrarian",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "SOLUSDT"
+      ],
+      "risk_score": "0.60",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000058",
+    "email": "bot_trendtamer88@vibe.ai",
+    "username": "TrendTamer88",
+    "tier": "silver",
+    "persona": {
+      "style": "Scalper",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "XAUUSD"
+      ],
+      "risk_score": "0.71",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000059",
+    "email": "bot_richseeker89@vibe.ai",
+    "username": "RichSeeker89",
+    "tier": "gold",
+    "persona": {
+      "style": "Swinger",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "NQ"
+      ],
+      "risk_score": "0.40",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000005a",
+    "email": "bot_alphalegend90@vibe.ai",
+    "username": "AlphaLegend90",
+    "tier": "platinum",
+    "persona": {
+      "style": "Hodler",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "BTCUSDT"
+      ],
+      "risk_score": "0.73",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000005b",
+    "email": "bot_crystalhunter91@vibe.ai",
+    "username": "CrystalHunter91",
+    "tier": "diamond",
+    "persona": {
+      "style": "Contrarian",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "ETHUSDT"
+      ],
+      "risk_score": "0.15",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000005c",
+    "email": "bot_cryptogenius92@vibe.ai",
+    "username": "CryptoGenius92",
+    "tier": "silver",
+    "persona": {
+      "style": "Scalper",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "SOLUSDT"
+      ],
+      "risk_score": "0.99",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000005d",
+    "email": "bot_moonmaster93@vibe.ai",
+    "username": "MoonMaster93",
+    "tier": "gold",
+    "persona": {
+      "style": "Swinger",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "XAUUSD"
+      ],
+      "risk_score": "0.19",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000005e",
+    "email": "bot_shortwhale94@vibe.ai",
+    "username": "ShortWhale94",
+    "tier": "platinum",
+    "persona": {
+      "style": "Hodler",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "NQ"
+      ],
+      "risk_score": "0.90",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-00000000005f",
+    "email": "bot_bullprophet95@vibe.ai",
+    "username": "BullProphet95",
+    "tier": "diamond",
+    "persona": {
+      "style": "Contrarian",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "BTCUSDT"
+      ],
+      "risk_score": "0.72",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000060",
+    "email": "bot_bearsignal96@vibe.ai",
+    "username": "BearSignal96",
+    "tier": "silver",
+    "persona": {
+      "style": "Scalper",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "ETHUSDT"
+      ],
+      "risk_score": "0.74",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000061",
+    "email": "bot_rocketrunner97@vibe.ai",
+    "username": "RocketRunner97",
+    "tier": "gold",
+    "persona": {
+      "style": "Swinger",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "SOLUSDT"
+      ],
+      "risk_score": "0.84",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000062",
+    "email": "bot_scannerpro98@vibe.ai",
+    "username": "ScannerPro98",
+    "tier": "platinum",
+    "persona": {
+      "style": "Hodler",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "XAUUSD"
+      ],
+      "risk_score": "0.79",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000063",
+    "email": "bot_wizardgod99@vibe.ai",
+    "username": "WizardGod99",
+    "tier": "diamond",
+    "persona": {
+      "style": "Contrarian",
+      "bias": "BEARISH",
+      "favorite_assets": [
+        "NQ"
+      ],
+      "risk_score": "0.53",
+      "active_tf": [
+        "15m",
+        "30m"
+      ]
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000064",
+    "email": "bot_vibeace100@vibe.ai",
+    "username": "VibeAce100",
+    "tier": "silver",
+    "persona": {
+      "style": "Scalper",
+      "bias": "BULLISH",
+      "favorite_assets": [
+        "BTCUSDT"
+      ],
+      "risk_score": "0.77",
+      "active_tf": [
+        "1h",
+        "4h",
+        "1d"
+      ]
+    }
+  }
+]

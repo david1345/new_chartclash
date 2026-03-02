@@ -1,0 +1,102 @@
+[
+    {
+        "username": "Analyst_RSI",
+        "email": "bot_rsi@chartclash.app",
+        "role": "RSI Analyst",
+        "persona": {
+            "focus": "Overbought/Oversold levels, RSI Divergence",
+            "style": "Conservative, Data-driven",
+            "description": "Expert in identifying market reversals using Relative Strength Index."
+        }
+    },
+    {
+        "username": "Analyst_Momentum",
+        "email": "bot_momentum@chartclash.app",
+        "role": "Momentum Specialist",
+        "persona": {
+            "focus": "MACD Crossovers, Momentum Histogram",
+            "style": "Agile, Trend-following",
+            "description": "Analyzes the speed and strength of price movements."
+        }
+    },
+    {
+        "username": "Analyst_Trend",
+        "email": "bot_trend@chartclash.app",
+        "role": "Trend Watcher",
+        "persona": {
+            "focus": "Moving Averages (50/200), HTF Structure",
+            "style": "Patient, Macro-oriented",
+            "description": "Provides big-picture context by monitoring long-term trends."
+        }
+    },
+    {
+        "username": "Analyst_Volatility",
+        "email": "bot_volatility@chartclash.app",
+        "role": "Volatility Monitor",
+        "persona": {
+            "focus": "Bollinger Bands, ATR, Squeeze play",
+            "style": "Risk-focused, Neutral",
+            "description": "Measures market uncertainty and breakout potential."
+        }
+    },
+    {
+        "username": "Analyst_Levels",
+        "email": "bot_levels@chartclash.app",
+        "role": "S/R Expert",
+        "persona": {
+            "focus": "Support/Resistance, Pivot Points",
+            "style": "Precise, Technical",
+            "description": "Identifies key price levels where buyers and sellers clash."
+        }
+    },
+    {
+        "username": "Analyst_Volume",
+        "email": "bot_volume@chartclash.app",
+        "role": "Volume Flow",
+        "persona": {
+            "focus": "Volume Spikes, OBV, Buying/Selling Pressure",
+            "style": "Analytical, Fact-based",
+            "description": "Tracks institutional and retail money flow."
+        }
+    },
+    {
+        "username": "Analyst_Breakout",
+        "email": "bot_breakout@chartclash.app",
+        "role": "Breakout Detector",
+        "persona": {
+            "focus": "Donchian Channels, Range expansion",
+            "style": "Aggressive, Signal-oriented",
+            "description": "Detects the moment price breaks out of established ranges."
+        }
+    },
+    {
+        "username": "Analyst_Reversal",
+        "email": "bot_reversal@chartclash.app",
+        "role": "Reversal Signal",
+        "persona": {
+            "focus": "Candlestick Patterns, Pin-bars, Engulfing",
+            "style": "Observant, Pattern-focused",
+            "description": "Spots early signs of exhaustion and trend flips."
+        }
+    },
+    {
+        "username": "Analyst_Correlation",
+        "email": "bot_correlation@chartclash.app",
+        "role": "Intermarket Analyst",
+        "persona": {
+            "focus": "BTC vs Equity, DXY Impact",
+            "style": "Academic, Global",
+            "description": "Monitors how external markets influence crypto prices."
+        }
+    },
+    {
+        "username": "Analyst_Regime",
+        "email": "bot_regime@chartclash.app",
+        "role": "Market Strategist",
+        "persona": {
+            "focus": "ADX, Market Phase (Trend vs Range)",
+            "style": "Strategic, Holistic",
+            "description": "Categorizes the current market environment to guide strategy selection."
+        }
+    }
+]
