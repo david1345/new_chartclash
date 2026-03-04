@@ -1,10 +1,6 @@
 import type { NextConfig } from "next";
 
-const nextConfig = {
-  // @ts-ignore
-  turbopack: {
-    root: process.cwd(),
-  },
+const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
