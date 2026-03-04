@@ -149,9 +149,9 @@ export default function MatchHistoryPage() {
                                             <th className="px-6 py-3">Asset</th>
                                             <th className="px-6 py-3 text-center">Streak</th>
                                             <th className="px-6 py-3">Pick</th>
-                                            <th className="px-6 py-3 text-right">Target</th>
+                                            <th className="px-6 py-3 text-right">Bet</th>
                                             <th className="px-6 py-3 text-right">Result</th>
-                                            <th className="px-6 py-3 text-right">Points</th>
+                                            <th className="px-6 py-3 text-right">P&L</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-white/5">
@@ -176,6 +176,11 @@ function HistoryRow({ pred }: { pred: any }) {
     const entry = pred.entry_price || 0;
     const actualPrice = pred.actual_price || 0;
     const profitValue = pred.profit ?? 0;
+    const betAmount = pred.bet_amount ?? 0;
+
+    // Odds calculation: if win, odds = (profit + bet) / bet.
+    // If we only have profit, and it's a win, the total returned was bet + profit.
+    const odds = (betAmount > 0 && pred.status === 'WIN') ? ((betAmount + profitValue) / betAmount).toFixed(2) : "0.00";
 
     // Use actual_change_percent if available, or calculate locally
     const changePct = pred.actual_change_percent ?? (entry > 0 && actualPrice > 0 ? ((actualPrice - entry) / entry) * 100 : 0);
@@ -228,25 +233,25 @@ function HistoryRow({ pred }: { pred: any }) {
                         {pred.direction}
                     </Badge>
                 </td>
-                <td className="px-6 py-4 text-right">
-                    {pred.target_percent}%
+                <td className="px-6 py-4 text-right font-mono">
+                    <span className="text-white">${betAmount.toFixed(2)}</span>
                 </td>
                 <td className="px-6 py-4 text-right">
                     <Badge variant="outline" className={cn(
                         "text-[10px] px-2 py-0.5 h-5 uppercase inline-flex",
-                        pred.status === 'WIN' ? "border-emerald-500/50 text-emerald-500 bg-emerald-500/10" :
-                            pred.status === 'LOSS' ? "border-red-500/50 text-red-500 bg-red-500/10" :
-                                "border-yellow-500/50 text-yellow-500 bg-yellow-500/10"
+                        pred.status === 'WIN' ? "border-[#00E5B4]/50 text-[#00E5B4] bg-[#00E5B4]/10" :
+                            pred.status === 'LOSS' ? "border-[#FF4560]/50 text-[#FF4560] bg-[#FF4560]/10" :
+                                "border-[#F5A623]/50 text-[#F5A623] bg-[#F5A623]/10"
                     )}>
                         {pred.status}
                     </Badge>
                 </td>
                 <td className="px-6 py-4 text-right font-mono font-bold">
                     <span className={cn(
-                        profitValue > 0 ? "text-emerald-500" :
-                            profitValue < 0 ? "text-red-500" : "text-muted-foreground"
+                        profitValue > 0 ? "text-[#00E5B4]" :
+                            profitValue < 0 ? "text-[#FF4560]" : "text-[#5A7090]"
                     )}>
-                        {profitValue !== 0 ? (profitValue > 0 ? `+${Math.round(Number(profitValue))}` : Math.round(Number(profitValue))) : '-'}
+                        {profitValue > 0 ? `+$${profitValue.toFixed(2)}` : profitValue < 0 ? `-$${Math.abs(profitValue).toFixed(2)}` : '-'}
                     </span>
                 </td>
             </tr>
@@ -274,12 +279,16 @@ function HistoryRow({ pred }: { pred: any }) {
                                 <div className="text-xs text-muted-foreground uppercase mb-1">Details</div>
                                 <div className="space-y-1 text-xs">
                                     <div className="flex justify-between w-32 border-b border-white/10 pb-1 mb-1">
-                                        <span className="text-muted-foreground">Direction:</span>
-                                        {directionCorrect ? <span className="text-emerald-500">Correct</span> : <span className="text-red-500">Wrong</span>}
+                                        <span className="text-[#5A7090]">Direction:</span>
+                                        {directionCorrect ? <span className="text-[#00E5B4]">Correct</span> : <span className="text-[#FF4560]">Wrong</span>}
+                                    </div>
+                                    <div className="flex justify-between w-32 border-b border-white/10 pb-1 mb-1">
+                                        <span className="text-[#5A7090]">Target Hit:</span>
+                                        {isTargetHit ? <span className="text-[#00E5B4]">Yes ({pred.target_percent}%)</span> : <span className="text-[#FF4560]">No ({pred.target_percent}%)</span>}
                                     </div>
                                     <div className="flex justify-between w-32">
-                                        <span className="text-muted-foreground">Target Hit:</span>
-                                        {isTargetHit ? <span className="text-emerald-500">Yes</span> : <span className="text-red-500">No</span>}
+                                        <span className="text-[#5A7090]">Final Odds:</span>
+                                        <span className="font-mono text-white">{odds}x</span>
                                     </div>
                                 </div>
                             </div>

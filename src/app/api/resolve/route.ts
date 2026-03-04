@@ -25,8 +25,8 @@ async function getUsernameMap(userIds: string[]): Promise<Record<string, string>
     profiles?.forEach(p => {
         // Priority: username > email username > User_ID
         const displayName = p.username ||
-                           p.email?.split('@')[0] ||
-                           `User_${p.id.substring(0, 6)}`;
+            p.email?.split('@')[0] ||
+            `User_${p.id.substring(0, 6)}`;
         map[p.id] = displayName;
     });
     return map;
@@ -222,9 +222,9 @@ export async function GET(req: NextRequest) {
                     let lastError = '';
 
                     for (let attempt = 0; attempt < 3; attempt++) {
-                        const { data, error } = await supabase.rpc('resolve_prediction_advanced', {
-                            p_id: Number(pred.id),
-                            p_close_price: closePrice
+                        const { data, error } = await supabase.rpc('resolve_prediction_pari_mutuel', {
+                            target_prediction_id: Number(pred.id),
+                            resolved_close_price: closePrice
                         });
 
                         if (!error && data && data.success) {

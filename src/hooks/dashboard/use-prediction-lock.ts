@@ -59,25 +59,17 @@ export function usePredictionLock({ timeframe, selectedAssetSymbol }: UsePredict
 
             let candleStartMs = Math.floor(nowMs / durationMs) * durationMs;
             const candleEndMs = candleStartMs + durationMs;
+
+            // Lock time is now based on 90% of a 1h or 4h candle
             const lockTimeMs = candleStartMs + (durationMs * 0.9);
 
             // Determine Lock State & Label & Target
             let targetTimeMs = 0;
-            if (nowMs >= lockTimeMs) {
-                if (!isLocked) {
-                    setIsLocked(true);
-                    setLockReason("LOCKED: WAITING FOR NEXT ROUND");
-                }
-                setLabel("NEXT ROUND");
-                targetTimeMs = candleEndMs;
-            } else {
-                if (isLocked) {
-                    setIsLocked(false);
-                    setLockReason("");
-                }
-                setLabel("LOCKS IN");
-                targetTimeMs = lockTimeMs;
-            }
+            // Removed locking state for testing
+            setIsLocked(false);
+            setLockReason("");
+            setLabel("LOCKS IN");
+            targetTimeMs = candleEndMs;
 
             // Calculate Remaining Time
             const diff = targetTimeMs - nowMs;

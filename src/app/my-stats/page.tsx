@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Target, TrendingUp, Activity, BarChart2, PieChart } from "lucide-react";
+import { ArrowLeft, Target, TrendingUp, Activity, BarChart2, PieChart, Trophy } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
@@ -43,14 +43,20 @@ export default function MyStatsPage() {
             const downPicks = preds.filter(p => p.direction === 'DOWN').length;
 
             // Mocking some 'Avg Target' as we might not have it easily calculable without loop
-            const winRate = total > 0 ? Math.round((wins / total) * 100) : 0;
+            // Mocking some 'Avg Target' as we might not have it easily calculable without loop
+            const winRate = total > 0 ? ((wins / total) * 100).toFixed(1) : "0.0";
+
+            // For now, Global rank and streak are mocked since we don't have a direct query for it in this simple view
+            const rank = profile?.rank || "Unranked";
+            const streak = profile?.current_streak || 0;
 
             setStats({
                 total,
                 wins,
                 losses,
                 winRate,
-                points: profile?.points || 0,
+                streak,
+                rank,
                 earnings: profile?.total_earnings || 0,
                 upPicks,
                 downPicks
@@ -79,11 +85,11 @@ export default function MyStatsPage() {
             <div className="flex-1 container mx-auto px-4 py-8 space-y-8 max-w-5xl pb-20">
 
                 {/* KPI Grid */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <StatCard data-testid="total-predictions" label="Total Predictions" value={stats.total} icon={BarChart2} />
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                    <StatCard data-testid="net-earnings" label="Net P&L" value={`${stats.earnings >= 0 ? '+' : ''}$${stats.earnings.toFixed(2)}`} icon={TrendingUp} color={stats.earnings >= 0 ? "text-[#00E5B4]" : "text-[#FF4560]"} />
                     <StatCard data-testid="win-rate" label="Win Rate" value={`${stats.winRate}%`} icon={Target} highlight />
-                    <StatCard data-testid="net-earnings" label="Net Earnings" value={`+${stats.earnings}`} icon={TrendingUp} color="text-yellow-500" />
-                    <StatCard data-testid="current-points" label="Current Points" value={stats.points} icon={Activity} />
+                    <StatCard data-testid="global-rank" label="Global Rank" value={`#${stats.rank}`} icon={Trophy} color="text-[#F5A623]" />
+                    <StatCard data-testid="best-streak" label="Best Streak" value={`${stats.streak} W`} icon={Activity} />
                 </div>
 
                 {/* Charts / Details */}
@@ -144,11 +150,11 @@ export default function MyStatsPage() {
 
 function StatCard({ label, value, icon: Icon, highlight, color, "data-testid": testId }: any) {
     return (
-        <Card data-testid={testId} className={cn("bg-card/10 border-white/5", highlight && "border-emerald-500/30 bg-emerald-500/5")}>
+        <Card data-testid={testId} className={cn("bg-[#141D2E] border-[#1E2D45]", highlight && "border-[#00E5B4]/30 bg-[#00E5B4]/5")}>
             <CardContent className="p-6 flex flex-col items-center text-center gap-2">
-                <Icon className={cn("w-5 h-5 mb-1", color || (highlight ? "text-emerald-500" : "text-muted-foreground"))} />
-                <div className={cn("text-2xl font-bold font-mono", color || (highlight && "text-emerald-400"))}>{value}</div>
-                <div className="text-xs text-muted-foreground uppercase tracking-wider font-bold">{label}</div>
+                <Icon className={cn("w-5 h-5 mb-1", color || (highlight ? "text-[#00E5B4]" : "text-[#5A7090]"))} />
+                <div className={cn("text-2xl font-bold font-mono", color || (highlight && "text-[#00E5B4]"))}>{value}</div>
+                <div className="text-[10px] text-[#5A7090] uppercase tracking-widest font-bold mt-1">{label}</div>
             </CardContent>
         </Card>
     )

@@ -1,6 +1,6 @@
 {
-  "name": "vibe-forecast",
-  "version": "3.1.1",
+  "name": "chartclash",
+  "version": "3.1.2",
   "private": true,
   "scripts": {
     "dev": "next dev",

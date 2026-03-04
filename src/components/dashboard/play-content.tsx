@@ -22,6 +22,7 @@ import { calculateReward } from "@/lib/rewards";
 // Refactored Components
 import { MarketHeader, MarketHero } from "@/components/dashboard/market-header";
 import { PredictionTabs } from "@/components/dashboard/prediction-tabs";
+import { DesktopActivePosition } from "@/components/battle/desktop-active-position";
 
 // Custom Hooks
 import { usePredictionLock } from "@/hooks/dashboard/use-prediction-lock";
@@ -98,6 +99,9 @@ export function PlayContent() {
     const [transferHistory, setTransferHistory] = useState(true);
     const [isMigrating, setIsMigrating] = useState(false);
 
+    // Global Market Data
+    const [roundOpenPrice, setRoundOpenPrice] = useState<number | null>(null);
+
     const mounted = useMounted();
 
     const supabase = createClient();
@@ -125,6 +129,26 @@ export function PlayContent() {
         setSelectedTimeframe(tf);
         router.push(`/play/${selectedAsset.symbol}/${tf}`);
     };
+
+    // Fetch initial reference price for the layout components
+    useEffect(() => {
+        const fetchInitialPrice = async () => {
+            try {
+                const res = await fetch("/api/market/entry-price", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ symbol: selectedAsset.symbol, timeframe: selectedTimeframe, type: selectedAsset.type })
+                });
+                const json = await res.json();
+                if (json.success && json.data) {
+                    if (json.data.openPrice !== undefined) setRoundOpenPrice(json.data.openPrice);
+                }
+            } catch (e) {
+                console.error("Server price API error", e);
+            }
+        };
+        fetchInitialPrice();
+    }, [selectedAsset.symbol, selectedTimeframe, selectedAsset.type]);
 
     useEffect(() => {
         supabase.auth.getUser().then(({ data }) => {
@@ -205,7 +229,7 @@ export function PlayContent() {
     }, [user]);
 
     // --- HOOKS INTEGRATION ---
-    const { isLocked } = usePredictionLock({
+    const { isLocked, serverTimeOffset } = usePredictionLock({
         timeframe: selectedTimeframe,
         selectedAssetSymbol: selectedAsset.symbol
     });
@@ -220,17 +244,47 @@ export function PlayContent() {
 
     const marketStatus = isMarketOpen(selectedAsset.symbol, selectedAsset.type);
 
+    const adjustedNow = Date.now() + serverTimeOffset;
+
+    // Debugging active prediction state for guests
+    if (!user && mounted && guestPredictions?.length > 0) {
+        console.log("Guest Predictions check:", {
+            guestPredictionsCount: guestPredictions.length,
+            adjustedNow,
+            selectedAsset: selectedAsset.symbol,
+            selectedTimeframe: selectedTimeframe,
+            firstPredClose: guestPredictions[0]?.candle_close_at,
+            firstPredCloseTime: new Date(guestPredictions[0]?.candle_close_at).getTime()
+        });
+    }
+
     const isAlreadyBet = mounted && (
         predictions.some(p =>
             p.status === 'pending' &&
             p.asset_symbol === selectedAsset.symbol &&
             p.timeframe === selectedTimeframe &&
-            new Date(p.candle_close_at).getTime() > Date.now()
+            new Date(p.candle_close_at).getTime() > adjustedNow - 1000 // Buffer for clock jitter
         ) ||
         (!user && guestPredictions?.some(p => p.status === 'pending' &&
             p.asset_symbol === selectedAsset.symbol &&
-            p.timeframe === selectedTimeframe))
+            p.timeframe === selectedTimeframe &&
+            new Date(p.candle_close_at).getTime() > adjustedNow - 1000 // Buffer for clock jitter
+        ))
     );
+
+    const activePrediction = mounted ? (
+        predictions.find(p =>
+            p.status === 'pending' &&
+            p.asset_symbol === selectedAsset.symbol &&
+            p.timeframe === selectedTimeframe &&
+            new Date(p.candle_close_at).getTime() > adjustedNow - 1000
+        ) ||
+        (!user && guestPredictions?.find(p => p.status === 'pending' &&
+            p.asset_symbol === selectedAsset.symbol &&
+            p.timeframe === selectedTimeframe &&
+            new Date(p.candle_close_at).getTime() > adjustedNow - 1000 // Buffer for clock jitter
+        )) || null
+    ) : null;
 
     const isAIBeatEnabled = process.env.NEXT_PUBLIC_ENABLE_AI_BEAT === 'true';
 
@@ -334,10 +388,11 @@ export function PlayContent() {
                 isGhostMode={isGhostMode}
             />
 
-            <div className="container mx-auto px-4 py-6 space-y-4 max-w-6xl">
+            <div className="container mx-auto px-2 lg:px-4 py-2 lg:py-6 space-y-2 lg:space-y-4 max-w-6xl">
 
-                <section className="grid grid-cols-1 md:grid-cols-12 gap-4 items-stretch min-h-[850px]">
-                    <div className="md:col-span-4 h-full flex flex-col gap-3 min-h-0">
+                <section className="grid grid-cols-1 lg:grid-cols-12 gap-2 lg:gap-4 items-stretch lg:h-[calc(100vh-80px)] overflow-hidden lg:-mt-2 bg-[#080C14]">
+                    {/* LEFT PANEL / Mobile Top (Order Panel) */}
+                    <div className="lg:col-span-3 h-full flex flex-col gap-2 lg:gap-3 min-h-0 order-1 lg:order-1 pt-2 lg:pt-0 mb-2 lg:mb-0 pb-safe">
                         <OrderPanel
                             user={user}
                             userPoints={userPoints}
@@ -350,27 +405,49 @@ export function PlayContent() {
                             marketStatus={marketStatus}
                             isLocked={isLocked}
                             isAlreadyBet={isAlreadyBet}
+                            activePrediction={activePrediction}
                             refreshPredictions={fetchPredictions}
                             fetchUserStats={fetchUserStats}
                             isLoaded={isLoaded}
+                            roundOpenPrice={roundOpenPrice}
+                            serverTimeOffset={serverTimeOffset}
                             onBetSuccess={() => setIsEntertainmentHubOpen(true)}
                         />
-                        <PredictionTabs predictions={predictions} user={user} />
                     </div>
 
-                    <div className="md:col-span-8 h-full flex flex-col gap-3 min-h-0">
-                        <Card className="h-[480px] shrink-0 border-white/10 bg-card/40 overflow-hidden flex flex-col relative group">
-                            <div className="flex-1 w-full h-full bg-black/40 relative">
+                    {/* CENTER PANEL / Mobile Bottom Chart */}
+                    <div className="lg:col-span-6 h-full flex flex-col gap-2 lg:gap-3 min-h-0 order-2 lg:order-2 h-[240px] lg:h-full shrink-0 mb-20 lg:mb-0">
+                        <Card className="flex-1 w-full border-[#1E2D45] bg-[#0F1623] overflow-hidden flex flex-col relative group rounded-2xl shadow-xl">
+                            <div className="absolute top-4 left-4 z-10 bg-[#141D2E]/80 backdrop-blur-md border border-[#1E2D45] px-3 py-1.5 rounded-xl flex items-center gap-2">
+                                <div className="w-2 h-2 rounded-full bg-[#00E5B4] animate-pulse"></div>
+                                <span className="text-[#00E5B4] font-bold text-xs">1H &middot; BTC/USDT</span>
+                            </div>
+                            <div className="flex-1 w-full h-full relative">
                                 <TradingViewWidget
                                     symbol={selectedAsset.symbol}
                                     interval={selectedTimeframe}
                                     theme="dark"
                                 />
-                                <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_40px_rgba(0,0,0,0.5)]" />
+                                <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_80px_rgba(8,12,20,0.8)]" />
                             </div>
                         </Card>
 
-                        <div className="h-[340px] mt-auto grid grid-cols-1 md:grid-cols-2 gap-3 shrink-0">
+                        {/* Mobile Only: Order History Box */}
+                        <div className="flex lg:hidden flex-col flex-1 shrink-0 mt-2">
+                            <PredictionTabs predictions={predictions} user={user} />
+                        </div>
+                    </div>
+
+                    {/* RIGHT PANEL / Desktop Only Data */}
+                    <div className="hidden lg:flex lg:col-span-3 h-full flex-col gap-3 min-h-0 order-3 overflow-y-auto no-scrollbar">
+                        {activePrediction && (
+                            <DesktopActivePosition
+                                activePrediction={activePrediction}
+                                currentPrice={roundOpenPrice}
+                            />
+                        )}
+                        <PredictionTabs predictions={predictions} user={user} />
+                        <div className="grid grid-cols-1 gap-3 shrink-0 flex-1">
                             <StatsPanel
                                 assetSymbol={selectedAsset.symbol}
                                 timeframe={selectedTimeframe}

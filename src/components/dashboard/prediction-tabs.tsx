@@ -105,8 +105,8 @@ export function PredictionTabs({ predictions, user }: PredictionTabsProps) {
     };
 
     return (
-        <Card className="h-[340px] mt-auto bg-card/20 border-white/60 overflow-hidden flex flex-col shrink-0">
-            <CardHeader className="py-1 px-3 bg-black/20 border-b border-white/10 shrink-0 min-h-[36px] flex flex-row items-center justify-between space-y-0">
+        <Card className="h-[340px] mt-auto bg-[#0F1623] border-[#1E2D45] overflow-hidden flex flex-col shrink-0 flex-1">
+            <CardHeader className="py-1 px-3 bg-[#141D2E] border-b border-[#1E2D45] shrink-0 min-h-[36px] flex flex-row items-center justify-between space-y-0">
                 <CardTitle className="text-xs font-bold flex items-center gap-2 uppercase tracking-wider text-white">
                     <History className="w-3 h-3 text-primary" /> Active Predictions
                 </CardTitle>
@@ -129,10 +129,10 @@ export function PredictionTabs({ predictions, user }: PredictionTabsProps) {
                 )}
             </CardHeader>
 
-            <CardContent className="p-0 flex-1 relative min-h-0 flex flex-col">
+            <CardContent className="p-0 flex-1 relative min-h-0 flex flex-col bg-[#0F1623]">
                 <Tabs defaultValue="active" className="w-full h-full flex flex-col">
-                    <div className="px-3 border-b border-white/5 bg-black/40 pt-1 shrink-0">
-                        <TabsList className="h-7 bg-white/5">
+                    <div className="px-3 border-b border-[#1E2D45] bg-[#141D2E] pt-1 shrink-0">
+                        <TabsList className="h-7 bg-[#0F1623] border border-[#1E2D45]">
                             <TabsTrigger id="tutorial-active-tab" value="active" className="h-6 text-[10px]">
                                 Active
                                 {pendingPredictions.length > 0 && (
@@ -144,7 +144,7 @@ export function PredictionTabs({ predictions, user }: PredictionTabsProps) {
                     </div>
 
                     {/* Column Headers */}
-                    <div className="grid grid-cols-5 px-2 pt-1 pb-1 bg-black/40 border-b border-white/5 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase tracking-widest text-center shrink-0">
+                    <div className="grid grid-cols-5 px-2 pt-1 pb-1 bg-[#141D2E] border-b border-[#1E2D45] text-[9px] md:text-[10px] font-bold text-[#5A7090] uppercase tracking-widest text-center shrink-0">
                         <span>Time</span>
                         <span>Asset</span>
                         <span>Chart</span>

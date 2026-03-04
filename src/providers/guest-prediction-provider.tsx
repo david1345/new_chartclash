@@ -64,25 +64,8 @@ export function GuestPredictionProvider({ children }: { children: React.ReactNod
         setGuestId(storedId);
     }, []);
 
-    // 2. Sync with Database whenever profile data (points) changes
-    useEffect(() => {
-        if (!guestId) return;
-
-        const syncProfile = async () => {
-            try {
-                await supabase.rpc('upsert_temporary_profile', {
-                    p_id: guestId,
-                    p_username: `Guest_${guestId.substring(0, 5)}`,
-                    p_points: guestPoints
-                });
-            } catch (err) {
-                console.error("Failed to sync guest profile to DB:", err);
-            }
-        };
-
-        const timer = setTimeout(syncProfile, 2000); // 2s debounce
-        return () => clearTimeout(timer);
-    }, [guestId, guestPoints, supabase]);
+    // Disabled DB sync for guests since `upsert_temporary_profile` RPC doesn't exist and breaks state.
+    // Guest data relies exclusively on localStorage for now.
 
     // 3. Save to localStorage whenever state changes
     useEffect(() => {

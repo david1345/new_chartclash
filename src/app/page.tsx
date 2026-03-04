@@ -2,49 +2,15 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
-import { Badge } from "@/components/ui/badge";
 import { MarketHeader } from "@/components/dashboard/market-header";
-import { TrendingMarketSection } from "@/components/market/trending-market-section";
-import { MarketDiscoverySection } from "@/components/market/market-discovery-section";
-import {
-  ArrowRight, Target, Trophy, ChevronDown, Search, X
-} from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { Zap, Clock, Users, Activity } from "lucide-react";
 import { useUserStats } from "@/hooks/dashboard/use-user-stats";
-import { ASSETS, Asset } from "@/lib/constants";
-import { SelectedAssetSection } from "@/components/market/selected-asset-section";
-
 import { Suspense } from "react";
 
 function LandingContent() {
   const [user, setUser] = useState<any>(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("CRYPTO");
-  const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
-  const [showResults, setShowResults] = useState(false);
-  const searchParams = useSearchParams();
-  const query = searchParams.get("q");
-
   const supabase = createClient();
-
-  // Handle URL search param
-  useEffect(() => {
-    if (query) {
-      const q = query.toUpperCase();
-      const allAssets = Object.values(ASSETS).flat();
-      const found = allAssets.find(a => a.symbol === q || a.name.toUpperCase() === q);
-      if (found) {
-        setSelectedAsset(found);
-        // Scroll to the market hub
-        const element = document.getElementById("markets-hub");
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
-        }
-      }
-    }
-  }, [query]);
 
   useEffect(() => {
     supabase.auth.getUser().then(async ({ data }) => {
@@ -74,302 +40,97 @@ function LandingContent() {
   const { userPoints, userRank, username, activeCount } = useUserStats(user);
 
   return (
-    <main className="min-h-screen bg-[#060609] text-white selection:bg-primary/30 overflow-x-hidden">
+    <main className="min-h-[100dvh] bg-[#080C14] text-white selection:bg-[#00E5B4]/30 overflow-x-hidden flex flex-col pb-24 lg:pb-0">
       <MarketHeader
         user={user}
         username={username}
         userPoints={userPoints}
         userRank={userRank}
         activeCount={activeCount}
-        onAssetSelect={(asset) => {
-          setSelectedAsset(asset);
-          // Scroll to markets hub
-          setTimeout(() => {
-            const element = document.getElementById("markets-hub");
-            if (element) {
-              element.scrollIntoView({ behavior: "smooth", block: "start" });
-            }
-          }, 100);
-        }}
       />
 
-      <div className="container mx-auto px-4 py-8 max-w-7xl space-y-12">
-        {/* --- HERO SECTION --- */}
-        <section className="relative min-h-[45vh] flex flex-col items-center justify-center pt-4 text-center overflow-hidden">
-          {/* Background Elements */}
-          <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/10 blur-[150px] rounded-full" />
+      <div className="flex-1 flex flex-col items-center pt-2 md:pt-6 pb-6 px-4 max-w-lg mx-auto w-full z-10">
 
-            {/* Animated Chart Line Background */}
-            <motion.svg
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 0.1 }}
-              transition={{ duration: 3, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
-              className="absolute inset-0 w-full h-full stroke-primary/30 fill-none stroke-[2]"
-              viewBox="0 0 1440 800"
-            >
-              <path d="M0,400 Q360,200 720,400 T1440,400" />
-            </motion.svg>
+        {/* HERO */}
+        <div className="text-center mb-4 relative">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-[#00E5B4]/10 blur-[80px] rounded-full -z-10" />
+
+
+
+          <h1 className="text-4xl md:text-5xl font-black tracking-tighter leading-[0.9] italic uppercase mt-8 mb-2 text-white">
+            CHARTCLASH
+          </h1>
+
+          <p className="text-[#8BA3BF] text-[13px] md:text-sm font-medium mb-4 max-w-[280px] mx-auto leading-tight">
+            Real USDT &middot; Real Rewards.<br />
+            <span className="text-white">Bet on BTC &middot; UP or DOWN</span>
+          </p>
+
+
+        </div>
+
+        {/* LIVE STATS (mock data for now) */}
+        <div className="grid grid-cols-3 gap-2 w-full mb-6">
+          <div className="bg-[#141D2E] border border-[#1E2D45] rounded-xl py-2 px-3 flex flex-col items-center justify-center text-center">
+            <Users className="w-4 h-4 text-[#8BA3BF] mb-1.5" />
+            <div className="text-[10px] text-[#5A7090] font-bold uppercase tracking-wider mb-0.5">Active</div>
+            <div className="text-sm font-black font-mono">{(activeCount || 0) + 1248}</div>
           </div>
+          <div className="bg-[#141D2E] border border-[#1E2D45] rounded-xl py-2 px-3 flex flex-col items-center justify-center text-center">
+            <Activity className="w-4 h-4 text-[#00E5B4] mb-1.5" />
+            <div className="text-[10px] text-[#5A7090] font-bold uppercase tracking-wider mb-0.5">Pool</div>
+            <div className="text-sm font-black font-mono text-[#00E5B4]">8,540<span className="text-[10px] text-[#00E5B4]/70"> USDT</span></div>
+          </div>
+          <div className="bg-[#141D2E] border border-[#1E2D45] rounded-xl py-2 px-3 flex flex-col items-center justify-center text-center">
+            <Clock className="w-4 h-4 text-[#FF4560] mb-1.5" />
+            <div className="text-[10px] text-[#5A7090] font-bold uppercase tracking-wider mb-0.5">Next Lock</div>
+            <div className="text-sm font-black font-mono text-[#FF4560]">04:12</div>
+          </div>
+        </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="relative z-10 space-y-4"
-          >
-            <Badge className="bg-blue-500/10 text-blue-400 border-blue-500/20 px-6 py-2 text-xs font-black tracking-[0.2em] uppercase rounded-full">
-              The Ultimate Prediction Arena
-            </Badge>
+        <div className="w-full text-center mt-8 mb-8">
+          <Link href="/play/BTCUSDT/1h" className="inline-block">
+            <button className="px-10 sm:px-12 w-full xs:w-auto bg-[#00E5B4] hover:bg-[#00E5B4]/90 text-black font-black h-[60px] rounded-xl text-lg flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,229,180,0.3)] transition-all active:scale-[0.98]">
+              START BATTLE <Zap className="w-5 h-5 fill-black" />
+            </button>
+          </Link>
+        </div>
 
-            <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-[0.8] italic uppercase max-w-5xl mx-auto">
-              MASTER THE <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-orange-500 to-purple-500">MARKETS</span>
-            </h1>
-
-            <p className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto font-medium leading-relaxed opacity-80">
-              Join our growing community predicting the future of <span className="text-white font-bold">Crypto, Stocks, and Commodities.</span><br />
-              AI-powered insights, real-time competition.
-            </p>
-
-            {/* --- 3-STEP GUIDE --- */}
-            <div className="max-w-5xl mx-auto w-full pt-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                {[
-                  {
-                    step: "01",
-                    title: "PICK ASSET",
-                    desc: "Choose from 30+ markets.",
-                    icon: Search,
-                    color: "text-blue-500",
-                    bg: "bg-blue-500/10"
-                  },
-                  {
-                    step: "02",
-                    title: "PREDICT MOVE",
-                    desc: "UP or DOWN? AI insights help.",
-                    icon: Target,
-                    color: "text-orange-500",
-                    bg: "bg-orange-500/10"
-                  },
-                  {
-                    step: "03",
-                    title: "WIN REWARDS",
-                    desc: "Climb the leaderboard.",
-                    icon: Trophy,
-                    color: "text-purple-500",
-                    bg: "bg-purple-500/10"
-                  }
-                ].map((item, idx) => (
-                  <motion.div
-                    key={idx}
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    whileHover={{
-                      scale: 1.02,
-                      borderColor: "rgba(255,255,255,0.4)",
-                      backgroundColor: "rgba(255,255,255,0.04)"
-                    }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3 }}
-                    className="relative p-6 rounded-2xl border border-white/20 bg-white/[0.02] transition-all group overflow-hidden h-[147px] flex flex-col justify-center items-center text-center"
-                  >
-                    <div className="flex justify-between items-center absolute top-4 w-full px-6">
-                      <div className={`p-2 rounded-lg ${item.bg} ${item.color}`}>
-                        <item.icon className="w-5 h-5" />
-                      </div>
-                      <span className="text-xl font-black text-yellow-500/30 italic">{item.step}</span>
-                    </div>
-                    <div className="space-y-2 mt-4">
-                      <h3 className="text-2xl font-black uppercase tracking-tighter leading-tight">{item.title}</h3>
-                      <p className="text-sm text-muted-foreground leading-tight font-medium mx-auto max-w-[280px]">{item.desc}</p>
-                    </div>
-                  </motion.div>
-                ))}
+        {/* HOW IT WORKS */}
+        <div className="w-full">
+          <div className="text-[11px] font-black text-[#8BA3BF] uppercase tracking-[0.15em] mb-4 text-center">How to play</div>
+          <div className="space-y-3">
+            <div className="flex items-center gap-4 bg-[#0F1623] border border-[#1E2D45] py-3 px-4 rounded-xl">
+              <div className="w-10 h-10 rounded-full bg-[#141D2E] border border-[#1E2D45] flex items-center justify-center text-[#FF4560] font-black">1</div>
+              <div>
+                <div className="text-sm font-black uppercase mb-0.5">Predict Move</div>
+                <div className="text-xs text-[#5A7090]">UP or DOWN in 1H timeframe.</div>
               </div>
             </div>
-
-            <div className="flex flex-col items-center gap-4 pt-4">
-              {user ? (
-                <Link href={`/play/BTCUSDT/1h`}>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="bg-primary hover:bg-primary/90 text-white font-black w-80 h-16 rounded-full text-xl shadow-[0_0_40px_rgba(59,130,246,0.5)] transition-all flex items-center justify-center gap-3 group"
-                  >
-                    START CLASHING
-                    <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
-                  </motion.button>
-                </Link>
-              ) : (
-                <Link href={`/play/BTCUSDT/1h`}>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="bg-primary hover:bg-primary/90 text-white font-black w-72 h-16 rounded-full text-xl shadow-[0_0_40px_rgba(59,130,246,0.5)] transition-all flex items-center justify-center gap-3 group"
-                  >
-                    START GUEST CLASH
-                    <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
-                  </motion.button>
-                </Link>
-              )}
-
-              <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold opacity-60">
-                100% Virtual Points • {user ? `Logged in as ${username || 'Trader'}` : 'Try a guest round for free • signup later'}
-              </p>
-            </div>
-
-
-          </motion.div>
-
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-muted-foreground/30"
-          >
-            <span className="text-[10px] font-black tracking-widest uppercase">Explore markets</span>
-            <ChevronDown className="w-4 h-4" />
-          </motion.div>
-        </section>
-
-        {/* --- MARKETS HUB --- */}
-        <div id="markets-hub" className="space-y-12 pt-8">
-          {/* Search & Filter Bar */}
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between sticky top-20 z-40 bg-background/80 backdrop-blur-md p-4 rounded-2xl border border-white/5 shadow-2xl">
-            <div className="relative w-full md:w-96">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <input
-                type="text"
-                placeholder="Search assets (BTC, AAPL, Gold...)"
-                value={searchQuery}
-                onFocus={() => setShowResults(true)}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  setShowResults(true);
-                }}
-                className="w-full bg-white/5 border-white/10 rounded-xl pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all font-medium"
-              />
-
-              {/* Search Results Dropdown */}
-              {showResults && searchQuery.length > 0 && (
-                <div className="absolute top-full mt-2 w-full bg-[#1A1A1E] border border-white/10 rounded-xl shadow-2xl overflow-hidden z-[100] animate-in fade-in zoom-in-95 duration-200">
-                  <div className="max-h-[300px] overflow-y-auto no-scrollbar py-2">
-                    {Object.values(ASSETS).flat()
-                      .filter(asset =>
-                        asset.symbol.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                        asset.name.toLowerCase().includes(searchQuery.toLowerCase())
-                      )
-                      .slice(0, 10)
-                      .map((asset) => (
-                        <button
-                          key={asset.symbol}
-                          onClick={() => {
-                            setSelectedAsset(asset);
-                            setSearchQuery("");
-                            setShowResults(false);
-                          }}
-                          className="w-full px-4 py-3 flex items-center justify-between hover:bg-white/5 transition-colors text-left group"
-                        >
-                          <div className="flex flex-col">
-                            <span className="text-sm font-black uppercase tracking-tighter group-hover:text-primary transition-colors">{asset.name}</span>
-                            <span className="text-[10px] text-muted-foreground font-mono">{asset.symbol}</span>
-                          </div>
-                          <Badge variant="outline" className="text-[8px] opacity-60 uppercase">{asset.type}</Badge>
-                        </button>
-                      ))}
-                    {Object.values(ASSETS).flat().filter(a =>
-                      a.symbol.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                      a.name.toLowerCase().includes(searchQuery.toLowerCase())
-                    ).length === 0 && (
-                        <div className="px-4 py-6 text-center text-muted-foreground italic text-xs">
-                          No assets found for "{searchQuery}"
-                        </div>
-                      )}
-                  </div>
-                </div>
-              )}
-              {showResults && searchQuery.length > 0 && (
-                <div
-                  className="fixed inset-0 z-[-1]"
-                  onClick={() => setShowResults(false)}
-                />
-              )}
-            </div>
-
-            {!selectedAsset && (
-              <div className="flex gap-2 overflow-x-auto w-full md:w-auto no-scrollbar pb-2 md:pb-0">
-                {["CRYPTO", "STOCKS", "COMMODITIES"].map(cat => (
-                  <button
-                    key={cat}
-                    onClick={() => setSelectedCategory(cat)}
-                    className={`px-5 py-2.5 rounded-xl text-xs font-black transition-all whitespace-nowrap uppercase tracking-widest ${selectedCategory === cat
-                      ? 'bg-primary text-white shadow-[0_0_20px_rgba(59,130,246,0.3)]'
-                      : 'bg-white/5 text-muted-foreground hover:bg-white/10'
-                      }`}
-                  >
-                    {cat}
-                  </button>
-                ))}
+            <div className="flex items-center gap-4 bg-[#0F1623] border border-[#1E2D45] py-3 px-4 rounded-xl">
+              <div className="w-10 h-10 rounded-full bg-[#141D2E] border border-[#1E2D45] flex items-center justify-center text-[#F5A623] font-black">2</div>
+              <div>
+                <div className="text-sm font-black uppercase mb-0.5">Battle Others</div>
+                <div className="text-xs text-[#5A7090]">Lock your bet. Losers pay winners.</div>
               </div>
-            )}
+            </div>
+            <div className="flex items-center gap-4 bg-[#0F1623] border border-[#1E2D45] py-3 px-4 rounded-xl">
+              <div className="w-10 h-10 rounded-full bg-[#141D2E] border border-[#1E2D45] flex items-center justify-center text-[#00E5B4] font-black">3</div>
+              <div>
+                <div className="text-sm font-black uppercase mb-0.5">Win Rewards</div>
+                <div className="text-xs text-[#5A7090]">Claim USDT and climb the ranks.</div>
+              </div>
+            </div>
           </div>
-
-          {selectedAsset ? (
-            <SelectedAssetSection
-              asset={selectedAsset}
-              onClear={() => setSelectedAsset(null)}
-            />
-          ) : (
-            <>
-              {/* Trending Section */}
-              <TrendingMarketSection
-                searchQuery={searchQuery}
-                selectedCategory={selectedCategory}
-              />
-
-              {/* Market Discovery Section */}
-              <MarketDiscoverySection
-                searchQuery={searchQuery}
-                selectedCategory={selectedCategory}
-              />
-            </>
-          )}
         </div>
       </div>
-
-      <footer className="mt-40 border-t border-white/5 pt-20 pb-12 bg-black">
-        <div className="container mx-auto px-4 max-w-7xl">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20 items-center">
-            <div className="space-y-6 text-center md:text-left">
-              <div className="flex items-center justify-center md:justify-start gap-2">
-                <img src="/logo-main.png" alt="ChartClash" className="w-10 h-10 object-contain" />
-                <span className="text-2xl font-black tracking-tighter uppercase italic">
-                  <span className="text-blue-500">Chart</span>Clash
-                </span>
-              </div>
-              <p className="text-muted-foreground max-w-sm mx-auto md:mx-0 text-sm leading-relaxed">
-                The world's most engaging prediction marketplace. Built for competitive traders and AI enthusiasts.
-              </p>
-              <div className="p-4 bg-orange-500/5 border border-orange-500/10 rounded-2xl inline-block">
-                <p className="text-[10px] text-orange-400 font-bold uppercase tracking-[0.2em]">
-                  ⚠️ Entertainment Only / No Financial Advice
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="text-center border-t border-white/5 pt-8">
-            <p className="text-[10px] text-muted-foreground/30 font-bold uppercase tracking-widest">
-              © 2026 ChartClash. All predictive rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
     </main>
   );
 }
 
 export default function LandingHub() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#060609] flex items-center justify-center text-muted-foreground">Loading Arena...</div>}>
+    <Suspense fallback={<div className="min-h-[100dvh] bg-[#080C14] flex items-center justify-center text-[#5A7090]">Loading Arena...</div>}>
       <LandingContent />
     </Suspense>
   );

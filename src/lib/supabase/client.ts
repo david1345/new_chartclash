@@ -8,7 +8,14 @@ export function createClient(): SupabaseClient {
 
     client = createBrowserClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        {
+            cookieOptions: {
+                path: '/',
+                sameSite: 'lax',
+                secure: false, // Must be false for local IP HTTP development!
+            }
+        }
     )
     return client;
 }

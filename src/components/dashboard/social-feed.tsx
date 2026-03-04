@@ -113,8 +113,8 @@ export function SocialFeed({ feed, selectedAsset, user, refreshFeed }: SocialFee
     ];
 
     return (
-        <Card className="bg-card/40 border-white/10 flex flex-col overflow-hidden min-h-0 basis-0 grow">
-            <CardHeader className="py-2 px-3 border-b border-white/5 bg-black/20 min-h-[36px] flex-none flex flex-row items-center justify-between">
+        <Card className="bg-[#0F1623] border-[#1E2D45] flex flex-col overflow-hidden min-h-0 basis-0 grow">
+            <CardHeader className="py-2 px-3 border-b border-[#1E2D45] bg-[#141D2E] min-h-[36px] flex-none flex flex-row items-center justify-between">
                 <CardTitle className="text-xs font-bold flex items-center gap-2">
                     <div className="relative">
                         <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse absolute -right-0.5 -top-0.5" />
@@ -126,7 +126,7 @@ export function SocialFeed({ feed, selectedAsset, user, refreshFeed }: SocialFee
                     {selectedAsset.symbol}
                 </span>
             </CardHeader>
-            <div className="flex-1 flex flex-col p-2 gap-2 overflow-hidden bg-black/10 min-h-0">
+            <div className="flex-1 flex flex-col p-2 gap-2 overflow-hidden bg-[#0F1623] min-h-0">
                 <div className="flex-1 min-h-0 relative">
                     <ScrollArea className="absolute inset-0 h-full w-full pr-2">
                         <div className="space-y-3 pb-2">

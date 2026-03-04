@@ -11,20 +11,12 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 
-// Dummy Data for Organic Empty State
+// Dummy Data for Organic Empty State (Focused on BTC & Majors for now)
 const DUMMY_SENTIMENT = [
-    { asset_symbol: "BTCUSDT", total_votes: 1245, bull_percent: 68, bear_percent: 32, avg_target: 1.5 },
-    { asset_symbol: "ETH", total_votes: 890, bull_percent: 45, bear_percent: 55, avg_target: 2.1 },
-    { asset_symbol: "SOL", total_votes: 2100, bull_percent: 82, bear_percent: 18, avg_target: 5.4 },
-    { asset_symbol: "XRP", total_votes: 650, bull_percent: 30, bear_percent: 70, avg_target: 0.8 },
-    { asset_symbol: "DOGE", total_votes: 3200, bull_percent: 91, bear_percent: 9, avg_target: 12.5 },
-    { asset_symbol: "ADA", total_votes: 450, bull_percent: 52, bear_percent: 48, avg_target: 1.2 },
-    { asset_symbol: "AVAX", total_votes: 320, bull_percent: 40, bear_percent: 60, avg_target: 2.5 },
-    { asset_symbol: "DOT", total_votes: 280, bull_percent: 55, bear_percent: 45, avg_target: 1.8 },
-    { asset_symbol: "MATIC", total_votes: 410, bull_percent: 62, bear_percent: 38, avg_target: 3.0 },
-    { asset_symbol: "LINK", total_votes: 190, bull_percent: 48, bear_percent: 52, avg_target: 2.2 },
-    { asset_symbol: "UNI", total_votes: 150, bull_percent: 58, bear_percent: 42, avg_target: 2.8 },
-    { asset_symbol: "LTC", total_votes: 220, bull_percent: 35, bear_percent: 65, avg_target: 1.5 },
+    { asset_symbol: "BTCUSDT", total_votes: 12450, bull_percent: 68, bear_percent: 32, avg_target: 1.5 },
+    { asset_symbol: "ETHUSDT", total_votes: 8900, bull_percent: 45, bear_percent: 55, avg_target: 2.1 },
+    { asset_symbol: "SOLUSDT", total_votes: 21000, bull_percent: 82, bear_percent: 18, avg_target: 5.4 },
+    { asset_symbol: "XRPUSDT", total_votes: 6500, bull_percent: 30, bear_percent: 70, avg_target: 0.8 },
 ];
 
 export default function SentimentPage() {
@@ -137,7 +129,7 @@ export default function SentimentPage() {
                                     </p>
                                     <div className="flex flex-wrap justify-center md:justify-start gap-4 pt-2">
                                         <div className="px-4 py-2 rounded bg-white/5 border border-white/5">
-                                            <div className="text-xs text-muted-foreground uppercase">Current Vibe</div>
+                                            <div className="text-xs text-muted-foreground uppercase">Current Trend</div>
                                             <div className={`text-lg font-bold ${trendColor}`}>{isBullish ? "Extremely Bullish" : "Extremely Bearish"}</div>
                                         </div>
                                         <div className="px-4 py-2 rounded bg-white/5 border border-white/5">
@@ -163,6 +155,19 @@ export default function SentimentPage() {
                             </CardContent>
                         </Card>
 
+                        {/* CTA: B2B API */}
+                        <Card className="bg-[#141D2E] border border-[#00E5B4]/30 overflow-hidden relative">
+                            <CardContent className="p-6 md:p-8 text-center flex flex-col items-center z-10 relative">
+                                <h3 className="text-xl md:text-2xl font-black text-white mb-2 uppercase tracking-tight">Need Real-Time Betting Data?</h3>
+                                <p className="text-[#8BA3BF] mb-6 max-w-xl mx-auto text-sm">
+                                    Integrate ChartClash sentiment metrics directly into your trading algorithms or platform via our low-latency B2B API.
+                                </p>
+                                <Button className="bg-[#00E5B4] text-black hover:bg-[#00E5B4]/90 font-bold px-8 shadow-[0_0_15px_rgba(0,229,180,0.2)]">
+                                    Request API Access
+                                </Button>
+                            </CardContent>
+                        </Card>
+
                         {/* Section 1: Volatility Heatmap */}
                         <div>
                             <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
@@ -176,7 +181,7 @@ export default function SentimentPage() {
                                                 key={asset.asset_symbol}
                                                 symbol={asset.asset_symbol}
                                                 vol={asset.total_votes}
-                                                color={asset.bull_percent > 55 ? "bg-emerald-600/20 border border-emerald-500/30" : asset.bear_percent > 55 ? "bg-red-500/20 border border-red-500/30" : "bg-yellow-500/20 border border-yellow-500/30"}
+                                                color={asset.bull_percent > 55 ? "bg-[#00E5B4]/20 border border-[#00E5B4]/30" : asset.bear_percent > 55 ? "bg-[#FF4560]/20 border border-[#FF4560]/30" : "bg-[#F5A623]/20 border border-[#F5A623]/30"}
                                                 size={i === 0 ? "col-span-2 row-span-2" : i === 1 ? "col-span-1 row-span-2" : "col-span-1 row-span-1"}
                                             />
                                         ))}
@@ -210,20 +215,20 @@ export default function SentimentPage() {
                                             </div>
 
                                             {/* Bar */}
-                                            <div className="space-y-1">
+                                            <div className="space-y-1 mt-4">
                                                 <div className="flex justify-between text-xs font-bold">
-                                                    <span className="text-emerald-500">{asset.bull_percent}% Bullish</span>
-                                                    <span className="text-red-500">{asset.bear_percent}% Bearish</span>
+                                                    <span className="text-[#00E5B4]">{asset.bull_percent}% Bullish</span>
+                                                    <span className="text-[#FF4560]">{asset.bear_percent}% Bearish</span>
                                                 </div>
                                                 <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden flex">
-                                                    <div className="h-full bg-emerald-500" style={{ width: `${asset.bull_percent}%` }} />
-                                                    <div className="h-full bg-red-500" style={{ width: `${asset.bear_percent}%` }} />
+                                                    <div className="h-full bg-[#00E5B4]" style={{ width: `${asset.bull_percent}%` }} />
+                                                    <div className="h-full bg-[#FF4560]" style={{ width: `${asset.bear_percent}%` }} />
                                                 </div>
                                             </div>
 
-                                            <div className="pt-2 border-t border-white/5 flex justify-between items-center text-xs">
-                                                <span className="text-muted-foreground">Dominant View</span>
-                                                <span className={cn("font-mono font-bold", asset.bull_percent >= 50 ? "text-emerald-500" : "text-red-500")}>
+                                            <div className="pt-4 border-t border-white/5 flex justify-between items-center text-xs">
+                                                <span className="text-[#5A7090]">Dominant View</span>
+                                                <span className={cn("font-mono font-bold", asset.bull_percent >= 50 ? "text-[#00E5B4]" : "text-[#FF4560]")}>
                                                     {asset.bull_percent >= 50 ? "BULLISH" : "BEARISH"}
                                                 </span>
                                             </div>

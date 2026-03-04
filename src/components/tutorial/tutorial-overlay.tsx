@@ -131,7 +131,7 @@ export function TutorialOverlay() {
 
     const completeTutorial = () => {
         setIsVisible(false);
-        localStorage.setItem("vibe_tutorial_completed", "true");
+        localStorage.setItem("chartclash_tutorial_completed", "true");
     };
 
     if (!isVisible) return null;

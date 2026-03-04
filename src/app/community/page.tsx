@@ -45,10 +45,12 @@ function CommunityContent() {
         const asset = searchParams.get('asset');
         const timeframe = searchParams.get('timeframe');
 
-        if (tab === 'analyst-hub') {
+        if (tab === 'analyst-hub' || !tab) {
             setActiveTab('ai-hub');
             if (asset) setAiHubAsset(asset);
             if (timeframe) setAiHubTimeframe(timeframe);
+        } else if (tab === 'discussions') {
+            setActiveTab('discussions');
         }
     }, [searchParams]);
 
@@ -376,79 +378,23 @@ function CommunityContent() {
                 </div>
 
                 <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                    <TabsList className="bg-white/5 border border-white/5 w-full h-auto p-1 grid grid-cols-4 gap-1 mb-6">
-                        <TabsTrigger value="insights" className="gap-2 data-[state=active]:bg-indigo-500/20 data-[state=active]:text-indigo-400">
-                            <BarChart2 className="w-4 h-4" /> Insights
+                    <TabsList className="bg-white/5 border border-white/5 w-full h-auto p-1 grid grid-cols-2 gap-1 mb-6">
+                        <TabsTrigger value="ai-hub" className="gap-2 data-[state=active]:bg-[#00E5B4]/20 data-[state=active]:text-[#00E5B4]">
+                            <Sparkles className="w-4 h-4" /> AI Insights Feed
                         </TabsTrigger>
-                        <TabsTrigger value="strategies" className="gap-2 data-[state=active]:bg-emerald-500/20 data-[state=active]:text-emerald-400">
-                            <Target className="w-4 h-4" /> Strategies
-                        </TabsTrigger>
-                        <TabsTrigger value="rounds" className="gap-2 data-[state=active]:bg-orange-500/20 data-[state=active]:text-orange-400">
-                            <MessageSquare className="w-4 h-4" /> Discussions
-                        </TabsTrigger>
-                        <TabsTrigger value="updates" className="gap-2 data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-400">
-                            <Megaphone className="w-4 h-4" /> Updates
-                        </TabsTrigger>
-                        <TabsTrigger value="ai-hub" className="gap-2 data-[state=active]:bg-indigo-500/20 data-[state=active]:text-indigo-400">
-                            <Sparkles className="w-4 h-4" /> Analyst Hub
+                        <TabsTrigger value="discussions" className="gap-2 data-[state=active]:bg-[#00E5B4]/20 data-[state=active]:text-[#00E5B4]">
+                            <MessageSquare className="w-4 h-4" /> Round Discussions
                         </TabsTrigger>
                     </TabsList>
 
-                    <TabsContent value="insights" className="space-y-6">
-                        <div className="sticky top-16 z-40 bg-[#050505]/95 backdrop-blur-md border border-white/10 p-2 rounded-xl flex flex-wrap gap-2 items-center justify-between shadow-2xl shadow-black/50">
-                            <div className="flex flex-wrap gap-2 items-center w-full md:w-auto">
-                                <FilterSelect label="Asset" value={filterAsset} onChange={setFilterAsset} options={["ALL", "BTCUSDT", "ETHUSDT", "SOLUSDT", "XAUUSD", "NQ"]} />
-                                <FilterSelect label="Timeframe" value={filterTF} onChange={setFilterTF} options={["ALL", "15m", "30m", "1h", "4h", "1d"]} />
-                                {(filterAsset !== "ALL" && filterTF !== "ALL") && (
-                                    <FilterSelect
-                                        label="Round"
-                                        value={filterRound}
-                                        onChange={setFilterRound}
-                                        options={["ALL", ...rounds.map(r => r.round_time)]}
-                                        formatter={(val) => {
-                                            if (val === "ALL") return "Latest";
-                                            const d = new Date(val);
-                                            return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')} ${d.toLocaleTimeString('ko-KR', { hour12: false })}`;
-                                        }}
-                                    />
-                                )}
-                            </div>
-                            <div className="flex items-center gap-2 w-full md:w-auto mt-2 md:mt-0">
-                                <span className="text-xs text-muted-foreground whitespace-nowrap ml-1">Sort:</span>
-                                <Select value={sortBy} onValueChange={setSortBy}>
-                                    <SelectTrigger className="h-8 w-[140px] bg-white/5 border-white/10 text-xs font-medium focus:ring-indigo-500/50">
-                                        <SelectValue />
-                                    </SelectTrigger>
-                                    <SelectContent className="bg-[#1a1d24] border-white/10 text-white">
-                                        <SelectItem value="FOR_YOU">✨ Recommended</SelectItem>
-                                        <SelectItem value="RISING">🔥 Rising</SelectItem>
-                                        <SelectItem value="LATEST">🆕 Latest</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                        </div>
-
-                        <div className="min-h-[300px]">
-                            {loading ? (
-                                <div className="space-y-4 py-8">
-                                    {[1, 2, 3].map(i => (
-                                        <div key={i} className="h-40 bg-white/5 rounded-xl animate-pulse" />
-                                    ))}
-                                </div>
-                            ) : (
-                                <InsightFeed insights={insights} />
-                            )}
-                        </div>
-                    </TabsContent>
-
-                    <TabsContent value="strategies" className="text-center py-20 text-muted-foreground">Strategy Feed Coming Soon</TabsContent>
-                    <TabsContent value="rounds" className="text-center py-20 text-muted-foreground">Round Discussions Coming Soon</TabsContent>
-                    <TabsContent value="updates" className="text-center py-20 text-muted-foreground">Updates Coming Soon</TabsContent>
                     <TabsContent value="ai-hub" className="py-4">
                         <AIAnalystHub
                             initialAsset={aiHubAsset || undefined}
                             initialTimeframe={aiHubTimeframe || undefined}
                         />
+                    </TabsContent>
+                    <TabsContent value="discussions" className="text-center py-20 text-[#5A7090]">
+                        Round Discussions (Coming Soon)
                     </TabsContent>
                 </Tabs>
             </div>

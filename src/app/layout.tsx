@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { Footer } from "@/components/layout/footer";
+import { BottomNav } from "@/components/layout/bottom-nav";
 import { GoogleAnalytics } from '@next/third-parties/google';
 
 const geistSans = Geist({
@@ -20,6 +21,13 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://chartclash.app"),
   title: "ChartClash",
   description: "Predict. Compete. Clash with the Market.",
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 import { ResolutionProvider } from "@/providers/resolution-provider";
@@ -62,6 +70,7 @@ export default function RootLayout({
           <GuestPredictionProvider>
             <ResolutionProvider>
               {children}
+              <BottomNav />
               <Footer />
               <Toaster />
             </ResolutionProvider>

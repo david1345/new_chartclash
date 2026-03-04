@@ -1,10 +1,10 @@
+"use client";
+
 import Link from "next/link";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Activity, Timer, BarChart3, Trophy, Coins, Settings, Medal, ScrollText, LogOut, Search, Radio, BrainCircuit } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Zap, Trophy, BrainCircuit, Wallet, LogOut, Settings } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -13,248 +13,111 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { AppDrawer } from "@/components/navigation/app-drawer";
-import { NotificationBell } from "@/components/notifications/notification-bell";
-import { useMounted } from "@/hooks/use-mounted";
-import { useGuestPrediction } from "@/hooks/dashboard/use-guest-prediction";
-import { ASSETS, Asset } from "@/lib/constants";
+import { cn } from "@/lib/utils";
 
 interface HeaderProps {
     user: any;
     username: string | null;
     userPoints: number;
-    userRank: number | null;
+    userRank?: number | null;
     activeCount?: number;
     isGhostMode?: boolean;
-    onAssetSelect?: (asset: Asset) => void;
+    onAssetSelect?: (asset: any) => void;
 }
 
 export function MarketHeader({
-    user, username, userPoints, userRank, activeCount, isGhostMode, onAssetSelect
+    user, username, userPoints
 }: HeaderProps) {
-    const mounted = useMounted();
-    const router = useRouter();
-    const { guestPredictions } = useGuestPrediction();
-    const [searchVal, setSearchVal] = useState("");
-    const [showSearchResults, setShowSearchResults] = useState(false);
-
-    const displayActiveCount = user
-        ? (activeCount || 0)
-        : (guestPredictions?.filter(p => p.status === 'pending').length || 0);
+    const pathname = usePathname() || "";
 
     return (
-        <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-background/60 backdrop-blur-xl supports-[backdrop-filter]:bg-background/20">
-            <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
-                {/* Left: Logo & Core Nav */}
-                <div className="flex items-center gap-6 shrink-0">
-                    <div className="flex items-center gap-2">
-                        <AppDrawer />
-                        <Link href="/" className="flex items-center gap-2 group">
-                            <div className="w-9 h-9 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                <img src="/logo-main.png" alt="ChartClash Logo" className="w-full h-full object-contain" />
-                            </div>
-                            <span className="text-lg font-black tracking-tighter hidden sm:flex items-center">
-                                <span className="text-blue-500">CHART</span>
-                                <span className="text-orange-500">CLASH</span>
-                            </span>
-                        </Link>
-                    </div>
+        <header className="sticky top-0 z-50 w-full border-b border-[#1E2D45] bg-[#0F1623]">
+            <div className="container mx-auto px-4 h-14 flex items-center justify-between gap-4">
+                {/* Logo */}
+                <Link href="/" className="flex items-center gap-1 shrink-0">
+                    <span className="text-lg lg:text-xl font-black tracking-tighter text-white uppercase flex items-center">
+                        CHART<span className="text-[#00E5B4]">CLASH</span>
+                    </span>
+                </Link>
 
-                    <nav className="hidden lg:flex items-center gap-1">
-                        <Link href="/#markets-hub">
-                            <Button variant="ghost" size="sm" className="text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-white h-9 px-3">
-                                Markets
-                            </Button>
-                        </Link>
-                        <Button variant="ghost" size="sm" className="text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-white h-9 px-3 flex items-center gap-2 cursor-default">
-                            <Radio className={`w-3.5 h-3.5 ${displayActiveCount > 0 ? 'text-red-500 animate-pulse' : 'text-muted-foreground'}`} />
-                            Live
-                            {displayActiveCount > 0 && (
-                                <span className="text-[9px] font-black text-white/70">
-                                    ({displayActiveCount})
-                                </span>
-                            )}
+                {/* Desktop Nav Links */}
+                <nav className="hidden lg:flex items-center gap-2 flex-1 ml-8">
+                    <Link href="/play/BTCUSDT/1h">
+                        <Button variant="ghost" size="sm" className={cn("text-[13px] font-bold h-9 px-4 rounded-lg", pathname.includes("/play") ? "bg-[#00E5B4]/10 text-[#00E5B4]" : "text-[#5A7090] hover:text-white")}>
+                            ⚡ Battle
                         </Button>
-                        <Link href="/community?tab=analyst-hub">
-                            <Button variant="ghost" size="sm" className="text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-white h-9 px-3 flex items-center gap-2">
-                                <BrainCircuit className="w-3.5 h-3.5 text-purple-400" />
-                                AI Hub
-                            </Button>
-                        </Link>
-                        <Link href="/leaderboard">
-                            <Button variant="ghost" size="sm" className="text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-white h-9 px-3">
-                                Leaderboard
-                            </Button>
-                        </Link>
-                    </nav>
-                </div>
+                    </Link>
+                    <Link href="/leaderboard">
+                        <Button variant="ghost" size="sm" className={cn("text-[13px] font-bold h-9 px-4 rounded-lg", pathname.includes("/leaderboard") ? "bg-[#00E5B4]/10 text-[#00E5B4]" : "text-[#5A7090] hover:text-white")}>
+                            🏆 Leaderboard
+                        </Button>
+                    </Link>
+                    <Link href="/community?tab=analyst-hub">
+                        <Button variant="ghost" size="sm" className={cn("text-[13px] font-bold h-9 px-4 rounded-lg", pathname.includes("/community") ? "bg-[#00E5B4]/10 text-[#00E5B4]" : "text-[#5A7090] hover:text-white")}>
+                            🤖 AI Hub
+                        </Button>
+                    </Link>
+                </nav>
 
-                {/* Center: Global Search */}
-                <div className="flex-1 max-w-xl hidden md:block relative">
-                    <div className="relative group">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
-                        <input
-                            type="text"
-                            placeholder="Search assets (BTC, AAPL, Gold...)"
-                            value={searchVal}
-                            onFocus={() => setShowSearchResults(true)}
-                            onChange={(e) => {
-                                setSearchVal(e.target.value);
-                                setShowSearchResults(true);
-                            }}
-                            className="w-full bg-white/5 border border-white/10 rounded-full pl-10 pr-4 py-2 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-primary/50 focus:bg-white/10 transition-all placeholder:text-muted-foreground/50"
-                        />
+                {/* Right: Wallet & Avatar */}
+                <div className="flex items-center gap-3 shrink-0 ml-auto">
+                    {/* Wallet Badge */}
+                    <div className="h-8 bg-[#141D2E] border border-[#1E2D45] rounded-full px-3 flex items-center gap-1.5">
+                        <span className="font-mono text-[11px] sm:text-[13px] font-bold text-[#00E5B4] whitespace-nowrap mt-[1px]">
+                            💰 {(userPoints ?? 1000).toLocaleString()} <span className="text-[9px] sm:text-[10px] text-[#00E5B4]/70">USDT</span>
+                        </span>
                     </div>
 
-                    {/* Search Results Dropdown */}
-                    {showSearchResults && searchVal.length > 0 && (
-                        <>
-                            <div className="absolute top-full mt-2 w-full bg-[#1A1A1E] border border-white/10 rounded-xl shadow-2xl overflow-hidden z-[100] animate-in fade-in zoom-in-95 duration-200">
-                                <div className="max-h-[300px] overflow-y-auto no-scrollbar py-2">
-                                    {Object.values(ASSETS).flat()
-                                        .filter(asset =>
-                                            asset.symbol.toLowerCase().includes(searchVal.toLowerCase()) ||
-                                            asset.name.toLowerCase().includes(searchVal.toLowerCase())
-                                        )
-                                        .slice(0, 10)
-                                        .map((asset) => (
-                                            <button
-                                                key={asset.symbol}
-                                                onClick={() => {
-                                                    if (onAssetSelect) {
-                                                        onAssetSelect(asset);
-                                                    }
-                                                    setSearchVal("");
-                                                    setShowSearchResults(false);
-                                                }}
-                                                className="w-full px-4 py-3 flex items-center justify-between hover:bg-white/5 transition-colors text-left group"
-                                            >
-                                                <div className="flex flex-col">
-                                                    <span className="text-sm font-black uppercase tracking-tighter group-hover:text-primary transition-colors">{asset.name}</span>
-                                                    <span className="text-[10px] text-muted-foreground font-mono">{asset.symbol}</span>
-                                                </div>
-                                                <Badge variant="outline" className="text-[8px] opacity-60 uppercase">{asset.type}</Badge>
-                                            </button>
-                                        ))}
-                                    {Object.values(ASSETS).flat().filter(a =>
-                                        a.symbol.toLowerCase().includes(searchVal.toLowerCase()) ||
-                                        a.name.toLowerCase().includes(searchVal.toLowerCase())
-                                    ).length === 0 && (
-                                            <div className="px-4 py-6 text-center text-muted-foreground italic text-xs">
-                                                No assets found for &quot;{searchVal}&quot;
-                                            </div>
-                                        )}
-                                </div>
-                            </div>
-                            <div
-                                className="fixed inset-0 z-[99]"
-                                onClick={() => setShowSearchResults(false)}
-                            />
-                        </>
-                    )}
-                </div>
+                    <Link href="/deposit" className="hidden lg:inline-flex">
+                        <Button className="bg-[#00E5B4] hover:bg-[#00E5B4]/80 text-black font-bold h-8 px-4 text-xs rounded-lg">
+                            + Deposit
+                        </Button>
+                    </Link>
 
-                {/* Right: User Menu & Stats */}
-                <div className="flex items-center gap-3 shrink-0">
-                    {mounted && (user || !user) && (
-                        <div className="hidden md:flex flex-col items-end mr-2 text-right">
-                            {!user ? (
-                                <div className="flex flex-col items-end">
-                                    <Badge variant="outline" className="mb-0.5 border-primary/50 text-primary bg-primary/10 text-[9px] h-3.5 py-0 px-1 font-black">
-                                        GUEST MODE
-                                    </Badge>
-                                    <span className="text-[7px] text-muted-foreground/60 uppercase font-black tracking-tighter">
-                                        Unlock &quot;AI Profile&quot; on Sign Up
-                                    </span>
-                                </div>
-                            ) : isGhostMode ? (
-                                <Badge variant="outline" className="mb-0.5 border-purple-500/50 text-purple-400 bg-purple-500/10 text-[9px] h-3.5 py-0 px-1 font-black animate-pulse">
-                                    GHOST MODE
-                                </Badge>
-                            ) : null}
-                            <div className="flex items-center gap-1.5 text-yellow-500 font-bold font-mono text-sm leading-none">
-                                <Coins className="w-3.5 h-3.5" />
-                                <span data-testid="user-points">{(userPoints ?? 1000).toLocaleString()}</span>
-                            </div>
-                            <span className="text-[9px] text-muted-foreground uppercase tracking-wider font-bold mt-0.5">
-                                {userRank ? `Rank #${userRank}` : (user ? 'Unranked' : 'DEMO')}
-                            </span>
-                        </div>
-                    )}
-
-                    <NotificationBell />
-
-                    {mounted && !user ? (
+                    {!user ? (
                         <Link href="/login">
                             <Button
-                                data-testid="login-button"
                                 variant="outline"
-                                onClick={() => {
-                                    if (typeof window !== 'undefined') {
-                                        localStorage.setItem('chartclash_is_transitioning', 'true');
-                                    }
-                                }}
-                                className="h-8 border-primary/20 bg-primary/10 text-primary hover:bg-primary/20 hover:text-primary px-3 text-[10px] font-black tracking-widest uppercase"
+                                className="h-8 border-[#00E5B4]/20 bg-[#00E5B4]/10 text-[#00E5B4] hover:bg-[#00E5B4]/20 px-2 lg:px-3 text-[9px] sm:text-[10px] leading-tight text-center font-black tracking-wider uppercase rounded-full"
                             >
-                                SIGN UP
+                                SIGN<br className="sm:hidden" /> IN/UP
                             </Button>
                         </Link>
                     ) : (
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button data-testid="user-menu-trigger" variant="ghost" className="relative h-8 w-8 rounded-full bg-white/10 hover:bg-white/20 border border-white/5 p-0 overflow-hidden">
-                                    <div className="flex items-center justify-center w-full h-full bg-gradient-to-b from-gray-700 to-gray-800 text-xs font-bold text-white/70">
-                                        {username?.[0]?.toUpperCase() || user?.user_metadata?.display_name?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || "U"}
+                                <Button variant="ghost" className="h-8 w-8 rounded-full p-0 overflow-hidden bg-gradient-to-br from-[#00E5B4] to-blue-600 border border-white/10 hover:opacity-90">
+                                    <div className="flex items-center justify-center w-full h-full text-xs font-bold text-white shadow-inner">
+                                        {username?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || "U"}
                                     </div>
                                 </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent className="w-56 bg-[#0b0b0f] border-white/10" align="end" forceMount>
+                            <DropdownMenuContent className="w-56 bg-[#0F1623] border-[#1E2D45]" align="end">
                                 <DropdownMenuLabel className="font-normal">
                                     <div className="flex flex-col space-y-1">
-                                        <p className="text-sm font-medium leading-none text-white">{username || user?.user_metadata?.display_name || user?.email?.split('@')[0] || 'Trader'}</p>
-                                        <p className="text-xs leading-none text-muted-foreground truncate">{user?.email || (user?.app_metadata?.provider === 'twitter' ? 'Connected via X' : 'No email provided')}</p>
+                                        <p className="text-sm font-medium leading-none text-white">{username || user?.email?.split('@')[0] || 'Trader'}</p>
+                                        <p className="text-xs leading-none text-[#5A7090] truncate">{user?.email}</p>
                                     </div>
                                 </DropdownMenuLabel>
-                                <DropdownMenuSeparator className="bg-white/10" />
+                                <DropdownMenuSeparator className="bg-[#1E2D45]" />
                                 <DropdownMenuItem asChild>
-                                    <Link href="/sentiment" className="cursor-pointer flex items-center gap-2 text-muted-foreground hover:text-white focus:text-white focus:bg-white/10">
-                                        <BarChart3 className="w-4 h-4 text-blue-400" /> Sentiment
+                                    <Link href="/wallet" className="cursor-pointer flex items-center gap-2 text-[#8BA3BF] hover:text-white focus:text-white focus:bg-white/10">
+                                        <Wallet className="w-4 h-4" /> Wallet & Stats
                                     </Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
-                                    <Link href="/leaderboard" className="cursor-pointer flex items-center gap-2 text-muted-foreground hover:text-white focus:text-white focus:bg-white/10">
-                                        <Trophy className="w-4 h-4 text-yellow-500" /> Leaderboard
-                                    </Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                    <Link href="/my-stats" data-testid="nav-my-stats" className="cursor-pointer flex items-center gap-2 text-muted-foreground hover:text-white focus:text-white focus:bg-white/10">
-                                        <Activity className="w-4 h-4" /> My Stats
-                                    </Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                    <Link href="/match-history" className="cursor-pointer flex items-center gap-2 text-muted-foreground hover:text-white focus:text-white focus:bg-white/10">
-                                        <ScrollText className="w-4 h-4" /> Match History
-                                    </Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                    <Link href="/achievements" className="cursor-pointer flex items-center gap-2 text-muted-foreground hover:text-white focus:text-white focus:bg-white/10">
-                                        <Medal className="w-4 h-4" /> Achievements
-                                    </Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuSeparator className="bg-white/10" />
-                                <DropdownMenuItem asChild>
-                                    <Link href="/settings" className="cursor-pointer flex items-center gap-2 text-muted-foreground hover:text-white focus:text-white focus:bg-white/10">
+                                    <Link href="/settings" className="cursor-pointer flex items-center gap-2 text-[#8BA3BF] hover:text-white focus:text-white focus:bg-white/10">
                                         <Settings className="w-4 h-4" /> Settings
                                     </Link>
                                 </DropdownMenuItem>
-                                <DropdownMenuSeparator className="bg-white/10" />
+                                <DropdownMenuSeparator className="bg-[#1E2D45]" />
                                 <DropdownMenuItem
                                     onClick={async () => {
                                         const supabase = createClient();
                                         await supabase.auth.signOut();
                                         window.location.href = "/login";
                                     }}
-                                    className="cursor-pointer flex items-center gap-2 text-red-400 hover:text-red-300 focus:text-red-300 focus:bg-red-400/10"
+                                    className="cursor-pointer flex items-center gap-2 text-[#FF4560] hover:text-[#FF4560]/80 focus:text-[#FF4560]"
                                 >
                                     <LogOut className="w-4 h-4" /> Log Out
                                 </DropdownMenuItem>
@@ -267,22 +130,6 @@ export function MarketHeader({
     );
 }
 
-// Hero Component that was inline
 export function MarketHero() {
-    return (
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-900/20 to-purple-900/20 border border-white/5 p-6 md:p-8">
-            <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-primary/20 blur-[100px] rounded-full pointer-events-none" />
-            <div className="relative z-10 max-w-3xl mx-auto text-center">
-                <Badge variant="outline" className="mb-3 border-orange-500/50 text-orange-500 bg-orange-500/10 animate-pulse uppercase tracking-wider font-bold">LIVE SEASON 1</Badge>
-                <h1 className="text-3xl md:text-4xl font-extrabold mb-2 tracking-tight">
-                    <span className="text-blue-500">Predict.</span> <span className="text-orange-500">Compete.</span> <span className="text-white">Clash.</span>
-                </h1>
-                <p className="text-muted-foreground text-sm md:text-base mt-3">
-                    Choose an asset, forecast its next move, and hit your volatility target.<br />
-                    The more accurate your calls, the higher you rise on the leaderboard.
-                </p>
-                {/* HeroCTA and ScrollHintArrow can be added here if needed, or kept simple */}
-            </div>
-        </div>
-    );
+    return null;
 }

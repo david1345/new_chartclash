@@ -113,6 +113,19 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(0.25 0.05 265);
   --sidebar-ring: oklch(0.65 0.25 265);
+
+  /* ChartClash V2 Custom Theme */
+  --cc-bg: #080C14;
+  --cc-surface: #0F1623;
+  --cc-card: #141D2E;
+  --cc-border: #1E2D45;
+  --cc-accent: #00E5B4;
+  --cc-up: #00E5B4;
+  --cc-down: #FF4560;
+  --cc-gold: #F5A623;
+  --cc-text: #FFFFFF;
+  --cc-muted: #5A7090;
+  --cc-sub: #8BA3BF;
 }
 
 @layer base {

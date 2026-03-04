@@ -130,8 +130,8 @@ export function StatsPanel({ assetSymbol, timeframe }: StatsPanelProps) {
     const fallColors = ['#B91C1C', '#EF4444', '#F87171', '#FCA5A5'];
 
     return (
-        <Card className="bg-black/40 border-white/60 backdrop-blur-md w-full overflow-hidden">
-            <CardHeader className="py-3 px-4 border-b border-white/10 bg-white/5">
+        <Card className="bg-[#0F1623] border-[#1E2D45] w-full overflow-hidden flex flex-col">
+            <CardHeader className="py-3 px-4 border-b border-[#1E2D45] bg-[#141D2E]">
                 <CardTitle className="flex items-center gap-2 text-sm uppercase tracking-wider">
                     <PieChartIcon className="w-4 h-4 text-primary" />
                     Prediction Statistics

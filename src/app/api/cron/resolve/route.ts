@@ -201,10 +201,9 @@ export async function GET(req: NextRequest) {
                     let lastError = '';
 
                     for (let attempt = 0; attempt < 3; attempt++) {
-                        const { data, error } = await supabase.rpc('resolve_prediction_advanced', {
-                            p_id: Number(pred.id),
-                            p_close_price: closePrice,
-                            p_open_price: openPrice
+                        const { data, error } = await supabase.rpc('resolve_prediction_pari_mutuel', {
+                            target_prediction_id: Number(pred.id),
+                            resolved_close_price: closePrice
                         });
 
                         if (!error && data && data.success) {
