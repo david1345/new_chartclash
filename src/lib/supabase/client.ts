@@ -13,7 +13,7 @@ export function createClient(): SupabaseClient {
             cookieOptions: {
                 path: '/',
                 sameSite: 'lax',
-                secure: false, // Must be false for local IP HTTP development!
+                secure: process.env.NODE_ENV === 'production'
             }
         }
     )
