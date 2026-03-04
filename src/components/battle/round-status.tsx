@@ -63,7 +63,10 @@ export function RoundStatus({ timeframe, referencePrice, candleElapsed, isLocked
                     <div className="text-xl font-black font-mono tracking-tighter text-white leading-none">
                         ${referencePrice ? referencePrice.toLocaleString() : "---"}
                     </div>
-                    <div className="text-[9px] text-[#5A7090] uppercase font-bold tracking-widest mt-0.5">Ref Price</div>
+                    <div className="flex items-center gap-1.5 mt-0.5">
+                        <div className="text-[9px] text-[#5A7090] uppercase font-bold tracking-widest">Ref Price</div>
+                        <div className="text-[9px] text-[#F5A623] font-bold uppercase tracking-wider bg-[#F5A623]/10 px-1 rounded">⬡ Binance</div>
+                    </div>
                 </div>
 
                 <div className="flex flex-col items-end">

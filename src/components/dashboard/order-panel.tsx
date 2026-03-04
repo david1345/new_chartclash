@@ -280,6 +280,8 @@ export function OrderPanel({
                         expectedMin={rewards.min}
                         expectedMax={rewards.max}
                         streak={userStreak}
+                        upPercent={upPercent}
+                        downPercent={downPercent}
                     />
 
                     {/* 6. Action Buttons */}
