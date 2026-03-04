@@ -33,8 +33,11 @@ async function getUsernameMap(userIds: string[]): Promise<Record<string, string>
 }
 
 export async function GET(req: NextRequest) {
-    // This is the Client Heartbeat / Legacy Route
-    // We treat it exactly like the Cron Route now.
+    // Verify CRON_SECRET to prevent unauthorized resolution triggers
+    const secret = req.headers.get('x-cron-secret');
+    if (!process.env.CRON_SECRET || secret !== process.env.CRON_SECRET) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
     try {
         const now = Date.now();
@@ -388,13 +391,9 @@ async function fetchClosePrice(symbol: string, timeframe: string, targetTime: nu
             }
         } catch (e) { /* Ignore */ }
 
-        // --- ULTIMATE FALLBACK (Simulation) ---
-        console.error(`${getTimestamp()} [CRITICAL] All APIs failed for ${cleanSymbol}. Using Simulation Mode.`);
-        // Prevent identical prices by using closeTime in seed
-        const seed = (closeTime / 1000) % 1000;
-        const fluctuationPercent = ((seed % 100) - 50) / 100; // -0.5% ~ +0.5%
-        const simulatedPrice = referencePrice * (1 + (fluctuationPercent / 100));
-        return Math.max(0.0001, simulatedPrice);
+        // --- ALL APIS FAILED: Do NOT simulate. Leave predictions pending for next cycle. ---
+        console.error(`${getTimestamp()} [CRITICAL] All APIs failed for ${cleanSymbol}. Prediction left pending for retry.`);
+        throw new Error(`All price APIs failed for ${cleanSymbol}. Prediction left pending.`);
     }
 
     // 2. Stock & Commodities (Yahoo Finance)
@@ -452,12 +451,9 @@ async function fetchClosePrice(symbol: string, timeframe: string, targetTime: nu
         }
     }
 
-    // Stocks/Commodities Fallback -> Simulation
-    console.error(`${getTimestamp()} [CRITICAL] All APIs failed for ${cleanSymbol}. Using Simulation Mode.`);
-    const seed = (closeTime / 1000) % 1000;
-    const fluctuationPercent = ((seed % 100) - 50) / 100;
-    const simulatedPrice = referencePrice * (1 + (fluctuationPercent / 100));
-    return Math.max(0.0001, simulatedPrice);
+    // ALL APIS FAILED: Do NOT simulate. Throw so prediction stays pending for retry.
+    console.error(`${getTimestamp()} [CRITICAL] All APIs failed for ${cleanSymbol}. Prediction left pending for retry.`);
+    throw new Error(`All price APIs failed for ${cleanSymbol}. Prediction left pending.`);
 }
 
 function getYahooSymbol(symbol: string): string | null {

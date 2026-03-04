@@ -196,25 +196,30 @@ export function OrderPanel({
                 if (onBetSuccess) onBetSuccess();
                 refreshPredictions();
             } else {
-                const { data: rpcData, error: rpcError } = await supabase.rpc('submit_prediction', {
-                    p_user_id: user.id,
-                    p_asset_symbol: BTC_ASSET.symbol,
-                    p_timeframe: selectedTimeframe,
-                    p_direction: direction,
-                    p_target_percent: selectedPercent,
-                    p_entry_price: candleData.openPrice,
-                    p_bet_amount: betAmount
+                const res = await fetch('/api/predictions/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        p_asset_symbol: BTC_ASSET.symbol,
+                        p_timeframe: selectedTimeframe,
+                        p_direction: direction,
+                        p_target_percent: selectedPercent,
+                        p_entry_price: candleData.openPrice,
+                        p_bet_amount: betAmount
+                    })
                 });
 
-                if (rpcError) {
-                    toast.error(`Submission failed: ${rpcError.message}`);
+                const result = await res.json();
+
+                if (!res.ok || !result.success) {
+                    toast.error(`Submission failed: ${result.error || 'Unknown error'}`);
                 } else {
                     toast.success("Prediction Locked!");
                     if (onBetSuccess) onBetSuccess();
                     refreshPredictions();
 
-                    if (rpcData && rpcData.new_points !== undefined) {
-                        setUserPoints(rpcData.new_points);
+                    if (result.data?.new_points !== undefined) {
+                        setUserPoints(result.data.new_points);
                     } else {
                         fetchUserStats();
                     }
