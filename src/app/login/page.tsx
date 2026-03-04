@@ -21,19 +21,26 @@ export default function LoginPage() {
     const handleOAuthLogin = async (provider: 'google' | 'discord' | 'github') => {
         setLoading(true);
 
-        const { error } = await supabase.auth.signInWithOAuth({
+        const { data, error } = await supabase.auth.signInWithOAuth({
             provider,
             options: {
                 redirectTo: `${window.location.origin}/auth/callback`,
+                skipBrowserRedirect: true,
                 queryParams: provider === 'google' ? {
                     prompt: 'select_account',
                     access_type: 'offline'
                 } : undefined
             },
         });
+
         if (error) {
             toast.error(error.message);
             setLoading(false);
+            return;
+        }
+
+        if (data?.url) {
+            window.location.href = data.url;
         }
     };
 
