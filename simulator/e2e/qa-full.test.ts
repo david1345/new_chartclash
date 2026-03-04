@@ -294,7 +294,7 @@ test.describe('6. ⚙️ 설정 유효성 검사 (Settings Validation)', () => {
     test('SET-01 [에러] 닉네임 1자로 저장', async ({ page }) => {
         const usernameInput = page.locator('input[name="username"], input[placeholder*="username" i], input[placeholder*="닉네임" i]').first();
         if (await usernameInput.isVisible({ timeout: 5000 })) {
-            await usernameInput.triple_click();
+            await usernameInput.click({ clickCount: 3 });
             await usernameInput.fill('a');
             await page.locator('button:has-text("Save"), button:has-text("저장")').first().click();
             const error = await page.locator('text=/least 2|2자|minimum/i').isVisible({ timeout: 5000 });
@@ -305,7 +305,7 @@ test.describe('6. ⚙️ 설정 유효성 검사 (Settings Validation)', () => {
     test('SET-02 [에러] 닉네임 특수문자 포함', async ({ page }) => {
         const usernameInput = page.locator('input[name="username"], input[placeholder*="username" i]').first();
         if (await usernameInput.isVisible({ timeout: 5000 })) {
-            await usernameInput.triple_click();
+            await usernameInput.click({ clickCount: 3 });
             await usernameInput.fill('user!@#$');
             await page.locator('button:has-text("Save"), button:has-text("저장")').first().click();
             const error = await page.locator('text=/special|특수|alphanumeric|영문/i').isVisible({ timeout: 5000 });
