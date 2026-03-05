@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { createClient } from "@/lib/supabase/client";
 import { useGuestPrediction } from "@/hooks/dashboard/use-guest-prediction";
+import { connectWallet, placeBetOnChain } from "@/lib/contract";
 
 // New Battle Components
 import { RoundStatus } from "@/components/battle/round-status";
@@ -63,8 +64,9 @@ export function OrderPanel({
     // Local State
     const [betAmount, setBetAmount] = useState(10);
     const [selectedDirection, setSelectedDirection] = useState<"UP" | "DOWN" | null>(null);
-    const [selectedPercent] = useState<number>(0.5); // Fixed or default target percent for simplicity now
+    const [selectedPercent] = useState<number>(0.5);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [walletAddress, setWalletAddress] = useState<string | null>(null);
 
     // Market Data
     const [candleElapsed, setCandleElapsed] = useState<number | null>(null);
@@ -223,6 +225,38 @@ export function OrderPanel({
                     } else {
                         fetchUserStats();
                     }
+
+                    // ── ON-CHAIN BET (if MetaMask connected) ──────────────────
+                    if (walletAddress) {
+                        try {
+                            const now = Date.now();
+                            const adjustedNow = now + serverTimeOffset;
+                            const roundCloseTime = Math.floor(adjustedNow / (totalSeconds * 1000)) * (totalSeconds * 1000) + (totalSeconds * 1000);
+                            const roundOpenTime = roundCloseTime - totalSeconds * 1000;
+
+                            const roundRes = await fetch('/api/rounds/get-or-create', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    asset: BTC_ASSET.symbol,
+                                    timeframe: selectedTimeframe,
+                                    openTime: roundOpenTime,
+                                    closeTime: roundCloseTime,
+                                    openPrice: candleData.openPrice
+                                })
+                            });
+                            const { onChainId } = await roundRes.json();
+
+                            if (onChainId) {
+                                await placeBetOnChain(onChainId, direction === 'UP', betAmount);
+                                toast.success(`On-chain bet placed! ✅`);
+                            }
+                        } catch (chainErr: any) {
+                            console.warn('[OnChain] Bet failed (Supabase bet still counted):', chainErr.message);
+                            toast.warning('On-chain bet skipped — Supabase bet recorded.');
+                        }
+                    }
+                    // ──────────────────────────────────────────────────────────
                 }
             }
         } catch (error: any) {

@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextRequest, NextResponse } from 'next/server';
+import { createRoundOnChain, settleRoundOnChain } from '@/lib/contract-server';
 
 // 1. Setup Supabase Client (Service Role needed for RPC)
 const supabase = createClient(
@@ -199,6 +200,52 @@ export async function GET(req: NextRequest) {
 
             // If we have prices, resolve
             if (openPrice !== null && closePrice !== null) {
+                // ── ON-CHAIN SETTLEMENT ─────────────────────────────────────
+                // Look up or create round in Supabase `rounds` table, then settle on-chain
+                try {
+                    const { data: existingRound } = await supabase
+                        .from('rounds')
+                        .select('on_chain_id, status')
+                        .eq('asset', group.symbol)
+                        .eq('timeframe', group.tf)
+                        .eq('open_time', group.openTime)
+                        .maybeSingle();
+
+                    let onChainId = existingRound?.on_chain_id;
+
+                    // Create round on-chain if not yet registered
+                    if (!onChainId) {
+                        console.log(`${getTimestamp()} [OnChain] Creating round for ${key}...`);
+                        const closeTimeSec = Math.floor(group.closeTime / 1000);
+                        onChainId = await createRoundOnChain(group.symbol, group.tf, openPrice, closeTimeSec);
+                        await supabase.from('rounds').upsert({
+                            asset: group.symbol,
+                            timeframe: group.tf,
+                            open_time: group.openTime,
+                            close_time: group.closeTime,
+                            open_price: openPrice,
+                            on_chain_id: onChainId,
+                            status: 'open'
+                        }, { onConflict: 'asset,timeframe,open_time' });
+                        console.log(`${getTimestamp()} [OnChain] Round created: id=${onChainId}`);
+                    }
+
+                    if (existingRound?.status !== 'settled') {
+                        const settleTx = await settleRoundOnChain(onChainId, closePrice);
+                        await supabase.from('rounds').update({
+                            close_price: closePrice,
+                            status: 'settled',
+                            settle_tx: settleTx
+                        }).eq('on_chain_id', onChainId);
+                        console.log(`${getTimestamp()} [OnChain] Round ${onChainId} settled. tx=${settleTx}`);
+                    }
+                } catch (chainErr: any) {
+                    console.error(`${getTimestamp()} [OnChain] Settlement failed for ${key}:`, chainErr.message);
+                    // On-chain failure doesn't block Supabase settlement — log and continue
+                }
+                // ────────────────────────────────────────────────────────────
+
+                // ── SUPABASE SETTLEMENT (legacy points system) ───────────────
                 for (const pred of group.preds) {
                     let success = false;
                     let lastError = '';
@@ -223,7 +270,6 @@ export async function GET(req: NextRequest) {
                         results.details.push({ id: pred.id, status: 'resolved', open: openPrice, close: closePrice });
                         console.log(`${getTimestamp()} Successfully resolved prediction ${pred.id} (Fairness Model Applied)`);
                     } else {
-                        // Silence 'Already resolved' - it's expected in multi-tab scenarios
                         if (lastError !== 'Already resolved') {
                             results.errors++;
                             results.details.push({ id: pred.id, status: 'error', error: lastError });

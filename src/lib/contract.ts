@@ -91,6 +91,22 @@ export async function getContractBalance(address: string): Promise<number> {
 }
 
 /**
+ * Place a bet on-chain using internal contract balance (via MetaMask)
+ */
+export async function placeBetOnChain(
+    onChainRoundId: string,
+    isUp: boolean,
+    amountUSDT: number
+): Promise<string> {
+    const signer = await getSigner();
+    const chartclash = new ethers.Contract(CONTRACT_ADDRESS, ChartClashArtifact.abi, signer);
+    const amount = ethers.parseUnits(amountUSDT.toString(), 6);
+    const tx = await chartclash.placeBet(BigInt(onChainRoundId), isUp, amount);
+    await tx.wait();
+    return tx.hash;
+}
+
+/**
  * Connect wallet and return address
  */
 export async function connectWallet(): Promise<string> {
