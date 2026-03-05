@@ -199,4 +199,153 @@ describe("ChartClash", function () {
                 .to.be.revertedWithCustomError(chartclash, "OwnableUnauthorizedAccount");
         });
     });
+
+    // ─────────────────── Edge Cases ────────────────────────
+    describe("edge cases", () => {
+
+        it("cannot settle before closeTime", async () => {
+            await chartclash.connect(alice).deposit(parseUSDT(100));
+            const closeTime = (await now()) + 3600; // 1h from now, NOT elapsed
+            await chartclash.connect(oracle).createRound("BTCUSDT", "1h", parseUSDT(50000), closeTime);
+            await expect(
+                chartclash.connect(oracle).settleRound(1n, parseUSDT(50001))
+            ).to.be.revertedWith("Round not closed yet");
+        });
+
+        it("cannot bet after round is settled", async () => {
+            await chartclash.connect(alice).deposit(parseUSDT(200));
+            await chartclash.connect(bob).deposit(parseUSDT(200));
+            const closeTime = (await now()) + 100;
+            await chartclash.connect(oracle).createRound("BTCUSDT", "1h", parseUSDT(50000), closeTime);
+            await chartclash.connect(alice).placeBet(1n, true, parseUSDT(100));
+            await chartclash.connect(bob).placeBet(1n, false, parseUSDT(100));
+            await ethers.provider.send("evm_increaseTime", [110]);
+            await ethers.provider.send("evm_mine", []);
+            await chartclash.connect(oracle).settleRound(1n, parseUSDT(50001));
+            // Alice tries to bet after settlement
+            await expect(
+                chartclash.connect(alice).placeBet(1n, true, parseUSDT(50))
+            ).to.be.revertedWith("Round is closed");
+        });
+
+        it("withdraw zero reverts", async () => {
+            await chartclash.connect(alice).deposit(parseUSDT(100));
+            await expect(chartclash.connect(alice).withdraw(0))
+                .to.be.revertedWith("Zero amount");
+        });
+
+        it("skewed pool 99:1 — loser gets nothing, winner gets correct payout", async () => {
+            // Alice bets 990 UP, Bob bets 10 DOWN
+            await chartclash.connect(alice).deposit(parseUSDT(1000));
+            await chartclash.connect(bob).deposit(parseUSDT(1000));
+            const closeTime = (await now()) + 100;
+            await chartclash.connect(oracle).createRound("BTCUSDT", "1h", parseUSDT(50000), closeTime);
+            await chartclash.connect(alice).placeBet(1n, true, parseUSDT(990));  // UP
+            await chartclash.connect(bob).placeBet(1n, false, parseUSDT(10));   // DOWN
+            await ethers.provider.send("evm_increaseTime", [110]);
+            await ethers.provider.send("evm_mine", []);
+            // UP wins
+            await chartclash.connect(oracle).settleRound(1n, parseUSDT(50001));
+            await chartclash.connect(alice).claimWinnings(1n);
+            const aliceBal = await chartclash.getBalance(alice.address);
+            // Alice had 1000, bet 990 → 10 remaining. Wins 97% of bob's 10 = 9.7
+            // Total: 10 + 990 (returned) + 9.7 = 1009.7 USDT
+            expect(aliceBal).to.be.gt(parseUSDT(1009));
+            expect(aliceBal).to.be.lt(parseUSDT(1010));
+            // Bob lost — cannot claim winnings
+            await expect(chartclash.connect(bob).claimWinnings(1n))
+                .to.be.revertedWith("You lost this round");
+        });
+
+        it("oracle address change blocks old oracle", async () => {
+            const [, , , , , newOracle] = await ethers.getSigners();
+            await chartclash.connect(owner).setOracle(newOracle.address);
+            const closeTime = (await now()) + 100;
+            // Old oracle can no longer create rounds
+            await expect(
+                chartclash.connect(oracle).createRound("BTCUSDT", "1h", parseUSDT(50000), closeTime)
+            ).to.be.revertedWith("ChartClash: caller is not oracle");
+            // New oracle can
+            await chartclash.connect(newOracle).createRound("BTCUSDT", "1h", parseUSDT(50000), closeTime);
+        });
+
+        it("emergency withdraw-for works when paused", async () => {
+            await chartclash.connect(alice).deposit(parseUSDT(100));
+            await chartclash.connect(owner).pause();
+            const before = await mockUSDT.balanceOf(alice.address);
+            await chartclash.connect(owner).emergencyWithdrawFor([alice.address]);
+            const after = await mockUSDT.balanceOf(alice.address);
+            expect(after - before).to.equal(parseUSDT(100));
+        });
+
+        it("cannot deposit or bet while paused", async () => {
+            await chartclash.connect(owner).pause();
+            await expect(chartclash.connect(alice).deposit(parseUSDT(10)))
+                .to.be.revertedWithCustomError(chartclash, "EnforcedPause");
+        });
+
+        it("previewPayout returns correct estimate", async () => {
+            await chartclash.connect(alice).deposit(parseUSDT(200));
+            await chartclash.connect(bob).deposit(parseUSDT(200));
+            const closeTime = (await now()) + 100;
+            await chartclash.connect(oracle).createRound("BTCUSDT", "1h", parseUSDT(50000), closeTime);
+            await chartclash.connect(alice).placeBet(1n, true, parseUSDT(100));
+            await chartclash.connect(bob).placeBet(1n, false, parseUSDT(100));
+            // Preview for UP bet of 50 more
+            const preview = await chartclash.previewPayout(1n, true, parseUSDT(50));
+            // upPool would be 150, downPool 100, after 3% fee: 50 + (50/150 * 97) ≈ 82.3
+            expect(preview).to.be.gt(parseUSDT(80));
+            expect(preview).to.be.lt(parseUSDT(90));
+        });
+    });
+
+    // ─────────────────── collectFees Security ──────────────────
+    describe("collectFees vulnerability (fixed)", () => {
+        it("owner CANNOT drain user deposits via collectFees", async () => {
+            // Alice deposits 100 USDT
+            await chartclash.connect(alice).deposit(parseUSDT(100));
+
+            // Owner tries to collect more than accumulated fees → must revert
+            // Before fix: this would succeed. After fix: reverts with "No fees to collect"
+            await expect(
+                (chartclash.connect(owner) as any).collectFees()
+            ).to.be.revertedWith("No fees to collect");
+
+            // Alice's balance is still intact
+            expect(await chartclash.getBalance(alice.address)).to.equal(parseUSDT(100));
+        });
+
+        it("owner CAN collect only actual accumulated fees", async () => {
+            // Generate withdraw fee: Alice deposits 100, withdraws 100 → 1 USDT fee stays in contract
+            await chartclash.connect(alice).deposit(parseUSDT(100));
+            await chartclash.connect(alice).withdraw(parseUSDT(100));
+
+            const accumulated = await chartclash.accumulatedFees();
+            expect(accumulated).to.equal(parseUSDT(1)); // 1% of 100
+
+            const ownerBefore = await mockUSDT.balanceOf(owner.address);
+            await (chartclash.connect(owner) as any).collectFees();
+            const ownerAfter = await mockUSDT.balanceOf(owner.address);
+
+            expect(ownerAfter - ownerBefore).to.equal(parseUSDT(1));
+            expect(await chartclash.accumulatedFees()).to.equal(0);
+        });
+
+        it("house fee from winning round accumulates correctly", async () => {
+            await chartclash.connect(alice).deposit(parseUSDT(200));
+            await chartclash.connect(bob).deposit(parseUSDT(200));
+            const closeTime = (await now()) + 100;
+            await chartclash.connect(oracle).createRound("BTCUSDT", "1h", parseUSDT(50000), closeTime);
+            await chartclash.connect(alice).placeBet(1n, true, parseUSDT(100));
+            await chartclash.connect(bob).placeBet(1n, false, parseUSDT(100));
+            await ethers.provider.send("evm_increaseTime", [110]);
+            await ethers.provider.send("evm_mine", []);
+            await chartclash.connect(oracle).settleRound(1n, parseUSDT(50001)); // UP wins
+            await chartclash.connect(alice).claimWinnings(1n);
+
+            // House fee = 3% of 100 (losing pool) = 3 USDT
+            const fees = await chartclash.accumulatedFees();
+            expect(fees).to.equal(parseUSDT(3));
+        });
+    });
 });

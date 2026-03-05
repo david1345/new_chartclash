@@ -76,6 +76,7 @@ export interface ChartClashInterface extends Interface {
     nameOrSignature:
       | "FEE_DENOM"
       | "HOUSE_FEE_BPS"
+      | "accumulatedFees"
       | "balances"
       | "bets"
       | "claimRefund"
@@ -127,6 +128,10 @@ export interface ChartClashInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "accumulatedFees",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "balances",
     values: [AddressLike]
   ): string;
@@ -144,7 +149,7 @@ export interface ChartClashInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "collectFees",
-    values: [BigNumberish]
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "createRound",
@@ -224,6 +229,10 @@ export interface ChartClashInterface extends Interface {
   decodeFunctionResult(functionFragment: "FEE_DENOM", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "HOUSE_FEE_BPS",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "accumulatedFees",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "balances", data: BytesLike): Result;
@@ -521,6 +530,8 @@ export interface ChartClash extends BaseContract {
 
   HOUSE_FEE_BPS: TypedContractMethod<[], [bigint], "view">;
 
+  accumulatedFees: TypedContractMethod<[], [bigint], "view">;
+
   balances: TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
 
   bets: TypedContractMethod<
@@ -547,11 +558,7 @@ export interface ChartClash extends BaseContract {
     "nonpayable"
   >;
 
-  collectFees: TypedContractMethod<
-    [amount: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
+  collectFees: TypedContractMethod<[], [void], "nonpayable">;
 
   createRound: TypedContractMethod<
     [
@@ -677,6 +684,9 @@ export interface ChartClash extends BaseContract {
     nameOrSignature: "HOUSE_FEE_BPS"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
+    nameOrSignature: "accumulatedFees"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
     nameOrSignature: "balances"
   ): TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
   getFunction(
@@ -700,7 +710,7 @@ export interface ChartClash extends BaseContract {
   ): TypedContractMethod<[roundId: BigNumberish], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "collectFees"
-  ): TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
+  ): TypedContractMethod<[], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "createRound"
   ): TypedContractMethod<

@@ -19,6 +19,10 @@ async function main() {
         // Polygon mainnet: official Tether USDT
         usdtAddress = "0xc2132D05D31c914a87C6611C10748AEb04B58e8F";
         console.log("Using mainnet USDT:", usdtAddress);
+    } else if (process.env.EXISTING_USDT_ADDRESS) {
+        // Reuse already-deployed MockERC20 (saves gas on re-deploys)
+        usdtAddress = process.env.EXISTING_USDT_ADDRESS;
+        console.log("Reusing existing MockERC20:", usdtAddress);
     } else {
         // Testnet (amoy / hardhat): deploy MockERC20
         console.log("Testnet: deploying MockERC20 (mock USDT)...");

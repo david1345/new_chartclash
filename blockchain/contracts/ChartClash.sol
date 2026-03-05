@@ -27,6 +27,7 @@ contract ChartClash is ReentrancyGuard, Pausable, Ownable {
     uint256 public constant HOUSE_FEE_BPS = 300; // 3% house cut from losing pool
 
     mapping(address => uint256) public balances; // internal USDT balances (6 decimals)
+    uint256 public accumulatedFees;              // tracked house + withdraw fees only
 
     struct Bet {
         uint256 amount;
@@ -116,9 +117,12 @@ contract ChartClash is ReentrancyGuard, Pausable, Ownable {
     }
 
     /**
-     * @notice Collect accumulated house fees
+     * @notice Collect ONLY accumulated house fees — cannot touch user deposits
      */
-    function collectFees(uint256 amount) external onlyOwner {
+    function collectFees() external onlyOwner {
+        uint256 amount = accumulatedFees;
+        require(amount > 0, "No fees to collect");
+        accumulatedFees = 0;
         usdt.safeTransfer(owner(), amount);
     }
 
@@ -150,6 +154,7 @@ contract ChartClash is ReentrancyGuard, Pausable, Ownable {
 
         // CEI: update state before external call
         balances[msg.sender] -= amount;
+        accumulatedFees += fee;  // track fee — cannot be collected until claimable
 
         usdt.safeTransfer(msg.sender, payout);
         emit Withdrawn(msg.sender, payout, fee);
@@ -238,15 +243,15 @@ contract ChartClash is ReentrancyGuard, Pausable, Ownable {
 
         r.closePrice = closePrice;
 
-        // If one side is empty → cancel round, all bettors can refund
-        if (r.upPool == 0 || r.downPool == 0) {
+        // If one side is empty OR prices are tied → cancel round, refund all
+        if (r.upPool == 0 || r.downPool == 0 || closePrice == r.openPrice) {
             r.cancelled = true;
             emit RoundCancelled(roundId);
             return;
         }
 
         r.settled = true;
-        bool upWon = closePrice > r.openPrice;
+        bool upWon = closePrice > r.openPrice;  // tie already handled above
         emit RoundSettled(roundId, closePrice, upWon);
     }
 
@@ -276,6 +281,8 @@ contract ChartClash is ReentrancyGuard, Pausable, Ownable {
 
         // House takes 3% from losing pool
         uint256 losePoolAfterFee = losePool * (FEE_DENOM - HOUSE_FEE_BPS) / FEE_DENOM;
+        uint256 houseFee = losePool - losePoolAfterFee;
+        accumulatedFees += houseFee;  // accumulate house cut
 
         // Winner's proportional share of losing pool
         uint256 winnings = (b.amount * losePoolAfterFee) / winPool;
