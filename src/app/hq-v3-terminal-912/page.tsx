@@ -39,14 +39,13 @@ export default function AdminDashboard() {
 
     // Auth State
     const [isAuthorized, setIsAuthorized] = useState(false);
-    const [password, setPassword] = useState("");
 
     // Dashboard State
     const [stats, setStats] = useState({
         totalUsers: 0,
         totalPredictions: 0,
         pendingPredictions: 0,
-        totalPointsInCirculation: 0,
+        openVolume: 0,
         winRate: 0,
         activeNow: 0
     });
@@ -77,33 +76,18 @@ export default function AdminDashboard() {
     const [schedulerEnabled, setSchedulerEnabled] = useState(false);
     const [schedulerTimeframes, setSchedulerTimeframes] = useState<string[]>(['15m', '30m', '1h', '4h', '1d']);
     const [schedulerLoading, setSchedulerLoading] = useState(false);
-
-    const ADMIN_PASSWORD = 'clash-control-999';
+    const [authChecked, setAuthChecked] = useState(false);
 
     // Initial Auth Check
     useEffect(() => {
         const verifyAdmin = async () => {
-            console.log("🔍 ADMIN_DEBUG: Starting verifyAdmin...");
             const { data: { user } } = await supabase.auth.getUser();
-            console.log("🔍 ADMIN_DEBUG: Supabase User:", user?.email || "No User");
 
-            if (!user || user.email !== 'sjustone000@gmail.com') {
-                console.warn("⚠️ ADMIN_DEBUG: Unauthorized email attempt:", user?.email);
-                localStorage.removeItem('admin_auth');
-                // Don't redirect immediately to allow debug check if needed, but safe to keep
-                return;
-            }
-
-            const adminPass = localStorage.getItem('admin_auth');
-            console.log("🔍 ADMIN_DEBUG: localStorage password found:", adminPass ? "YES" : "NO");
-
-            if (adminPass === ADMIN_PASSWORD) {
-                console.log("✅ ADMIN_DEBUG: Authorized via localStorage");
+            if (user) {
                 setIsAuthorized(true);
                 fetchAllData();
-            } else if (adminPass) {
-                console.warn("❌ ADMIN_DEBUG: localStorage password MISMATCH or OUTDATED");
             }
+            setAuthChecked(true);
         };
         verifyAdmin();
     }, []);
@@ -119,24 +103,6 @@ export default function AdminDashboard() {
         const interval = setInterval(fetchAllData, 30000);
         return () => clearInterval(interval);
     }, [isAuthorized]);
-
-    const handleLogin = () => {
-        console.log("🚀 ADMIN_DEBUG: Login attempt started");
-        console.log("🚀 ADMIN_DEBUG: Entered password:", `[${password}]`);
-        console.log("🚀 ADMIN_DEBUG: Expected password:", `[${ADMIN_PASSWORD}]`);
-        console.log("🚀 ADMIN_DEBUG: Length check - Entered:", password.length, "Expected:", ADMIN_PASSWORD.length);
-
-        if (password === ADMIN_PASSWORD) {
-            console.log("✅ ADMIN_DEBUG: Password match SUCCESS");
-            localStorage.setItem('admin_auth', password);
-            setIsAuthorized(true);
-            toast.success("Welcome back, Admin");
-            fetchAllData();
-        } else {
-            console.error("❌ ADMIN_DEBUG: Password match FAILED");
-            toast.error('Invalid password');
-        }
-    };
 
     const fetchAllData = async () => {
         setIsLoading(true);
@@ -243,21 +209,18 @@ export default function AdminDashboard() {
             .select('*', { count: 'exact', head: true })
             .eq('status', 'pending');
 
-        // 총 포인트
-        const { data: pointsData } = await supabase
-            .from('profiles')
-            .select('points');
-        const totalPoints = pointsData?.reduce((sum, u) => sum + (u.points || 0), 0) || 0;
-
-        // 승률 계산
-        const { data: resolved } = await supabase
+        // 승률 및 미러 오픈 볼륨 계산
+        const { data: predictionMetrics } = await supabase
             .from('predictions')
-            .select('status')
-            .in('status', ['WIN', 'LOSS']);
+            .select('status, bet_amount');
 
-        const wins = resolved?.filter(p => p.status === 'WIN').length || 0;
-        const total = resolved?.length || 1;
+        const wins = predictionMetrics?.filter(p => p.status === 'WIN').length || 0;
+        const losses = predictionMetrics?.filter(p => p.status === 'LOSS').length || 0;
+        const total = wins + losses || 1;
         const winRate = (wins / total) * 100;
+        const openVolume = predictionMetrics?.reduce((sum, prediction) => {
+            return prediction.status === 'pending' ? sum + Number(prediction.bet_amount || 0) : sum;
+        }, 0) || 0;
 
         // 최근 활동 사용자 (1시간 내)
         const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
@@ -270,7 +233,7 @@ export default function AdminDashboard() {
             totalUsers: userCount || 0,
             totalPredictions: predCount || 0,
             pendingPredictions: pendingCount || 0,
-            totalPointsInCirculation: totalPoints,
+            openVolume,
             winRate: winRate,
             activeNow: activeCount || 0
         });
@@ -285,7 +248,7 @@ export default function AdminDashboard() {
             .from('predictions')
             .select(`
                 *,
-                profiles!inner (username, email, streak_count, is_bot)
+                profiles!inner (username, email, is_bot)
             `, { count: 'exact' });
 
         // Filter by AI/User
@@ -338,7 +301,7 @@ export default function AdminDashboard() {
 
             let query = supabase
                 .from('profiles')
-                .select('id, username, email, points, tier, total_games, total_wins, is_bot', { count: 'exact' });
+                .select('id, username, email, total_earnings, tier, total_games, total_wins, is_bot', { count: 'exact' });
 
             // AI/User filter
             query = query.eq('is_bot', leadersType === 'AI');
@@ -354,7 +317,7 @@ export default function AdminDashboard() {
                 }
                 query = query.order('username', { ascending: true });
             } else {
-                query = query.order('points', { ascending: false });
+                query = query.order('total_earnings', { ascending: false });
             }
 
             const { data: profiles, error: pError, count } = await query.range(from, to);
@@ -376,8 +339,8 @@ export default function AdminDashboard() {
         try {
             const { data, error } = await supabase
                 .from('profiles')
-                .select('id, username, email, points, tier, total_games, total_wins, created_at')
-                .order('points', { ascending: false })
+                .select('id, username, email, total_earnings, tier, total_games, total_wins, created_at')
+                .order('total_earnings', { ascending: false })
                 .limit(1000); // Increased for "Full" view
 
             if (error) throw error;
@@ -404,7 +367,7 @@ export default function AdminDashboard() {
         try {
             // API 응답 테스트
             const start = Date.now();
-            const res = await fetch('/api/cron/resolve'); // Use the actual cron endpoint we made
+            const res = await fetch('/api/debug/status');
             const latency = Date.now() - start;
 
             // Even if it returns 200, we check latency
@@ -421,6 +384,22 @@ export default function AdminDashboard() {
             });
         }
     };
+
+    if (!authChecked) {
+        return (
+            <div className="min-h-screen bg-black flex items-center justify-center text-white">
+                Verifying admin access...
+            </div>
+        );
+    }
+
+    if (!isAuthorized) {
+        return (
+            <div className="min-h-screen bg-black flex items-center justify-center text-white">
+                Admin access required.
+            </div>
+        );
+    }
 
     const handleForceResolve = async () => {
         try {
@@ -439,15 +418,19 @@ export default function AdminDashboard() {
     };
 
     const handleResetUser = async (userId: string) => {
-        if (!confirm('Reset user points to 1000?')) return;
+        if (!confirm('Reset mirrored stats for this user?')) return;
 
         const { error } = await supabase
             .from('profiles')
-            .update({ points: 1000 })
+            .update({
+                total_games: 0,
+                total_wins: 0,
+                total_earnings: 0
+            })
             .eq('id', userId);
 
         if (!error) {
-            toast.success('User reset successfully');
+            toast.success('User stats reset successfully');
             fetchAllData();
         } else {
             toast.error('Reset failed');
@@ -463,16 +446,11 @@ export default function AdminDashboard() {
                         <CardTitle className="text-center">Admin Access</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                        <Input
-                            type="password"
-                            placeholder="Enter admin password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
-                            className="bg-gray-800 border-gray-700 text-white"
-                        />
-                        <Button onClick={handleLogin} className="w-full">
-                            Login
+                        <p className="text-sm text-gray-300 text-center leading-relaxed">
+                            Sign in with an authorized admin account to access the dashboard.
+                        </p>
+                        <Button asChild className="w-full">
+                            <a href="/login">Go To Login</a>
                         </Button>
                     </CardContent>
                 </Card>
@@ -508,8 +486,8 @@ export default function AdminDashboard() {
                         <Button
                             variant="destructive"
                             onClick={() => {
-                                localStorage.removeItem('admin_auth');
                                 setIsAuthorized(false);
+                                window.location.href = "/";
                             }}
                         >
                             Logout
@@ -659,12 +637,12 @@ export default function AdminDashboard() {
                         <CardHeader className="pb-2">
                             <CardTitle className="text-sm flex items-center gap-2">
                                 <DollarSign className="w-4 h-4" />
-                                Total Points
+                                Open Volume
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <p className="text-3xl font-bold">{stats.totalPointsInCirculation.toLocaleString()}</p>
-                            <p className="text-xs text-gray-400">In circulation</p>
+                            <p className="text-3xl font-bold">{stats.openVolume.toLocaleString(undefined, { maximumFractionDigits: 2 })}</p>
+                            <p className="text-xs text-gray-400">USDT in unresolved bets</p>
                         </CardContent>
                     </Card>
                 </div>
@@ -728,11 +706,11 @@ export default function AdminDashboard() {
                                             <tr>
                                                 <th className="px-6 py-3">Time</th>
                                                 <th className="px-6 py-3">User / Asset</th>
-                                                <th className="px-6 py-3 text-center">Streak</th>
+                                                <th className="px-6 py-3 text-center">Zone</th>
                                                 <th className="px-6 py-3">Pick</th>
-                                                <th className="px-6 py-3 text-right">Target</th>
-                                                <th className="px-6 py-3 text-right">Result</th>
-                                                <th className="px-6 py-3 text-right">Points</th>
+                                                <th className="px-6 py-3 text-right">Stake</th>
+                                                <th className="px-6 py-3 text-right">Status</th>
+                                                <th className="px-6 py-3 text-right">P&amp;L</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-white/5">
@@ -884,7 +862,7 @@ export default function AdminDashboard() {
                                                     <tr>
                                                         <th className="p-4 font-semibold uppercase tracking-wider text-[10px]">Rank</th>
                                                         <th className="p-4 font-semibold uppercase tracking-wider text-[10px]">User Identifier</th>
-                                                        <th className="p-4 font-semibold uppercase tracking-wider text-[10px]">Point Balance</th>
+                                                        <th className="p-4 font-semibold uppercase tracking-wider text-[10px]">Net P&amp;L</th>
                                                         <th className="p-4 font-semibold uppercase tracking-wider text-[10px]">Accuracy (Win Rate)</th>
                                                         <th className="p-4 font-semibold uppercase tracking-wider text-[10px]">Activity</th>
                                                         <th className="p-4 font-semibold uppercase tracking-wider text-[10px]">Joined Date</th>
@@ -905,8 +883,8 @@ export default function AdminDashboard() {
                                                                 </td>
                                                                 <td className="p-4">
                                                                     <span className="text-amber-500 font-bold text-sm">
-                                                                        {user.points.toLocaleString()}
-                                                                        <span className="text-[10px] ml-1 opacity-50 font-normal">pts</span>
+                                                                        {Number(user.total_earnings || 0).toFixed(2)}
+                                                                        <span className="text-[10px] ml-1 opacity-50 font-normal">USDT</span>
                                                                     </span>
                                                                 </td>
                                                                 <td className="p-4">
@@ -947,7 +925,7 @@ export default function AdminDashboard() {
                                                                             variant="ghost"
                                                                             className="h-8 w-8 hover:bg-red-500/20 text-red-400"
                                                                             onClick={() => handleResetUser(user.id)}
-                                                                            title="Reset Points"
+                                                                            title="Reset Stats"
                                                                         >
                                                                             <RefreshCw className="w-4 h-4" />
                                                                         </Button>
@@ -991,7 +969,8 @@ export default function AdminDashboard() {
                                                 </div>
                                                 <div className="text-right flex items-center gap-2">
                                                     <div>
-                                                        <p className="text-xl font-bold text-yellow-500">{user.points.toLocaleString()}</p>
+                                                        <p className="text-xl font-bold text-yellow-500">{Number(user.total_earnings || 0).toFixed(2)} USDT</p>
+                                                        <p className="text-[10px] text-gray-500">{user.total_wins || 0} wins · {user.total_games || 0} settled</p>
                                                     </div>
                                                     <div className="flex gap-1">
                                                         <Button
@@ -1109,7 +1088,7 @@ export default function AdminDashboard() {
                                         <th className="px-4 py-2">Asset</th>
                                         <th className="px-4 py-2">Direction</th>
                                         <th className="px-4 py-2">Result</th>
-                                        <th className="px-4 py-2 text-right">Points</th>
+                                        <th className="px-4 py-2 text-right">Stake / P&amp;L</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-white/5">
@@ -1166,10 +1145,11 @@ function AdminHistoryRow({ pred, onShowHistory }: { pred: any, onShowHistory?: (
     const entry = pred.entry_price || 0;
     const close = pred.close_price || pred.actual_price || 0;
     const changePct = pred.actual_change_percent ?? (entry > 0 && close > 0 ? ((close - entry) / entry) * 100 : 0);
-    const isTargetHit = pred.is_target_hit ?? (Math.abs(changePct) >= pred.target_percent);
     const directionCorrect = (pred.direction === 'UP' && close > entry) || (pred.direction === 'DOWN' && close < entry);
     const profitValue = pred.profit ?? pred.profit_loss ?? 0;
     const isPending = pred.status === 'pending';
+    const zoneInfo = getZoneInfo(pred);
+    const stakeValue = Number(pred.bet_amount || 0);
 
     return (
         <>
@@ -1213,15 +1193,14 @@ function AdminHistoryRow({ pred, onShowHistory }: { pred: any, onShowHistory?: (
                     </div>
                 </td>
                 <td className="px-6 py-4 text-center">
-                    {/* For Admin, show current user streak if possible or just - */}
-                    {pred.profiles?.streak_count > 0 ? (
-                        <div className="flex items-center justify-center gap-1 text-orange-500 font-bold">
-                            <span>🔥</span>
-                            <span>{pred.profiles.streak_count}</span>
-                        </div>
-                    ) : (
-                        <span className="text-muted-foreground/30 font-mono">-</span>
-                    )}
+                    <Badge variant="outline" className={cn(
+                        "text-[10px] min-w-[58px] justify-center border-2",
+                        zoneInfo.color,
+                        zoneInfo.border,
+                        zoneInfo.bg
+                    )}>
+                        {zoneInfo.label}
+                    </Badge>
                 </td>
                 <td className="px-6 py-4">
                     <Badge variant="outline" className={cn(
@@ -1232,7 +1211,7 @@ function AdminHistoryRow({ pred, onShowHistory }: { pred: any, onShowHistory?: (
                     </Badge>
                 </td>
                 <td className="px-6 py-4 text-right">
-                    {pred.target_percent}%
+                    {stakeValue.toFixed(2)} USDT
                 </td>
                 <td className="px-6 py-4 text-right">
                     <Badge variant="outline" className={cn(
@@ -1246,13 +1225,13 @@ function AdminHistoryRow({ pred, onShowHistory }: { pred: any, onShowHistory?: (
                 </td>
                 <td className="px-6 py-4 text-right font-mono font-bold">
                     {isPending ? (
-                        <span className="text-amber-500/50">{pred.bet_amount}</span>
+                        <span className="text-amber-500/70">LIVE</span>
                     ) : (
                         <span className={cn(
                             profitValue > 0 ? "text-emerald-500" :
                                 profitValue < 0 ? "text-red-500" : "text-muted-foreground"
                         )}>
-                            {profitValue !== 0 ? (profitValue > 0 ? `+${Math.round(Number(profitValue))}` : Math.round(Number(profitValue))) : '-'}
+                            {profitValue !== 0 ? (profitValue > 0 ? `+${Number(profitValue).toFixed(2)}` : Number(profitValue).toFixed(2)) : '-'}
                         </span>
                     )}
                 </td>
@@ -1278,6 +1257,10 @@ function AdminHistoryRow({ pred, onShowHistory }: { pred: any, onShowHistory?: (
                                 </div>
                             </div>
                             <div>
+                                <div className="text-xs text-muted-foreground uppercase mb-1">Stake</div>
+                                <div className="font-mono text-white">{stakeValue.toFixed(2)} USDT</div>
+                            </div>
+                            <div>
                                 <div className="text-xs text-muted-foreground uppercase mb-1">Details</div>
                                 <div className="space-y-1 text-xs">
                                     <div className="flex justify-between w-32 border-b border-white/10 pb-1 mb-1">
@@ -1285,8 +1268,10 @@ function AdminHistoryRow({ pred, onShowHistory }: { pred: any, onShowHistory?: (
                                         {directionCorrect ? <span className="text-emerald-500">Correct</span> : <span className="text-red-500">Wrong</span>}
                                     </div>
                                     <div className="flex justify-between w-32">
-                                        <span className="text-muted-foreground">Target Hit:</span>
-                                        {isTargetHit ? <span className="text-emerald-500">Yes</span> : <span className="text-red-500">No</span>}
+                                        <span className="text-muted-foreground">Resolution:</span>
+                                        <span className={cn(isPending ? "text-amber-500" : "text-zinc-300")}>
+                                            {isPending ? "Waiting" : pred.status}
+                                        </span>
                                     </div>
                                 </div>
                             </div>

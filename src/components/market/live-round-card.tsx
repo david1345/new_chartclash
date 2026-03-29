@@ -164,7 +164,7 @@ export function LiveRoundCard({
 
                     <div className="flex items-center gap-1.5 px-2 py-1 bg-white/5 rounded-full border border-white/5">
                         <span className="text-[10px] text-muted-foreground font-bold">Vol.</span>
-                        <span className="text-orange-500 font-bold text-[10px]">{totalVolume.toLocaleString()} pts</span>
+                        <span className="text-orange-500 font-bold text-[10px]">{totalVolume.toLocaleString()} USDT</span>
                     </div>
                 </div>
 

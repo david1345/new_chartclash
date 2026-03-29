@@ -18,6 +18,19 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
+## Admin Access
+
+Admin routes and admin-only APIs require an explicit allowlist.
+
+Set these environment variables before using `/admin`, `/hq-v3-terminal-912`, ghost mode, or admin APIs:
+
+```bash
+ADMIN_EMAILS=admin1@example.com,admin2@example.com
+NEXT_PUBLIC_ADMIN_EMAILS=admin1@example.com,admin2@example.com
+```
+
+`ADMIN_EMAILS` is used on the server for route and API protection. `NEXT_PUBLIC_ADMIN_EMAILS` is used on the client for admin-only UI controls such as impersonation features.
+
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More

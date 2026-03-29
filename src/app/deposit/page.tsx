@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Check, Copy, AlertTriangle, Zap, Wallet, CheckCircle2, Loader2 } from "lucide-react";
-import { connectWallet, depositUSDT, getContractBalance } from "@/lib/contract";
+import { connectWallet, depositUSDT, getBlockExplorerTxUrl, getContractBalance } from "@/lib/contract";
 import { toast } from "sonner";
 
 export default function DepositPage() {
@@ -19,8 +19,13 @@ export default function DepositPage() {
         try {
             const addr = await connectWallet();
             setWalletAddress(addr);
-            const bal = await getContractBalance(addr);
-            setContractBalance(bal);
+
+            try {
+                const bal = await getContractBalance(addr);
+                setContractBalance(bal);
+            } catch {
+                setContractBalance(0);
+            }
             toast.success("Wallet connected!");
         } catch (err: any) {
             toast.error(err.message || "Failed to connect wallet");
@@ -120,8 +125,8 @@ export default function DepositPage() {
                                     key={val}
                                     onClick={() => setAmount(val.toString())}
                                     className={`flex-1 py-2 text-center border rounded-lg text-xs font-bold transition-colors ${amount === val.toString()
-                                            ? "bg-[#00E5B4]/10 border-[#00E5B4] text-[#00E5B4]"
-                                            : "bg-[#0F1623] border-[#1E2D45] text-[#8BA3BF] hover:text-white"
+                                        ? "bg-[#00E5B4]/10 border-[#00E5B4] text-[#00E5B4]"
+                                        : "bg-[#0F1623] border-[#1E2D45] text-[#8BA3BF] hover:text-white"
                                         }`}
                                 >
                                     ${val}
@@ -157,14 +162,20 @@ export default function DepositPage() {
                             <CheckCircle2 className="w-4 h-4 text-[#00E5B4] shrink-0 mt-0.5" />
                             <div>
                                 <div className="text-xs font-bold text-[#00E5B4] mb-0.5">Deposit confirmed!</div>
-                                <a
-                                    href={`https://amoy.polygonscan.com/tx/${txHash}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-[10px] text-[#8BA3BF] hover:text-[#00E5B4] underline font-mono break-all"
-                                >
-                                    {txHash.slice(0, 20)}...{txHash.slice(-8)} ↗
-                                </a>
+                                {getBlockExplorerTxUrl(txHash) ? (
+                                    <a
+                                        href={getBlockExplorerTxUrl(txHash)!}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-[10px] text-[#8BA3BF] hover:text-[#00E5B4] underline font-mono break-all"
+                                    >
+                                        {txHash.slice(0, 20)}...{txHash.slice(-8)} ↗
+                                    </a>
+                                ) : (
+                                    <div className="text-[10px] text-[#8BA3BF] font-mono break-all">
+                                        {txHash}
+                                    </div>
+                                )}
                             </div>
                         </div>
                     )}

@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { Footer } from "@/components/layout/footer";
 import { BottomNav } from "@/components/layout/bottom-nav";
 import { GoogleAnalytics } from '@next/third-parties/google';
+import { ResolutionProvider } from "@/providers/resolution-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,9 +31,6 @@ export const viewport = {
   maximumScale: 1,
   userScalable: false,
 };
-
-import { ResolutionProvider } from "@/providers/resolution-provider";
-import { GuestPredictionProvider } from "@/providers/guest-prediction-provider";
 
 // --- CLIENT SIDE AUTO-RELOAD ON CHUNK ERROR ---
 // This corrects "Loading chunk" errors
@@ -68,14 +66,12 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          <GuestPredictionProvider>
-            <ResolutionProvider>
-              {children}
-              <BottomNav />
-              <Footer />
-              <Toaster />
-            </ResolutionProvider>
-          </GuestPredictionProvider>
+          <ResolutionProvider>
+            {children}
+            <BottomNav />
+            <Footer />
+            <Toaster />
+          </ResolutionProvider>
         </ThemeProvider>
         {process.env.NEXT_PUBLIC_GA_ID && (
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />

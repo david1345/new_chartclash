@@ -1,22 +1,37 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { Trophy, Flame, Shield, ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowLeft, Shield, Trophy, Wallet2 } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
-import { motion, AnimatePresence } from "framer-motion";
+type LeaderRow = {
+    id: string;
+    username: string;
+    rank: number;
+    netPnl: number;
+    hitRate: number;
+    settledCount: number;
+    liveCount: number;
+    totalVolume: number;
+};
+
+type PredictionRow = {
+    user_id: string;
+    status: "pending" | "WIN" | "LOSS" | "ND" | "REFUND";
+    profit: number | null;
+    bet_amount: number;
+};
 
 export default function LeaderboardPage() {
-    const [leaders, setLeaders] = useState<any[]>([]);
-
-    const [userRank, setUserRank] = useState<any>(null);
-    const leaderType = "USER"; // Hardcoded as filter was removed
+    const [leaders, setLeaders] = useState<LeaderRow[]>([]);
+    const [userRank, setUserRank] = useState<LeaderRow | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [fetchError, setFetchError] = useState<string | null>(null);
     const supabase = createClient();
@@ -24,92 +39,115 @@ export default function LeaderboardPage() {
     useEffect(() => {
         fetchLeaderboard();
 
-        // --- REALTIME SUBSCRIPTION ---
         const channel = supabase
-            .channel('leaderboard-updates')
-            .on(
-                'postgres_changes',
-                {
-                    event: '*',
-                    schema: 'public',
-                    table: 'profiles'
-                },
-                (payload) => {
-                    fetchLeaderboard();
-                }
-            )
+            .channel("leaderboard-updates")
+            .on("postgres_changes", { event: "*", schema: "public", table: "predictions" }, fetchLeaderboard)
             .subscribe();
 
         return () => {
             supabase.removeChannel(channel);
         };
-    }, []);
+    }, [supabase]);
 
     const fetchLeaderboard = async () => {
         setIsLoading(true);
-        console.log("[Leaderboard] Fetching", leaderType, "data...");
 
-        const query = supabase
-            .from('profiles')
-            .select('id, username, points, total_games, total_wins, streak_count, streak')
-            .eq('is_bot', false) // Filter by bot status
-            .order('points', { ascending: false })
-            .limit(100);
+        const [{ data: profiles, error: profilesError }, { data: predictions, error: predictionsError }] = await Promise.all([
+            supabase
+                .from("profiles")
+                .select("id, username")
+                .range(0, 499),
+            supabase
+                .from("predictions")
+                .select("user_id, status, profit, bet_amount")
+                .range(0, 4999),
+        ]);
 
-        const { data: profiles, error } = await query;
-
-        if (error) {
-            console.error("[Leaderboard] Fetch error:", error);
-            setFetchError(error.message);
+        if (profilesError || predictionsError) {
+            setFetchError(profilesError?.message || predictionsError?.message || "Failed to load leaderboard");
             setIsLoading(false);
             return;
         }
 
+        const aggregates = new Map<string, {
+            wins: number;
+            losses: number;
+            settledCount: number;
+            liveCount: number;
+            totalVolume: number;
+            netPnl: number;
+        }>();
+
+        for (const prediction of (predictions || []) as PredictionRow[]) {
+            const current = aggregates.get(prediction.user_id) || {
+                wins: 0,
+                losses: 0,
+                settledCount: 0,
+                liveCount: 0,
+                totalVolume: 0,
+                netPnl: 0,
+            };
+
+            current.totalVolume += Number(prediction.bet_amount || 0);
+
+            if (prediction.status === "pending") {
+                current.liveCount += 1;
+            } else {
+                current.settledCount += 1;
+                current.netPnl += Number(prediction.profit || 0);
+                if (prediction.status === "WIN") current.wins += 1;
+                if (prediction.status === "LOSS") current.losses += 1;
+            }
+
+            aggregates.set(prediction.user_id, current);
+        }
+
+        const nextLeaders = (profiles || [])
+            .map((profile) => {
+                const aggregate = aggregates.get(profile.id);
+                if (!aggregate) return null;
+
+                const decisiveTrades = aggregate.wins + aggregate.losses;
+                const hitRate = decisiveTrades > 0 ? Math.round((aggregate.wins / decisiveTrades) * 100) : 0;
+
+                return {
+                    id: profile.id,
+                    username: profile.username || "Trader",
+                    rank: 0,
+                    netPnl: aggregate.netPnl,
+                    hitRate,
+                    settledCount: aggregate.settledCount,
+                    liveCount: aggregate.liveCount,
+                    totalVolume: aggregate.totalVolume,
+                } satisfies LeaderRow;
+            })
+            .filter((leader): leader is LeaderRow => Boolean(leader))
+            .sort((a, b) => {
+                if (b.netPnl !== a.netPnl) return b.netPnl - a.netPnl;
+                if (b.hitRate !== a.hitRate) return b.hitRate - a.hitRate;
+                return b.totalVolume - a.totalVolume;
+            })
+            .map((leader, index) => ({ ...leader, rank: index + 1 }));
+
+        setLeaders(nextLeaders.slice(0, 100));
         setFetchError(null);
 
-        if (profiles) {
-            const enriched = profiles.map((p, i) => ({
-                ...p,
-                rank: i + 1,
-                winRate: p.total_games > 0 ? Math.round((p.total_wins / p.total_games) * 100) : 0,
-                streak: Math.max(p.streak || 0, p.streak_count || 0)
-            }));
-            setLeaders(enriched);
+        const {
+            data: { user },
+        } = await supabase.auth.getUser();
 
-            // Identify current user 
-            const { data: { user } } = await supabase.auth.getUser();
-
-            if (user) {
-                const myProfile = enriched.find(p => p.id === user.id);
-                if (myProfile) {
-                    setUserRank(myProfile);
-                } else {
-                    const { data: rank } = await supabase.rpc('get_user_rank', { p_user_id: user.id });
-                    const { data: myData } = await supabase
-                        .from('profiles')
-                        .select('id, username, points, total_games, total_wins, streak_count, streak, tier')
-                        .eq('id', user.id)
-                        .single();
-
-                    if (myData) {
-                        setUserRank({
-                            ...myData,
-                            rank: rank || '100+',
-                            winRate: myData.total_games > 0 ? Math.round((myData.total_wins / myData.total_games) * 100) : 0,
-                            streak: Math.max(myData.streak_count || 0, myData.streak || 0)
-                        });
-                    }
-                }
-            } else {
-                setUserRank(null);
-            }
+        if (user) {
+            const mine = nextLeaders.find((leader) => leader.id === user.id) || null;
+            setUserRank(mine);
+        } else {
+            setUserRank(null);
         }
+
         setIsLoading(false);
     };
 
     return (
         <div className="min-h-screen bg-[#050505] text-foreground font-sans selection:bg-primary/20 flex flex-col">
-            {/* Header */}
             <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-background/60 backdrop-blur-xl">
                 <div className="container mx-auto px-4 h-12 flex items-center gap-4">
                     <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-white" asChild>
@@ -130,7 +168,7 @@ export default function LeaderboardPage() {
                         <div className="text-red-500 font-mono text-sm bg-red-500/10 p-4 rounded-lg border border-red-500/20 max-w-md text-center">
                             Error: {fetchError}
                         </div>
-                        <Button variant="outline" onClick={() => fetchLeaderboard()} className="border-white/10 hover:bg-white/5">
+                        <Button variant="outline" onClick={fetchLeaderboard} className="border-white/10 hover:bg-white/5">
                             Try Again
                         </Button>
                     </div>
@@ -138,15 +176,15 @@ export default function LeaderboardPage() {
 
                 {isLoading && leaders.length === 0 && (
                     <div className="flex items-center justify-center py-20">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
                     </div>
                 )}
 
                 {!isLoading && leaders.length === 0 && !fetchError && (
                     <div className="flex flex-col items-center justify-center py-20 gap-2 opacity-50">
                         <Trophy className="w-12 h-12 mb-2" />
-                        <div className="text-xl font-bold">No Records Found</div>
-                        <p className="text-sm">Be the first one to join the leaderboard!</p>
+                        <div className="text-xl font-bold">No Settled Bets Yet</div>
+                        <p className="text-sm">Be the first trader to close a market in profit.</p>
                     </div>
                 )}
 
@@ -158,10 +196,10 @@ export default function LeaderboardPage() {
                                     <thead className="bg-[#0b0b0f] text-muted-foreground font-medium border-b border-white/5 text-xs">
                                         <tr>
                                             <th className="px-2 py-1 w-[40px] text-center">Rank</th>
-                                            <th className="px-2 py-1">Nickname</th>
-                                            <th className="px-2 py-1 text-right">Balance</th>
-                                            <th className="px-2 py-1 text-right hidden md:table-cell">Efficiency</th>
-                                            <th className="px-2 py-1 text-right hidden md:table-cell">Hot Streak</th>
+                                            <th className="px-2 py-1">Trader</th>
+                                            <th className="px-2 py-1 text-right">Net P&amp;L</th>
+                                            <th className="px-2 py-1 text-right hidden md:table-cell">Hit Rate</th>
+                                            <th className="px-2 py-1 text-right hidden md:table-cell">Live Bets</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-white/5 text-xs">
@@ -169,7 +207,6 @@ export default function LeaderboardPage() {
                                             {leaders.map((leader) => (
                                                 <motion.tr
                                                     key={leader.id}
-                                                    data-testid="leaderboard-item"
                                                     layout
                                                     initial={{ opacity: 0 }}
                                                     animate={{ opacity: 1 }}
@@ -182,39 +219,41 @@ export default function LeaderboardPage() {
                                                     <td className="px-2 py-1">
                                                         <div className="flex items-center gap-2">
                                                             <Avatar className="w-6 h-6 border border-white/10 hidden sm:block">
-                                                                <AvatarImage src={leader.avatar_url} />
-                                                                <AvatarFallback className="text-[9px] bg-white/5">{leader.username?.slice(0, 2).toUpperCase()}</AvatarFallback>
+                                                                <AvatarFallback className="text-[9px] bg-white/5">
+                                                                    {leader.username.slice(0, 2).toUpperCase()}
+                                                                </AvatarFallback>
                                                             </Avatar>
                                                             <div className="flex flex-col leading-tight">
-                                                                <span className="font-bold text-white group-hover:text-primary transition-colors text-xs">{leader.username}</span>
-                                                                <span className="text-[9px] text-muted-foreground uppercase">{leader.total_games} trades</span>
+                                                                <span className="font-bold text-white group-hover:text-primary transition-colors text-xs">
+                                                                    {leader.username}
+                                                                </span>
+                                                                <span className="text-[9px] text-muted-foreground uppercase">
+                                                                    {leader.settledCount} settled · {leader.totalVolume.toFixed(0)} USDT volume
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td className="px-2 py-1 text-right font-mono text-yellow-500 font-bold text-xs">
-                                                        {leader.points.toLocaleString()}
+                                                    <td className={cn(
+                                                        "px-2 py-1 text-right font-mono font-bold text-xs",
+                                                        leader.netPnl >= 0 ? "text-[#00E5B4]" : "text-[#FF8C8C]"
+                                                    )}>
+                                                        {leader.netPnl >= 0 ? "+" : ""}{leader.netPnl.toFixed(2)}
                                                     </td>
                                                     <td className="px-2 py-1 text-right hidden md:table-cell">
                                                         <div className="flex flex-col items-end leading-tight">
                                                             <span className={cn(
                                                                 "font-bold text-xs",
-                                                                leader.winRate > 60 ? "text-emerald-500" : leader.winRate > 40 ? "text-yellow-500" : "text-red-500"
+                                                                leader.hitRate >= 60 ? "text-emerald-500" : leader.hitRate >= 40 ? "text-yellow-500" : "text-red-500"
                                                             )}>
-                                                                {leader.winRate}%
+                                                                {leader.hitRate}%
                                                             </span>
                                                             <span className="text-[7px] text-muted-foreground uppercase tracking-tighter">Win Rate</span>
                                                         </div>
                                                     </td>
                                                     <td className="px-2 py-1 text-right hidden md:table-cell">
-                                                        <div className="flex justify-end">
-                                                            <Badge variant="outline" className={cn(
-                                                                "border-orange-500/50 text-orange-500 bg-orange-500/10 gap-1 px-1 py-0 text-[10px]",
-                                                                leader.streak > 0 && "animate-pulse",
-                                                                leader.streak === 0 && "opacity-30 border-white/10 text-white bg-transparent"
-                                                            )}>
-                                                                <Flame className="w-2.5 h-2.5" /> {leader.streak}
-                                                            </Badge>
-                                                        </div>
+                                                        <Badge variant="outline" className="border-[#00E5B4]/30 bg-[#00E5B4]/10 text-[#00E5B4] text-[10px]">
+                                                            {leader.liveCount} open
+                                                        </Badge>
                                                     </td>
                                                 </motion.tr>
                                             ))}
@@ -227,12 +266,10 @@ export default function LeaderboardPage() {
                 )}
             </div>
 
-            {/* Sticky My Position Bar */}
             {userRank && (
                 <motion.div
                     initial={{ y: 100 }}
                     animate={{ y: 0 }}
-                    data-testid="user-rank"
                     className="fixed bottom-0 left-0 w-full bg-[#0b0b0f]/90 backdrop-blur-xl border-t border-white/10 p-3 z-40 shadow-[0_-10px_40px_rgba(0,0,0,0.8)]"
                 >
                     <div className="container mx-auto flex items-center justify-between">
@@ -247,19 +284,26 @@ export default function LeaderboardPage() {
                                     <Badge className="bg-primary/20 text-primary border-0 h-4 text-[9px] uppercase">You</Badge>
                                 </span>
                                 <span className="text-xs text-muted-foreground">
-                                    Nickname: <span className="text-primary font-bold uppercase">{userRank.username}</span>
-                                    {typeof userRank.rank === 'number' && ` · Top ${Math.max(1, Math.floor((userRank.rank / Math.max(leaders.length, 1)) * 100))}%`}
+                                    {userRank.settledCount} settled · {userRank.liveCount} live
                                 </span>
                             </div>
                         </div>
                         <div className="flex items-center gap-6">
                             <div className="text-right hidden sm:block">
                                 <div className="text-[10px] text-muted-foreground uppercase font-bold">Accuracy</div>
-                                <div className="font-mono font-bold text-emerald-500">{userRank.winRate}%</div>
+                                <div className="font-mono font-bold text-emerald-500">{userRank.hitRate}%</div>
                             </div>
                             <div className="text-right">
-                                <div className="text-[10px] text-muted-foreground uppercase font-bold">Net Points</div>
-                                <div className="font-mono font-bold text-yellow-500 text-xl">{userRank.points.toLocaleString()}</div>
+                                <div className="text-[10px] text-muted-foreground uppercase font-bold flex items-center gap-1 justify-end">
+                                    <Wallet2 className="w-3 h-3" />
+                                    Net P&amp;L
+                                </div>
+                                <div className={cn(
+                                    "font-mono font-bold text-xl",
+                                    userRank.netPnl >= 0 ? "text-yellow-500" : "text-[#FF8C8C]"
+                                )}>
+                                    {userRank.netPnl >= 0 ? "+" : ""}{userRank.netPnl.toFixed(2)}
+                                </div>
                             </div>
                         </div>
                     </div>

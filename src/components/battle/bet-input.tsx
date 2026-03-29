@@ -11,8 +11,8 @@ interface BetInputProps {
 }
 
 export function BetInput({ amount, maxAmount, onChange, disabled }: BetInputProps) {
-    const maxBet = Math.max(1, Math.floor(maxAmount * 0.2));
-    const quickBets = [1, 5, 10, 25, 50, maxBet];
+    const maxBet = Math.max(1, Math.floor(maxAmount));
+    const quickBets = [1, 5, 10, 25, 50, maxBet].filter((value, index, list) => list.indexOf(value) === index);
 
     return (
         <div className="flex-1 flex flex-col justify-end">
@@ -20,7 +20,7 @@ export function BetInput({ amount, maxAmount, onChange, disabled }: BetInputProp
                 {/* Labels Column */}
                 <div className="flex flex-col justify-center shrink-0">
                     <span className="text-[10px] text-[#5A7090] font-bold uppercase tracking-wider leading-none mb-1">Bet Amount</span>
-                    <span className="text-[9px] text-[#00E5B4] font-bold leading-none">Avail: {maxAmount.toLocaleString()}</span>
+                    <span className="text-[9px] text-[#00E5B4] font-bold leading-none">Avail: {maxAmount.toFixed(2)} USDT</span>
                 </div>
 
                 {/* Input Column */}
@@ -30,6 +30,8 @@ export function BetInput({ amount, maxAmount, onChange, disabled }: BetInputProp
                     </div>
                     <input
                         type="number"
+                        min="1"
+                        step="1"
                         value={amount}
                         onChange={(e) => onChange(Number(e.target.value))}
                         disabled={disabled}
@@ -52,7 +54,7 @@ export function BetInput({ amount, maxAmount, onChange, disabled }: BetInputProp
                                 : "bg-[#0F1623] text-[#8BA3BF] border-[#1E2D45] hover:border-[#5A7090] hover:text-white"
                         )}
                     >
-                        {val === maxBet ? "20%" : `$${val}`}
+                        {val === maxBet ? "MAX" : `$${val}`}
                     </button>
                 ))}
             </div>

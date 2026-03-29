@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextRequest, NextResponse } from 'next/server';
+import { requireAdminOrCron } from '@/lib/server-access';
 
 // 1. Setup Supabase Client (Service Role needed for RPC)
 const supabase = createClient(
@@ -33,11 +34,8 @@ async function getUsernameMap(userIds: string[]): Promise<Record<string, string>
 }
 
 export async function GET(req: NextRequest) {
-    // Verify CRON_SECRET to prevent unauthorized resolution triggers
-    const secret = req.headers.get('x-cron-secret');
-    if (!process.env.CRON_SECRET || secret !== process.env.CRON_SECRET) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const authError = await requireAdminOrCron(req);
+    if (authError) return authError;
 
     try {
         const now = Date.now();

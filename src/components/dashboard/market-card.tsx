@@ -220,7 +220,7 @@ export function MarketCard({ asset, featured = false, isTrending = false, index 
                                     <div className="flex items-center gap-2">
                                         <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white/5 rounded-full border border-white/5" title="Total Volume">
                                             <span className="text-[10px] text-muted-foreground font-bold mr-1">Vol.</span>
-                                            <span className="text-orange-500 font-bold text-[10px]">{typeof asset.totalVolume === 'number' ? asset.totalVolume.toLocaleString() : '0'} pts</span>
+                                            <span className="text-orange-500 font-bold text-[10px]">{typeof asset.totalVolume === 'number' ? asset.totalVolume.toLocaleString() : '0'} USDT</span>
                                         </div>
                                         <motion.div
                                             whileHover={{ x: 5 }}

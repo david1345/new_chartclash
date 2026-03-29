@@ -9,9 +9,13 @@ import ChartClashArtifact from "./ChartClash.abi.json";
 const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!;
 const USDT_DECIMALS = 6;
 
-function getOracleWallet(): ethers.Wallet {
+function getProvider() {
     const rpcUrl = process.env.POLYGON_RPC_URL || "https://polygon-rpc.com";
-    const provider = new ethers.JsonRpcProvider(rpcUrl);
+    return new ethers.JsonRpcProvider(rpcUrl);
+}
+
+function getOracleWallet(): ethers.Wallet {
+    const provider = getProvider();
     const privateKey = process.env.DEPLOYER_PRIVATE_KEY!;
     return new ethers.Wallet(privateKey, provider);
 }
@@ -19,6 +23,10 @@ function getOracleWallet(): ethers.Wallet {
 function getContract() {
     const wallet = getOracleWallet();
     return new ethers.Contract(CONTRACT_ADDRESS, ChartClashArtifact.abi, wallet);
+}
+
+function getReadContract() {
+    return new ethers.Contract(CONTRACT_ADDRESS, ChartClashArtifact.abi, getProvider());
 }
 
 /**
@@ -37,12 +45,18 @@ export async function createRoundOnChain(
     const receipt = await tx.wait();
 
     // Parse RoundCreated event to get roundId
-    const event = receipt.logs
-        .map((log: any) => { try { return contract.interface.parseLog(log); } catch { return null; } })
-        .find((e: any) => e?.name === "RoundCreated");
+    for (const log of receipt.logs) {
+        try {
+            const parsed = contract.interface.parseLog(log);
+            if (parsed && parsed.name === "RoundCreated") {
+                return parsed.args.roundId.toString();
+            }
+        } catch (e) {
+            // Not our event or parsing failed, skip
+        }
+    }
 
-    if (!event) throw new Error("RoundCreated event not found in tx receipt");
-    return event.args.roundId.toString();
+    throw new Error("RoundCreated event not found in tx receipt logs");
 }
 
 /**
@@ -63,7 +77,7 @@ export async function settleRoundOnChain(
  * Get round data from chain.
  */
 export async function getRoundOnChain(onChainRoundId: string) {
-    const contract = getContract();
+    const contract = getReadContract();
     const round = await contract.getRound(BigInt(onChainRoundId));
     return {
         asset: round.asset,
@@ -75,4 +89,26 @@ export async function getRoundOnChain(onChainRoundId: string) {
         settled: round.settled,
         cancelled: round.cancelled,
     };
+}
+
+export async function getBetOnChain(onChainRoundId: string, userAddress: string) {
+    const contract = getReadContract();
+    const bet = await contract.getBet(BigInt(onChainRoundId), userAddress);
+
+    return {
+        amount: parseFloat(ethers.formatUnits(bet.amount, USDT_DECIMALS)),
+        isUp: Boolean(bet.isUp),
+        claimed: Boolean(bet.claimed),
+        zone: Number(bet.zone),
+    };
+}
+
+export async function getWalletAddressFromTransaction(txHash: string) {
+    const tx = await getProvider().getTransaction(txHash);
+
+    if (!tx?.from) {
+        throw new Error(`Transaction not found: ${txHash}`);
+    }
+
+    return tx.from;
 }

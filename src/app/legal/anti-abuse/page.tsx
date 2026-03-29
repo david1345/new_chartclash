@@ -16,8 +16,8 @@ export default function AntiAbusePolicyPage() {
                         <li>Creating or operating multiple accounts</li>
                         <li>Coordinated manipulation of prediction outcomes</li>
                         <li>Exploiting bugs, latency, or system delays</li>
-                        <li>Reverse engineering scoring logic</li>
-                        <li>Artificially inflating engagement or points</li>
+                        <li>Reverse engineering settlement or fee logic</li>
+                        <li>Artificially inflating engagement, volume, or reported performance</li>
                     </ul>
                 </Section>
 
@@ -27,7 +27,7 @@ export default function AntiAbusePolicyPage() {
                         <li>Device fingerprinting</li>
                         <li>Behavioral pattern analysis</li>
                         <li>IP and network anomaly detection</li>
-                        <li>Statistical outlier detection in win rates and timing</li>
+                        <li>Statistical outlier detection in win rates, timing, and wallet activity</li>
                     </ul>
                     <p className="mt-2 text-sm text-gray-500 italic">Detection methods are confidential and continuously updated.</p>
                 </Section>
@@ -35,11 +35,11 @@ export default function AntiAbusePolicyPage() {
                 <Section title="⚖️ Enforcement Actions">
                     <p>If abuse is detected, we may apply one or more of the following actions:</p>
                     <ul className="list-disc pl-5 space-y-1 mt-2">
-                        <li>Removal of fraudulently earned points</li>
+                        <li>Removal or freezing of abusive positions where allowed</li>
                         <li>Leaderboard disqualification</li>
                         <li>Temporary suspension</li>
                         <li>Permanent account ban</li>
-                        <li>Reset of account progression</li>
+                        <li>Restriction of deposits, withdrawals, or market access</li>
                     </ul>
                     <p className="mt-2 text-yellow-500/80">These actions may be applied without prior notice.</p>
                 </Section>

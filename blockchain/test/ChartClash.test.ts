@@ -222,10 +222,10 @@ describe("ChartClash", function () {
             await ethers.provider.send("evm_increaseTime", [110]);
             await ethers.provider.send("evm_mine", []);
             await chartclash.connect(oracle).settleRound(1n, parseUSDT(50001));
-            // Alice tries to bet after settlement
+            // Alice tries to bet after settlement - round is settled → "Round ended"
             await expect(
                 chartclash.connect(alice).placeBet(1n, true, parseUSDT(50))
-            ).to.be.revertedWith("Round is closed");
+            ).to.be.revertedWith("Round ended");
         });
 
         it("withdraw zero reverts", async () => {
@@ -343,9 +343,9 @@ describe("ChartClash", function () {
             await chartclash.connect(oracle).settleRound(1n, parseUSDT(50001)); // UP wins
             await chartclash.connect(alice).claimWinnings(1n);
 
-            // House fee = 3% of 100 (losing pool) = 3 USDT
+            // Alice bet at round start → GREEN zone → 1% house fee of 100 USDT losing pool = 1 USDT
             const fees = await chartclash.accumulatedFees();
-            expect(fees).to.equal(parseUSDT(3));
+            expect(fees).to.equal(parseUSDT(1));
         });
     });
 });

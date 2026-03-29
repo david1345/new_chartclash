@@ -108,7 +108,7 @@ export function SocialFeed({ feed, selectedAsset, user, refreshFeed }: SocialFee
             target_percent: 0.5,
             status: 'WIN',
             likes_count: 89,
-            comment: "Easy scalp. 🎯 +500 pts earned! Next setup forming..."
+            comment: "Easy scalp. Real size got paid. Watching for the next continuation setup."
         }
     ];
 

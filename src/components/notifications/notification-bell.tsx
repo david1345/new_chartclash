@@ -16,6 +16,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
+import { isAllowedAdminEmail } from "@/lib/admin-client";
 // import { formatDistanceToNow } from "date-fns"; // Removed
 
 function timeAgo(dateString: string) {
@@ -37,7 +38,7 @@ interface Notification {
     type: 'win' | 'loss' | 'streak' | 'rank' | 'info';
     title: string;
     message: string;
-    points_change: number;
+    pnl_change?: number | null;
     is_read: boolean;
     created_at: string;
 }
@@ -60,7 +61,7 @@ export function NotificationBell() {
 
         // Ghost Mode logic
         const ghostId = typeof window !== 'undefined' ? sessionStorage.getItem('ghost_target_id') : null;
-        const isImpersonating = ghostId && user.email === 'sjustone000@gmail.com';
+        const isImpersonating = ghostId && isAllowedAdminEmail(user.email);
         const targetId = isImpersonating ? ghostId : user.id;
 
         const { data, error } = await supabase
@@ -82,7 +83,7 @@ export function NotificationBell() {
 
         // Ghost Mode logic
         const ghostId = typeof window !== 'undefined' ? sessionStorage.getItem('ghost_target_id') : null;
-        const isImpersonating = ghostId && user.email === 'sjustone000@gmail.com';
+        const isImpersonating = ghostId && isAllowedAdminEmail(user.email);
         const targetId = isImpersonating ? ghostId : user.id;
 
         await supabase
@@ -105,7 +106,7 @@ export function NotificationBell() {
 
             // Ghost Mode logic
             const ghostId = typeof window !== 'undefined' ? sessionStorage.getItem('ghost_target_id') : null;
-            const isImpersonating = ghostId && user.email === 'sjustone000@gmail.com';
+            const isImpersonating = ghostId && isAllowedAdminEmail(user.email);
             const targetId = isImpersonating ? ghostId : user.id;
 
             const channel = supabase

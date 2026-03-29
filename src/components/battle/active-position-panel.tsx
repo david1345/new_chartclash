@@ -18,7 +18,7 @@ interface ActivePositionPanelProps {
 export function ActivePositionPanel({ prediction, currentPrice }: ActivePositionPanelProps) {
     if (!prediction) return null;
 
-    const { direction, entry_price, target_percent, bet_amount, timeframe, candle_close_at } = prediction;
+    const { direction, entry_price, bet_amount, timeframe, candle_close_at } = prediction;
     const isUp = direction === "UP";
     const colorClass = isUp ? "text-emerald-400" : "text-rose-400";
     const bgClass = isUp ? "bg-emerald-500/10 border-emerald-500/30" : "bg-rose-500/10 border-rose-500/30";
@@ -35,6 +35,12 @@ export function ActivePositionPanel({ prediction, currentPrice }: ActivePosition
     if (currentPrice && entry_price) {
         isWinning = isUp ? currentPrice > entry_price : currentPrice < entry_price;
     }
+
+    const closesAt = new Date(candle_close_at).toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+    });
 
     return (
         <div className="flex flex-col h-full bg-[#0F1623] border border-[#1E2D45] rounded-xl overflow-hidden relative group">
@@ -82,15 +88,16 @@ export function ActivePositionPanel({ prediction, currentPrice }: ActivePosition
                 <div className="bg-[#141D2E] rounded-lg p-2 flex items-center justify-between border border-[#1E2D45]">
                     <div className="flex items-center gap-2">
                         <div className="bg-[#0F1623] px-2 py-1 rounded text-[10px] font-mono font-bold border border-[#1E2D45] text-white">
-                            {bet_amount} PTS
+                            {bet_amount} USDT
                         </div>
                     </div>
 
                     <div className="flex items-center gap-2 text-right">
                         <div className="flex flex-col items-end">
-                            <span className="text-[9px] text-[#5A7090] font-bold uppercase tracking-widest">Target</span>
+                            <span className="text-[9px] text-[#5A7090] font-bold uppercase tracking-widest">Closes</span>
                             <div className={cn("flex items-center gap-1 text-xs font-black", colorClass)}>
-                                {target_percent}%
+                                <Clock className="w-3 h-3" />
+                                {closesAt}
                             </div>
                         </div>
                     </div>

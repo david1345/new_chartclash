@@ -1,11 +1,17 @@
 
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
+import { requireAdminUser } from '@/lib/server-access';
 
 export async function POST(request: Request) {
     // Only allow in development or E2E environments
     if (process.env.NODE_ENV !== 'development' && process.env.NEXT_PUBLIC_IS_E2E !== 'true') {
         return NextResponse.json({ error: 'Not allowed' }, { status: 403 });
+    }
+
+    if (process.env.NEXT_PUBLIC_IS_E2E !== 'true') {
+        const auth = await requireAdminUser();
+        if (auth.response) return auth.response;
     }
 
     const { userId, email } = await request.json();
@@ -46,13 +52,10 @@ export async function POST(request: Request) {
 
         if (pError) throw pError;
 
-        // 4. Reset Profile Stats
+        // 4. Reset mirrored profile stats only
         const { error: prError } = await supabase
             .from('profiles')
             .update({
-                points: 1000,
-                streak: 0,
-                streak_count: 0,
                 total_games: 0,
                 total_wins: 0,
                 total_earnings: 0

@@ -5,6 +5,59 @@ import ChartClashArtifact from "./ChartClash.abi.json";
 
 const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!;
 const USDT_ADDRESS = process.env.NEXT_PUBLIC_USDT_ADDRESS!;
+const POLYGON_MAINNET_USDT = "0xc2132d05d31c914a87c6611c10748aeb04b58e8f";
+
+type WalletChainConfig = {
+    chainId: string;
+    chainName: string;
+    rpcUrls: string[];
+    blockExplorerUrls: string[];
+    nativeCurrency: {
+        name: string;
+        symbol: string;
+        decimals: number;
+    };
+};
+
+const CHAIN_CONFIGS: Record<string, WalletChainConfig> = {
+    "31337": {
+        chainId: "0x7A69",
+        chainName: "Hardhat Local",
+        rpcUrls: ["http://127.0.0.1:8545"],
+        blockExplorerUrls: [],
+        nativeCurrency: { name: "ETH", symbol: "ETH", decimals: 18 },
+    },
+    "80002": {
+        chainId: "0x13882",
+        chainName: "Polygon Amoy",
+        rpcUrls: ["https://rpc-amoy.polygon.technology/"],
+        blockExplorerUrls: ["https://amoy.polygonscan.com"],
+        nativeCurrency: { name: "POL", symbol: "POL", decimals: 18 },
+    },
+    "137": {
+        chainId: "0x89",
+        chainName: "Polygon",
+        rpcUrls: ["https://polygon-rpc.com"],
+        blockExplorerUrls: ["https://polygonscan.com"],
+        nativeCurrency: { name: "POL", symbol: "POL", decimals: 18 },
+    },
+};
+
+function getDefaultChainId(): string {
+    if (process.env.NEXT_PUBLIC_CHAIN_ID) {
+        return process.env.NEXT_PUBLIC_CHAIN_ID;
+    }
+
+    if (USDT_ADDRESS?.toLowerCase() === POLYGON_MAINNET_USDT) {
+        return "137";
+    }
+
+    return "80002";
+}
+
+function getChainConfig(): WalletChainConfig {
+    return CHAIN_CONFIGS[getDefaultChainId()] ?? CHAIN_CONFIGS["80002"];
+}
 
 // Minimal ERC20 ABI for approve/balanceOf
 const ERC20_ABI = [
@@ -19,6 +72,30 @@ export function getProvider(): ethers.BrowserProvider {
         throw new Error("MetaMask not found. Please install MetaMask.");
     }
     return new ethers.BrowserProvider(window.ethereum);
+}
+
+export async function ensureWalletChain(): Promise<void> {
+    if (typeof window === "undefined" || !window.ethereum) {
+        throw new Error("MetaMask not found. Please install MetaMask.");
+    }
+
+    const chainConfig = getChainConfig();
+
+    try {
+        await window.ethereum.request({
+            method: "wallet_switchEthereumChain",
+            params: [{ chainId: chainConfig.chainId }],
+        });
+    } catch (error: any) {
+        if (error?.code !== 4902) {
+            throw error;
+        }
+
+        await window.ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [chainConfig],
+        });
+    }
 }
 
 export async function getSigner(): Promise<ethers.JsonRpcSigner> {
@@ -51,6 +128,7 @@ export async function getUSDTContract(withSigner = false) {
  * 2. call deposit()
  */
 export async function depositUSDT(amountUSDT: number): Promise<string> {
+    await ensureWalletChain();
     const signer = await getSigner();
     const amount = ethers.parseUnits(amountUSDT.toString(), 6); // USDT = 6 decimals
 
@@ -73,6 +151,7 @@ export async function depositUSDT(amountUSDT: number): Promise<string> {
  * Withdraw USDT from ChartClash contract
  */
 export async function withdrawUSDT(amountUSDT: number): Promise<string> {
+    await ensureWalletChain();
     const signer = await getSigner();
     const amount = ethers.parseUnits(amountUSDT.toString(), 6);
     const chartclash = new ethers.Contract(CONTRACT_ADDRESS, ChartClashArtifact.abi, signer);
@@ -98,6 +177,7 @@ export async function placeBetOnChain(
     isUp: boolean,
     amountUSDT: number
 ): Promise<string> {
+    await ensureWalletChain();
     const signer = await getSigner();
     const chartclash = new ethers.Contract(CONTRACT_ADDRESS, ChartClashArtifact.abi, signer);
     const amount = ethers.parseUnits(amountUSDT.toString(), 6);
@@ -110,6 +190,13 @@ export async function placeBetOnChain(
  * Connect wallet and return address
  */
 export async function connectWallet(): Promise<string> {
+    await ensureWalletChain();
     const signer = await getSigner();
     return signer.getAddress();
+}
+
+export function getBlockExplorerTxUrl(txHash: string): string | null {
+    const [baseUrl] = getChainConfig().blockExplorerUrls;
+    if (!baseUrl) return null;
+    return `${baseUrl}/tx/${txHash}`;
 }

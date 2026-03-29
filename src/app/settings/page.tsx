@@ -10,6 +10,7 @@ import { Switch } from "@/components/ui/switch";
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
+import { isAllowedAdminEmail } from "@/lib/admin-client";
 
 export default function SettingsPage() {
     const [nickname, setNickname] = useState("");
@@ -26,7 +27,7 @@ export default function SettingsPage() {
             if (realUser) {
                 // Ghost Mode logic: if admin, check for impersonation
                 const ghostId = typeof window !== 'undefined' ? sessionStorage.getItem('ghost_target_id') : null;
-                const isImpersonating = ghostId && realUser.email === 'sjustone000@gmail.com';
+                const isImpersonating = ghostId && isAllowedAdminEmail(realUser.email);
                 const targetId = isImpersonating ? ghostId : realUser.id;
 
                 if (isImpersonating) {
@@ -186,7 +187,7 @@ export default function SettingsPage() {
                             variant="destructive"
                             className="w-full bg-red-500/10 border border-red-500/20 text-red-500 hover:bg-red-500 hover:text-white transition-all"
                             onClick={async () => {
-                                if (confirm("DESTRUCTIVE ACTION: Are you absolutely sure you want to delete your account? All points and history will be lost forever.")) {
+                                if (confirm("DESTRUCTIVE ACTION: Are you absolutely sure you want to delete your account? Your profile, mirrored history, and settings will be removed.")) {
                                     try {
                                         const res = await fetch('/api/user/delete', { method: 'POST' });
                                         if (res.ok) {

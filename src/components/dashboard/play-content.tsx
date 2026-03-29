@@ -9,18 +9,29 @@ import "dayjs/locale/en";
 dayjs.locale("en");
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Trophy, Sparkles } from "lucide-react";
+import {
+    ArrowUpRight,
+    BarChart3,
+    BrainCircuit,
+    CandlestickChart,
+    Clock3,
+    Gavel,
+    Scale,
+    ShieldCheck,
+    Target,
+    TrendingDown,
+    TrendingUp,
+    Wallet2,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
-import { toast } from "sonner";
 import { User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
-import { useGuestPredictions } from "@/providers/guest-prediction-provider";
 import { ASSETS, Asset } from "@/lib/constants";
 import { isMarketOpen } from "@/lib/market-hours";
-import { calculateReward } from "@/lib/rewards";
+import { isAllowedAdminEmail } from "@/lib/admin-client";
 
 // Refactored Components
-import { MarketHeader, MarketHero } from "@/components/dashboard/market-header";
+import { MarketHeader } from "@/components/dashboard/market-header";
 import { PredictionTabs } from "@/components/dashboard/prediction-tabs";
 import { DesktopActivePosition } from "@/components/battle/desktop-active-position";
 
@@ -30,7 +41,6 @@ import { useUserStats } from "@/hooks/dashboard/use-user-stats";
 import { usePredictionHistory } from "@/hooks/dashboard/use-prediction-history";
 import { useRoomFeed } from "@/hooks/dashboard/use-room-feed";
 import { useMounted } from "@/hooks/use-mounted";
-import { useGuestPrediction } from "@/hooks/dashboard/use-guest-prediction";
 
 // Dynamic Imports for Heavy Components
 const TradingViewWidget = dynamic(() => import("@/components/chart/tradingview-widget"), {
@@ -69,7 +79,134 @@ interface AppUser {
         full_name?: string;
         display_name?: string;
     };
-    is_guest?: boolean;
+}
+
+interface ThesisCardData {
+    label: string;
+    title: string;
+    summary: string;
+    catalyst: string;
+    invalidation: string;
+    stake: string;
+}
+
+function formatDisplaySymbol(symbol: string) {
+    return symbol.endsWith("USDT") ? `${symbol.slice(0, -4)}/USDT` : symbol;
+}
+
+function formatReferencePrice(value?: number | null) {
+    if (!value) return "Loading...";
+    return value >= 1000
+        ? `$${value.toLocaleString(undefined, { maximumFractionDigits: 0 })}`
+        : `$${value.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
+}
+
+function getResolutionSource(asset: Asset) {
+    if (asset.type === "CRYPTO") return "Binance candle close";
+    if (asset.type === "STOCK") return "Primary US cash session close";
+    return "Primary commodity session settlement";
+}
+
+function buildCampCards(asset: Asset, timeframe: string) {
+    const horizon = timeframe.toUpperCase();
+    const displaySymbol = formatDisplaySymbol(asset.symbol);
+
+    const bullCards: ThesisCardData[] = [
+        {
+            label: "Momentum Thesis",
+            title: `${asset.name} keeps initiative into the next ${horizon}`,
+            summary: `${displaySymbol} holds its higher-low structure and forces late shorts to chase confirmation.`,
+            catalyst: asset.type === "CRYPTO" ? "Spot inflows stay firm and liquidations cluster above local resistance." : "Risk appetite improves and buyers defend the opening drive.",
+            invalidation: `Immediate rejection back below the opening range of this ${horizon} market.`,
+            stake: "$42k aligned",
+        },
+        {
+            label: "Catalyst Thesis",
+            title: `Narrative flow rotates toward ${asset.name}`,
+            summary: `A clean catalyst window can turn passive interest into directional follow-through instead of another fade.`,
+            catalyst: asset.type === "CRYPTO" ? "Funding cools while spot-led bids remain sticky." : "Macro data lands benign and sellers lose control of the tape.",
+            invalidation: "Catalyst passes without expansion in volume or follow-through candles.",
+            stake: "$28k aligned",
+        },
+    ];
+
+    const bearCards: ThesisCardData[] = [
+        {
+            label: "Fade Thesis",
+            title: `${asset.name} stalls before acceptance`,
+            summary: `The move looks more like squeeze exhaustion than durable demand, inviting a sharp retrace.`,
+            catalyst: asset.type === "CRYPTO" ? "Perp leverage leads while spot confirmation stays weak." : "Sellers reassert after the first impulse and reclaim VWAP.",
+            invalidation: "Buyers hold above resistance-turned-support through the next reaction test.",
+            stake: "$39k aligned",
+        },
+        {
+            label: "Macro Risk Thesis",
+            title: `Cross-asset pressure caps ${displaySymbol}`,
+            summary: `A hostile macro tape can overpower chart setups and force traders back into defense.`,
+            catalyst: asset.type === "CRYPTO" ? "Dollar strength and risk-off positioning unwind speculative longs." : "Rates, macro headlines, or sector weakness overwhelm standalone strength.",
+            invalidation: "Broader risk stays calm while this market keeps absorbing supply on every dip.",
+            stake: "$31k aligned",
+        },
+    ];
+
+    return { bullCards, bearCards };
+}
+
+function ThesisCampPanel({
+    tone,
+    title,
+    description,
+    cards,
+}: {
+    tone: "bull" | "bear";
+    title: string;
+    description: string;
+    cards: ThesisCardData[];
+}) {
+    const isBull = tone === "bull";
+
+    return (
+        <Card className={cn(
+            "rounded-[24px] border p-4 shadow-[0_18px_48px_rgba(0,0,0,0.28)]",
+            isBull ? "border-[#00E5B4]/20 bg-[#091622]" : "border-[#FF6B6B]/20 bg-[#17111B]"
+        )}>
+            <div className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em]">
+                {isBull ? (
+                    <TrendingUp className="h-4 w-4 text-[#00E5B4]" />
+                ) : (
+                    <TrendingDown className="h-4 w-4 text-[#FF8C8C]" />
+                )}
+                <span className={isBull ? "text-[#9FF8E2]" : "text-[#FFC2C2]"}>{title}</span>
+            </div>
+            <p className="mt-3 text-sm leading-6 text-[#96ABBF]">{description}</p>
+
+            <div className="mt-4 space-y-3">
+                {cards.map((card) => (
+                    <div key={card.title} className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                        <div className="text-[10px] font-black uppercase tracking-[0.18em] text-[#6E839C]">
+                            {card.label}
+                        </div>
+                        <div className="mt-2 text-sm font-black text-white">{card.title}</div>
+                        <p className="mt-2 text-xs leading-5 text-[#9CB1C9]">{card.summary}</p>
+                        <div className="mt-3 space-y-2 rounded-xl border border-white/10 bg-white/[0.03] p-3 text-[11px]">
+                            <div>
+                                <span className="font-black uppercase tracking-[0.16em] text-[#6E839C]">Catalyst</span>
+                                <p className="mt-1 leading-5 text-[#D8E3EE]">{card.catalyst}</p>
+                            </div>
+                            <div>
+                                <span className="font-black uppercase tracking-[0.16em] text-[#6E839C]">Invalidation</span>
+                                <p className="mt-1 leading-5 text-[#D8E3EE]">{card.invalidation}</p>
+                            </div>
+                        </div>
+                        <div className="mt-3 flex items-center justify-between text-[11px]">
+                            <span className="font-black uppercase tracking-[0.16em] text-[#6E839C]">Aligned stake</span>
+                            <span className={isBull ? "font-black text-[#00E5B4]" : "font-black text-[#FF9A9A]"}>{card.stake}</span>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </Card>
+    );
 }
 
 export function PlayContent() {
@@ -88,16 +225,6 @@ export function PlayContent() {
     const [selectedAsset, setSelectedAsset] = useState<Asset>(initialAsset);
     const [selectedTimeframe, setSelectedTimeframe] = useState(timeframeParam || "1h");
     const [isEntertainmentHubOpen, setIsEntertainmentHubOpen] = useState(false);
-    const [isGuestResolutionOpen, setIsGuestResolutionOpen] = useState(false);
-    const [resolvedGuestPrediction, setResolvedGuestPrediction] = useState<any | null>(null);
-
-    // Guest Migration State
-    const [isGuestMigrationModalOpen, setIsGuestMigrationModalOpen] = useState(false);
-    const [migrationPoints, setMigrationPoints] = useState(1000);
-    const [migrationPredictions, setMigrationPredictions] = useState<any[]>([]);
-    const [transferPoints, setTransferPoints] = useState(true);
-    const [transferHistory, setTransferHistory] = useState(true);
-    const [isMigrating, setIsMigrating] = useState(false);
 
     // Global Market Data
     const [roundOpenPrice, setRoundOpenPrice] = useState<number | null>(null);
@@ -105,8 +232,6 @@ export function PlayContent() {
     const mounted = useMounted();
 
     const supabase = createClient();
-
-    const { guestPredictions, guestPoints, guestId, resolveGuestPrediction, clearGuestPredictions } = useGuestPredictions();
 
     // Sync state with URL params if they change externally
     useEffect(() => {
@@ -158,7 +283,7 @@ export function PlayContent() {
             const searchParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
             const impersonateId = searchParams.get('impersonate') || (typeof window !== 'undefined' ? sessionStorage.getItem('ghost_target_id') : null);
 
-            if (impersonateId && realUser?.email === 'sjustone000@gmail.com') {
+            if (impersonateId && isAllowedAdminEmail(realUser?.email)) {
                 console.log("[ADMIN] GHOST MODE ACTIVE FOR", impersonateId);
                 setIsGhostMode(true);
                 if (typeof window !== 'undefined') {
@@ -189,44 +314,14 @@ export function PlayContent() {
                 setIsGhostMode(false);
                 setUser(realUser);
             } else {
-                // GUEST MODE
                 if (typeof window !== 'undefined' && !searchParams.get('impersonate')) {
                     sessionStorage.removeItem('ghost_target_id');
                 }
                 setIsGhostMode(false);
-                setUser({
-                    id: guestId,
-                    email: 'guest@chartclash.app',
-                    user_metadata: { display_name: `Guest_${guestId.substring(0, 5)}` },
-                    is_guest: true
-                } as any);
+                setUser(null);
             }
         });
-    }, [supabase, guestId]);
-    // Check for pending guest data to migrate
-    useEffect(() => {
-        if (user && !user.is_guest && typeof window !== 'undefined') {
-            const hasCompletedMigration = localStorage.getItem("chartclash_migration_completed");
-            const isTransitioning = localStorage.getItem("chartclash_is_transitioning") === "true";
-
-            if (hasCompletedMigration !== "true" && isTransitioning) {
-                const storedPointsStr = localStorage.getItem("chartclash_guest_points");
-                const storedPredsStr = localStorage.getItem("chartclash_guest_predictions");
-
-                if (storedPointsStr || storedPredsStr) {
-                    const points = storedPointsStr ? Number(storedPointsStr) : 1000;
-                    let preds = [];
-                    try { preds = storedPredsStr ? JSON.parse(storedPredsStr) : []; } catch (e) { }
-
-                    if (preds.length > 0 || points !== 1000) {
-                        setMigrationPoints(points);
-                        setMigrationPredictions(preds);
-                        setIsGuestMigrationModalOpen(true);
-                    }
-                }
-            }
-        }
-    }, [user]);
+    }, [supabase]);
 
     // --- HOOKS INTEGRATION ---
     const { isLocked, serverTimeOffset } = usePredictionLock({
@@ -234,7 +329,7 @@ export function PlayContent() {
         selectedAssetSymbol: selectedAsset.symbol
     });
 
-    const { userPoints, setUserPoints, userStreak, username, userRank, fetchUserStats, isLoaded, activeCount } = useUserStats(user);
+    const { userPoints, username, userRank, fetchUserStats, isLoaded, activeCount } = useUserStats(user);
     const { predictions, fetchPredictions } = usePredictionHistory(user);
     const { feed, fetchFeed } = useRoomFeed({
         assetSymbol: selectedAsset.symbol,
@@ -243,20 +338,24 @@ export function PlayContent() {
     });
 
     const marketStatus = isMarketOpen(selectedAsset.symbol, selectedAsset.type);
+    const displaySymbol = formatDisplaySymbol(selectedAsset.symbol);
 
     const adjustedNow = Date.now() + serverTimeOffset;
-
-    // Debugging active prediction state for guests
-    if (!user && mounted && guestPredictions?.length > 0) {
-        console.log("Guest Predictions check:", {
-            guestPredictionsCount: guestPredictions.length,
-            adjustedNow,
-            selectedAsset: selectedAsset.symbol,
-            selectedTimeframe: selectedTimeframe,
-            firstPredClose: guestPredictions[0]?.candle_close_at,
-            firstPredCloseTime: new Date(guestPredictions[0]?.candle_close_at).getTime()
-        });
-    }
+    const { bullCards, bearCards } = buildCampCards(selectedAsset, selectedTimeframe);
+    const signalCount = feed.length > 0 ? feed.length : 12;
+    const battleQuestion = `Will the next ${selectedTimeframe.toUpperCase()} confirm the ${selectedAsset.name} thesis?`;
+    const battleSubtitle = `${displaySymbol} becomes a structured market here: stake the bull or bear case, publish your catalyst, and let the market resolve the debate on a fixed source.`;
+    const catalystChips = selectedAsset.type === "CRYPTO"
+        ? ["ETF flow", "Funding reset", "Liquidation map", "Rotation"]
+        : selectedAsset.type === "STOCK"
+            ? ["Macro tape", "Sector bid", "Opening range", "Earnings spillover"]
+            : ["Dollar move", "Session settlement", "Risk appetite", "Carry unwind"];
+    const marketMetrics = [
+        { label: "Reference", value: formatReferencePrice(roundOpenPrice), icon: CandlestickChart },
+        { label: "Resolution", value: getResolutionSource(selectedAsset), icon: Gavel },
+        { label: "Signal Board", value: `${signalCount} active theses`, icon: BrainCircuit },
+        { label: "Wallet", value: user ? `${userPoints.toFixed(2)} USDT ready` : "Sign in + connect wallet", icon: Wallet2 },
+    ];
 
     const isAlreadyBet = mounted && (
         predictions.some(p =>
@@ -264,12 +363,7 @@ export function PlayContent() {
             p.asset_symbol === selectedAsset.symbol &&
             p.timeframe === selectedTimeframe &&
             new Date(p.candle_close_at).getTime() > adjustedNow - 1000 // Buffer for clock jitter
-        ) ||
-        (!user && guestPredictions?.some(p => p.status === 'pending' &&
-            p.asset_symbol === selectedAsset.symbol &&
-            p.timeframe === selectedTimeframe &&
-            new Date(p.candle_close_at).getTime() > adjustedNow - 1000 // Buffer for clock jitter
-        ))
+        )
     );
 
     const activePrediction = mounted ? (
@@ -278,180 +372,270 @@ export function PlayContent() {
             p.asset_symbol === selectedAsset.symbol &&
             p.timeframe === selectedTimeframe &&
             new Date(p.candle_close_at).getTime() > adjustedNow - 1000
-        ) ||
-        (!user && guestPredictions?.find(p => p.status === 'pending' &&
-            p.asset_symbol === selectedAsset.symbol &&
-            p.timeframe === selectedTimeframe &&
-            new Date(p.candle_close_at).getTime() > adjustedNow - 1000 // Buffer for clock jitter
-        )) || null
+        ) || null
     ) : null;
 
     const isAIBeatEnabled = process.env.NEXT_PUBLIC_ENABLE_AI_BEAT === 'true';
-
-    // Guest Resolution Effect
-    useEffect(() => {
-        if (user || !guestPredictions || guestPredictions.length === 0) return;
-
-        const checkResolution = async () => {
-            const now = Date.now();
-
-            for (const pred of guestPredictions) {
-                if (pred.status !== 'pending') continue;
-
-                const closeTime = new Date(pred.candle_close_at).getTime();
-
-                if (now > closeTime + 10000) { // 10s buffer
-                    try {
-                        const res = await fetch("/api/market/entry-price", {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({
-                                symbol: pred.asset_symbol,
-                                timeframe: pred.timeframe,
-                                type: selectedAsset.type // Approximate
-                            })
-                        });
-                        const json = await res.json();
-                        if (json.success && json.data?.openPrice) {
-                            const resolved = resolveGuestPrediction(pred.id, json.data.openPrice);
-                            if (resolved) {
-                                setResolvedGuestPrediction(resolved);
-                                setIsGuestResolutionOpen(true);
-                            }
-                        }
-                    } catch (e) {
-                        console.error("Guest resolution fetch failed", e);
-                    }
-                }
-            }
-        };
-
-        const timer = setInterval(checkResolution, 10000);
-        return () => clearInterval(timer);
-    }, [user, guestPredictions, resolveGuestPrediction, selectedAsset.type]);
-
-    // Migration Handler
-    const handleMigrateGuestData = async () => {
-        if (!user) return;
-        setIsMigrating(true);
-        try {
-            const { data, error } = await supabase.rpc('migrate_guest_data', {
-                p_user_id: user.id,
-                p_guest_points: Math.max(1000, migrationPoints), // Round up to 1000 if lost points (Point 1)
-                p_guest_predictions: migrationPredictions,
-                p_transfer_points: transferPoints,
-                p_transfer_history: transferHistory
-            });
-
-            if (error) throw error;
-
-            // Clear local cache completely and mark as permanently completed
-            localStorage.setItem("chartclash_migration_completed", "true");
-            localStorage.removeItem("chartclash_guest_points");
-            localStorage.removeItem("chartclash_guest_predictions");
-            localStorage.removeItem("chartclash_is_transitioning"); // Clear flag on success
-            clearGuestPredictions(); // Provider clear too
-
-            toast.success("Guest progress saved successfully! Good luck.");
-            setIsGuestMigrationModalOpen(false);
-
-            // Refresh stats and history so UI updates immediately
-            fetchUserStats();
-            fetchPredictions();
-
-        } catch (error) {
-            console.error(error);
-            toast.error("Failed to migrate guest data.");
-        } finally {
-            setIsMigrating(false);
-        }
-    };
-
-    // Dismiss Migration (burn guest data without saving)
-    const handleDismissMigration = () => {
-        localStorage.setItem("chartclash_migration_completed", "true");
-        localStorage.removeItem("chartclash_is_transitioning");
-        localStorage.removeItem("chartclash_guest_points");
-        localStorage.removeItem("chartclash_guest_predictions");
-        clearGuestPredictions();
-        setIsGuestMigrationModalOpen(false);
-    };
 
     return (
         <main className="min-h-screen bg-[#060609] text-white selection:bg-primary/30">
             <MarketHeader
                 user={user}
                 username={username}
-                userPoints={user ? userPoints : guestPoints}
+                userPoints={userPoints}
                 userRank={userRank}
-                activeCount={user ? activeCount : guestPredictions.filter(p => p.status === 'pending').length}
+                activeCount={activeCount}
                 isGhostMode={isGhostMode}
             />
 
-            <div className="container mx-auto px-2 lg:px-4 py-2 lg:py-6 space-y-2 lg:space-y-4 max-w-6xl">
+            <div className="relative">
+                <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,_rgba(0,229,180,0.12),_transparent_26%),radial-gradient(circle_at_top_right,_rgba(255,104,104,0.10),_transparent_24%)]" />
 
-                <section className="grid grid-cols-1 lg:grid-cols-12 gap-2 lg:gap-4 items-stretch lg:h-[calc(100vh-80px)] overflow-hidden lg:-mt-2 bg-[#080C14]">
-                    {/* LEFT PANEL / Mobile Top (Order Panel) */}
-                    <div className="lg:col-span-3 h-full flex flex-col gap-2 lg:gap-3 min-h-0 order-1 lg:order-1 pt-2 lg:pt-0 mb-2 lg:mb-0 pb-safe">
-                        <OrderPanel
-                            user={user}
-                            userPoints={userPoints}
-                            userStreak={userStreak}
-                            setUserPoints={setUserPoints}
-                            selectedAsset={selectedAsset}
-                            setSelectedAsset={handleAssetChange}
-                            selectedTimeframe={selectedTimeframe}
-                            setSelectedTimeframe={handleTimeframeChange}
-                            marketStatus={marketStatus}
-                            isLocked={isLocked}
-                            isAlreadyBet={isAlreadyBet}
-                            activePrediction={activePrediction}
-                            refreshPredictions={fetchPredictions}
-                            fetchUserStats={fetchUserStats}
-                            isLoaded={isLoaded}
-                            roundOpenPrice={roundOpenPrice}
-                            serverTimeOffset={serverTimeOffset}
-                            onBetSuccess={() => setIsEntertainmentHubOpen(true)}
-                        />
-                    </div>
+                <div className="container mx-auto max-w-7xl px-4 py-3 lg:px-6 lg:py-7">
+                    <section className="overflow-hidden rounded-[30px] border border-white/10 bg-[#091120]/90 shadow-[0_30px_100px_rgba(0,0,0,0.5)]">
+                        <div className="grid gap-0 lg:grid-cols-[1.15fr_0.85fr]">
+                            <div className="border-b border-white/10 p-5 lg:border-b-0 lg:border-r lg:p-7">
+                                <div className="flex flex-wrap items-center gap-2">
+                                    <div className="inline-flex items-center gap-2 rounded-full border border-[#00E5B4]/20 bg-[#00E5B4]/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.2em] text-[#9FF8E2]">
+                                        <Target className="h-3.5 w-3.5" />
+                                        Decision Board
+                                    </div>
+                                    <div className={cn(
+                                        "inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[11px] font-black uppercase tracking-[0.18em]",
+                                        marketStatus.isOpen
+                                            ? "border-[#00E5B4]/20 bg-[#00E5B4]/10 text-[#9FF8E2]"
+                                            : "border-[#FF6B6B]/20 bg-[#FF6B6B]/10 text-[#FFC2C2]"
+                                    )}>
+                                        <Clock3 className="h-3.5 w-3.5" />
+                                        {marketStatus.isOpen ? "Open Market" : "Closed Market"}
+                                    </div>
+                                    <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-black uppercase tracking-[0.18em] text-[#AFC3D9]">
+                                        <Scale className="h-3.5 w-3.5" />
+                                        {selectedTimeframe.toUpperCase()} / {displaySymbol}
+                                    </div>
+                                </div>
 
-                    {/* CENTER PANEL / Mobile Bottom Chart */}
-                    <div className="lg:col-span-6 h-full flex flex-col gap-2 lg:gap-3 min-h-0 order-2 lg:order-2 h-[240px] lg:h-full shrink-0 mb-20 lg:mb-0">
-                        <Card className="flex-1 w-full border-[#1E2D45] bg-[#0F1623] overflow-hidden flex flex-col relative group rounded-2xl shadow-xl">
-                            <div className="absolute top-4 left-4 z-10 bg-[#141D2E]/80 backdrop-blur-md border border-[#1E2D45] px-3 py-1.5 rounded-xl flex items-center gap-2">
-                                <div className="w-2 h-2 rounded-full bg-[#00E5B4] animate-pulse"></div>
-                                <span className="text-[#00E5B4] font-bold text-xs">1H &middot; BTC/USDT</span>
+                                <div className="mt-5 space-y-3">
+                                    <h1 className="max-w-3xl text-3xl font-black tracking-[-0.04em] text-white lg:text-5xl">
+                                        {battleQuestion}
+                                    </h1>
+                                    <p className="max-w-3xl text-sm leading-6 text-[#9CB1C9] lg:text-base">
+                                        {battleSubtitle}
+                                    </p>
+                                </div>
+
+                                <div className="mt-5 flex flex-wrap gap-2">
+                                    {catalystChips.map((chip) => (
+                                        <div
+                                            key={chip}
+                                            className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-[11px] font-bold text-[#D9E6F3]"
+                                        >
+                                            {chip}
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                                    <div className="rounded-2xl border border-[#00E5B4]/20 bg-[#00E5B4]/8 p-4">
+                                        <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.18em] text-[#9FF8E2]">
+                                            <TrendingUp className="h-3.5 w-3.5" />
+                                            Long Desk
+                                        </div>
+                                        <div className="mt-2 text-lg font-black text-white">Trend continuation</div>
+                                        <p className="mt-2 text-xs leading-5 text-[#A7BDD6]">
+                                            Buyers want follow-through, clean acceptance, and no failed breakout.
+                                        </p>
+                                    </div>
+                                    <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                                        <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.18em] text-[#7E92AB]">
+                                            <CandlestickChart className="h-3.5 w-3.5 text-[#00E5B4]" />
+                                            Market Frame
+                                        </div>
+                                        <div className="mt-2 text-lg font-black text-white">{formatReferencePrice(roundOpenPrice)}</div>
+                                        <p className="mt-2 text-xs leading-5 text-[#A7BDD6]">
+                                            Reference price anchors the current thesis battle and resolution window.
+                                        </p>
+                                    </div>
+                                    <div className="rounded-2xl border border-[#FF6B6B]/20 bg-[#FF6B6B]/8 p-4">
+                                        <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.18em] text-[#FFC2C2]">
+                                            <TrendingDown className="h-3.5 w-3.5" />
+                                            Short Desk
+                                        </div>
+                                        <div className="mt-2 text-lg font-black text-white">Fade and rejection</div>
+                                        <p className="mt-2 text-xs leading-5 text-[#A7BDD6]">
+                                            Sellers want failed acceptance, weak breadth, and a fast reclaim of supply.
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="flex-1 w-full h-full relative">
-                                <TradingViewWidget
-                                    symbol={selectedAsset.symbol}
-                                    interval={selectedTimeframe}
-                                    theme="dark"
-                                />
-                                <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_80px_rgba(8,12,20,0.8)]" />
-                            </div>
-                        </Card>
 
-                        {/* Mobile Only: Order History Box */}
-                        <div className="flex lg:hidden flex-col flex-1 shrink-0 mt-2">
-                            <PredictionTabs predictions={predictions} user={user} />
+                            <div className="p-5 lg:p-7">
+                                <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#7A90AB]">
+                                    Market Structure
+                                </div>
+                                <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                                    {marketMetrics.map(({ label, value, icon: Icon }) => (
+                                        <div key={label} className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                                            <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.18em] text-[#637790]">
+                                                <Icon className="h-3.5 w-3.5 text-[#00E5B4]" />
+                                                {label}
+                                            </div>
+                                            <div className="mt-2 text-sm font-black text-white">{value}</div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="mt-5 rounded-[24px] border border-white/10 bg-[#0B1624] p-4">
+                                    <div className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-[#9FF8E2]">
+                                        <ShieldCheck className="h-4 w-4" />
+                                        Fixed Rules Before Stake
+                                    </div>
+                                    <div className="mt-4 space-y-3 text-sm text-[#C9D7E4]">
+                                        <div className="flex items-start justify-between gap-3 rounded-2xl border border-white/10 bg-black/20 px-4 py-3">
+                                            <span className="text-[#7E92AB]">Resolution source</span>
+                                            <span className="text-right font-bold text-white">{getResolutionSource(selectedAsset)}</span>
+                                        </div>
+                                        <div className="flex items-start justify-between gap-3 rounded-2xl border border-white/10 bg-black/20 px-4 py-3">
+                                            <span className="text-[#7E92AB]">Fallback policy</span>
+                                            <span className="text-right font-bold text-white">Secondary market data with manual clarification log</span>
+                                        </div>
+                                        <div className="flex items-start justify-between gap-3 rounded-2xl border border-white/10 bg-black/20 px-4 py-3">
+                                            <span className="text-[#7E92AB]">Beta preview</span>
+                                            <span className="text-right font-bold text-white">Structured thesis cards are mocked for layout validation</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+                                        <Link href="/wallet" className="flex-1">
+                                            <Button className="w-full bg-[#00E5B4] text-black hover:bg-[#00E5B4]/90">
+                                                Open Wallet
+                                                <ArrowUpRight className="ml-2 h-4 w-4" />
+                                            </Button>
+                                        </Link>
+                                        {!user && (
+                                            <Link href="/login" className="flex-1">
+                                                <Button variant="outline" className="w-full border-white/10 bg-white/5 hover:bg-white/10">
+                                                    Sign in to unlock live betting
+                                                </Button>
+                                            </Link>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </section>
 
-                    {/* RIGHT PANEL / Desktop Only Data */}
-                    <div className="hidden lg:flex lg:col-span-3 h-full flex-col gap-3 min-h-0 order-3 overflow-y-auto no-scrollbar">
-                        {activePrediction && (
-                            <DesktopActivePosition
-                                activePrediction={activePrediction}
-                                currentPrice={roundOpenPrice}
+                    <section className="mt-4 grid gap-4 lg:grid-cols-12">
+                        <div className="order-2 space-y-4 lg:order-1 lg:col-span-3">
+                            <ThesisCampPanel
+                                tone="bull"
+                                title="Long Desk"
+                                description="This side is underwriting follow-through, accepting higher prices, and defending the scenario under pressure."
+                                cards={bullCards}
                             />
-                        )}
-                        <PredictionTabs predictions={predictions} user={user} />
-                        <div className="grid grid-cols-1 gap-3 shrink-0 flex-1">
+                        </div>
+
+                        <div className="order-1 lg:order-2 lg:col-span-6">
+                            <Card className="h-[360px] overflow-hidden rounded-[28px] border border-white/10 bg-[#0C1624] shadow-[0_20px_70px_rgba(0,0,0,0.35)] lg:h-[560px]">
+                                <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
+                                    <div className="flex items-center gap-2 text-sm font-black uppercase tracking-[0.18em] text-[#9FF8E2]">
+                                        <BarChart3 className="h-4 w-4" />
+                                        {selectedTimeframe.toUpperCase()} Chart Arena
+                                    </div>
+                                    <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-[#D7E3EE]">
+                                        {displaySymbol}
+                                    </div>
+                                </div>
+                                <div className="relative h-[calc(100%-57px)]">
+                                    <TradingViewWidget
+                                        symbol={selectedAsset.symbol}
+                                        interval={selectedTimeframe}
+                                        theme="dark"
+                                    />
+                                    <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(6,9,20,0.08)_0%,rgba(6,9,20,0.34)_100%)]" />
+                                    <div className="pointer-events-none absolute left-4 top-4 rounded-2xl border border-white/10 bg-[#111C2B]/85 px-4 py-3 backdrop-blur">
+                                        <div className="text-[10px] font-black uppercase tracking-[0.18em] text-[#6E839C]">Resolution snapshot</div>
+                                        <div className="mt-1 text-base font-black text-white">{formatReferencePrice(roundOpenPrice)}</div>
+                                        <div className="mt-1 text-xs text-[#A7BDD6]">
+                                            Source fixed to {getResolutionSource(selectedAsset)}
+                                        </div>
+                                    </div>
+                                </div>
+                            </Card>
+                        </div>
+
+                        <div className="order-3 space-y-4 lg:col-span-3">
+                            <ThesisCampPanel
+                                tone="bear"
+                                title="Short Desk"
+                                description="This side is positioned for rejection, failed acceptance, and a decisive reclaim by sellers."
+                                cards={bearCards}
+                            />
+                        </div>
+                    </section>
+
+                    <section className="mt-4 grid gap-4 lg:grid-cols-12">
+                        <div className="lg:col-span-4">
+                            <div className="space-y-3">
+                                <div className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-[#7A90AB]">
+                                    <Wallet2 className="h-4 w-4 text-[#00E5B4]" />
+                                    Stake Composer
+                                </div>
+                                <OrderPanel
+                                    user={user}
+                                    userPoints={userPoints}
+                                    selectedAsset={selectedAsset}
+                                    setSelectedAsset={handleAssetChange}
+                                    selectedTimeframe={selectedTimeframe}
+                                    setSelectedTimeframe={handleTimeframeChange}
+                                    marketStatus={marketStatus}
+                                    isLocked={isLocked}
+                                    isAlreadyBet={isAlreadyBet}
+                                    activePrediction={activePrediction}
+                                    refreshPredictions={fetchPredictions}
+                                    fetchUserStats={fetchUserStats}
+                                    isLoaded={isLoaded}
+                                    roundOpenPrice={roundOpenPrice}
+                                    serverTimeOffset={serverTimeOffset}
+                                    onBetSuccess={() => setIsEntertainmentHubOpen(true)}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="space-y-4 lg:col-span-4">
+                            <div className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-[#7A90AB]">
+                                <BarChart3 className="h-4 w-4 text-[#00E5B4]" />
+                                Telemetry
+                            </div>
+                            {activePrediction && (
+                                <DesktopActivePosition
+                                    activePrediction={activePrediction}
+                                    currentPrice={roundOpenPrice}
+                                />
+                            )}
                             <StatsPanel
                                 assetSymbol={selectedAsset.symbol}
                                 timeframe={selectedTimeframe}
                             />
+                        </div>
+
+                        <div className="lg:col-span-4">
+                            <div className="space-y-3">
+                                <div className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-[#7A90AB]">
+                                    <Scale className="h-4 w-4 text-[#00E5B4]" />
+                                    Archive
+                                </div>
+                                <PredictionTabs predictions={predictions} user={user} />
+                            </div>
+                        </div>
+                    </section>
+
+                    <section className="mt-4">
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-[#7A90AB]">
+                                <BrainCircuit className="h-4 w-4 text-[#00E5B4]" />
+                                Signal Channel
+                            </div>
                             <SocialFeed
                                 feed={feed}
                                 selectedAsset={selectedAsset}
@@ -459,8 +643,8 @@ export function PlayContent() {
                                 refreshFeed={fetchFeed}
                             />
                         </div>
-                    </div>
-                </section>
+                    </section>
+                </div>
             </div>
 
             <div className="fixed bottom-4 right-4 z-50">
@@ -470,160 +654,6 @@ export function PlayContent() {
                         open={isEntertainmentHubOpen}
                         onOpenChange={setIsEntertainmentHubOpen}
                     />
-                )}
-
-                {/* Guest Resolution Modal */}
-                {isGuestResolutionOpen && resolvedGuestPrediction && (
-                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
-                        <Card className="max-w-md w-full border-primary/50 bg-[#0f0f15] shadow-[0_0_50px_rgba(var(--primary),0.2)] p-6 space-y-6">
-                            <div className="text-center space-y-2">
-                                <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-primary/40">
-                                    <Trophy className={cn("w-8 h-8", resolvedGuestPrediction.status === 'WIN' ? "text-yellow-500" : "text-gray-500")} />
-                                </div>
-                                <h2 className="text-2xl font-black italic tracking-tighter uppercase text-emerald-400">
-                                    {resolvedGuestPrediction.status === 'WIN' ? 'Victory! You Nailed It' : 'Round Finished!'}
-                                </h2>
-                                <p className="text-muted-foreground text-sm">
-                                    Your prediction for {resolvedGuestPrediction.asset_symbol} was {resolvedGuestPrediction.status === 'WIN' ? 'spot on' : 'resolved'}. You&apos;ve experienced the clash – now make it real!
-                                </p>
-                            </div>
-
-                            <div className="bg-white/5 rounded-xl p-4 border border-white/10 space-y-3">
-                                <div className="flex justify-between text-xs">
-                                    <span className="text-muted-foreground uppercase font-bold tracking-tighter">Entry Price</span>
-                                    <span className="font-mono">${resolvedGuestPrediction.entry_price?.toLocaleString()}</span>
-                                </div>
-                                <div className="flex justify-between text-xs">
-                                    <span className="text-muted-foreground uppercase font-bold tracking-tighter">Exit Price</span>
-                                    <span className="font-mono">${resolvedGuestPrediction.actual_price?.toLocaleString()}</span>
-                                </div>
-                                <div className="flex justify-between border-t border-white/10 pt-2">
-                                    <span className="text-xs font-black uppercase tracking-widest">Result</span>
-                                    <span className={cn("text-xs font-black", resolvedGuestPrediction.profit! > 0 ? "text-emerald-400" : "text-rose-400")}>
-                                        {resolvedGuestPrediction.profit! > 0 ? `+${resolvedGuestPrediction.profit} PTS` : `${resolvedGuestPrediction.profit} PTS`}
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div className="flex flex-col gap-3 pt-2">
-                                <Link href="/login" className="w-full">
-                                    <Button
-                                        onClick={() => {
-                                            if (typeof window !== 'undefined') {
-                                                localStorage.setItem('chartclash_is_transitioning', 'true');
-                                            }
-                                        }}
-                                        className="w-full bg-primary text-black font-black uppercase tracking-widest hover:scale-[1.02] transition-transform"
-                                    >
-                                        Sign up to save your progress
-                                    </Button>
-                                </Link>
-                                <Button
-                                    variant="ghost"
-                                    onClick={() => {
-                                        setIsGuestResolutionOpen(false);
-                                        setResolvedGuestPrediction(null);
-                                    }}
-                                    className="text-[10px] text-muted-foreground hover:text-white uppercase font-bold tracking-widest"
-                                >
-                                    Dismiss and Try Again
-                                </Button>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => {
-                                        setIsGuestResolutionOpen(false);
-                                        setResolvedGuestPrediction(null);
-                                        clearGuestPredictions();
-                                    }}
-                                    className="text-[10px] text-rose-500/50 hover:text-rose-400 -mt-2"
-                                >
-                                    Reset Guest Data
-                                </Button>
-                            </div>
-                        </Card>
-                    </div>
-                )}
-
-                {/* Guest Migration Modal (Post Login) */}
-                {isGuestMigrationModalOpen && (
-                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
-                        <Card className="max-w-md w-full border-primary/50 bg-[#0f0f15] shadow-[0_0_50px_rgba(var(--primary),0.2)] p-6 space-y-6">
-                            <div className="text-center space-y-2">
-                                <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-primary/40">
-                                    <Sparkles className="w-8 h-8 text-primary" />
-                                </div>
-                                <h2 className="text-2xl font-black italic tracking-tighter uppercase text-white">
-                                    Welcome Aboard
-                                </h2>
-                                <p className="text-muted-foreground text-sm">
-                                    We found your guest progress. Would you like to keep your DEMO points and history?
-                                </p>
-                            </div>
-
-                            <div className="bg-white/5 rounded-xl p-4 border border-white/10 space-y-4">
-                                {/* Transfer History Option */}
-                                <label className="flex items-start gap-3 cursor-pointer group">
-                                    <div className="mt-0.5 flex-shrink-0">
-                                        <input
-                                            type="checkbox"
-                                            checked={transferHistory}
-                                            onChange={(e) => setTransferHistory(e.target.checked)}
-                                            className="w-4 h-4 rounded border-white/20 bg-black/50 text-primary focus:ring-primary/50"
-                                        />
-                                    </div>
-                                    <div className="space-y-1">
-                                        <span className={cn("text-sm font-bold block transition-colors", transferHistory ? "text-white" : "text-muted-foreground")}>
-                                            Keep My Predictions ({migrationPredictions.length})
-                                        </span>
-                                        <span className="text-[10px] text-muted-foreground block leading-tight">
-                                            Transfer all your guest bets directly into your permanent History tab.
-                                        </span>
-                                    </div>
-                                </label>
-
-                                {/* Transfer Points Option */}
-                                <label className="flex items-start gap-3 cursor-pointer group pt-3 border-t border-white/10">
-                                    <div className="mt-0.5 flex-shrink-0">
-                                        <input
-                                            type="checkbox"
-                                            checked={transferPoints}
-                                            onChange={(e) => setTransferPoints(e.target.checked)}
-                                            className="w-4 h-4 rounded border-white/20 bg-black/50 text-primary focus:ring-primary/50"
-                                        />
-                                    </div>
-                                    <div className="space-y-1">
-                                        <span className={cn("text-sm font-bold block transition-colors", transferPoints ? "text-white" : "text-muted-foreground")}>
-                                            Keep My DEMO Balance ({migrationPoints} pts)
-                                        </span>
-                                        <span className="text-[10px] text-muted-foreground block leading-tight">
-                                            {migrationPoints <= 1000
-                                                ? "Since your balance is below 1,000, we'll generously round it back up to 1,000 pts if you check this!"
-                                                : "Start your real journey ahead of the pack with your hard-earned guest points."}
-                                        </span>
-                                    </div>
-                                </label>
-                            </div>
-
-                            <div className="flex flex-col gap-3 pt-2">
-                                <Button
-                                    onClick={handleMigrateGuestData}
-                                    disabled={isMigrating}
-                                    className="w-full bg-primary text-black font-black uppercase tracking-widest hover:scale-[1.02] transition-transform"
-                                >
-                                    {isMigrating ? "Saving..." : "Start Trading"}
-                                </Button>
-                                <Button
-                                    variant="ghost"
-                                    onClick={handleDismissMigration}
-                                    disabled={isMigrating}
-                                    className="text-[10px] text-muted-foreground hover:text-white uppercase font-bold tracking-widest"
-                                >
-                                    No, start entirely fresh
-                                </Button>
-                            </div>
-                        </Card>
-                    </div>
                 )}
             </div>
         </main>

@@ -1,6 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
 
+import { requireAdminUser } from '@/lib/server-access';
+
 const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -9,6 +11,9 @@ const supabase = createClient(
 // GET: Fetch current scheduler settings
 export async function GET(req: Request) {
     try {
+        const auth = await requireAdminUser();
+        if (auth.response) return auth.response;
+
         const { data, error } = await supabase.rpc('get_scheduler_settings', {
             p_service_name: 'ai_analyst'
         });
@@ -31,6 +36,9 @@ export async function GET(req: Request) {
 // POST: Update scheduler settings
 export async function POST(req: Request) {
     try {
+        const auth = await requireAdminUser();
+        if (auth.response) return auth.response;
+
         const body = await req.json();
         const { enabled, timeframes } = body;
 

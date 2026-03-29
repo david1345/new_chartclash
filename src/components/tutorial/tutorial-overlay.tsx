@@ -15,57 +15,51 @@ interface Step {
 
 const STEPS: Step[] = [
     {
-        targetId: "tutorial-asset-time",
-        title: "Step 1: Asset & Timeframe",
-        content: "Select your preferred asset (Crypto/Stock) and the prediction timeframe (15m, 30m, etc.).",
-        position: "bottom"
-    },
-    {
-        targetId: "tutorial-target",
-        title: "Step 2: Set Target",
-        content: "Choose your target profit percentage. Higher targets offer bigger rewards but are harder to hit.",
+        targetId: "tutorial-market-select",
+        title: "Step 1: Market",
+        content: "Choose the asset you want to trade. Each market resolves on a fixed round schedule.",
         position: "bottom"
     },
     {
         targetId: "tutorial-bet",
-        title: "Step 3: Bet Amount",
-        content: "Enter your bet amount or select a percentage of your total points.",
+        title: "Step 2: Bet Amount",
+        content: "Enter the USDT amount you want to stake from your contract balance.",
+        position: "top"
+    },
+    {
+        targetId: "tutorial-wallet-connect",
+        title: "Step 3: Wallet Check",
+        content: "Connect MetaMask and make sure your contract balance is funded before you bet.",
         position: "top"
     },
     {
         targetId: "tutorial-direction",
-        title: "Step 4: Predict Direction",
-        content: "Will the price go UP or DOWN? Choose your direction carefully.",
-        position: "top"
-    },
-    {
-        targetId: "tutorial-submit",
-        title: "Step 5: Forecast",
-        content: "Click FORECAST to lock in your prediction. Good luck!",
+        title: "Step 4: Long or Short",
+        content: "Pick the side you want to back. Once the transaction confirms, the position is locked for that round.",
         position: "top"
     },
     {
         targetId: "tutorial-active-tab",
-        title: "Step 6: Track Active Bets",
-        content: "Your pending predictions will appear here in the 'Active' tab.",
+        title: "Step 5: Track Live Bets",
+        content: "Your open positions appear in the Active tab until the market settles.",
         position: "top"
     },
     {
         targetId: "tutorial-history-tab",
-        title: "Step 7: Check History",
-        content: "After the timeframe ends, check the 'History' tab to see your wins and losses.",
+        title: "Step 6: Review History",
+        content: "Settled rounds move into History with mirrored win, loss, or refund outcomes.",
         position: "top"
     },
     {
         targetId: "tutorial-all-history",
-        title: "Step 8: Detailed Records",
-        content: "Click 'All History' to view your complete betting log and performance analytics.",
+        title: "Step 7: Full Ledger",
+        content: "Open the full history page to inspect entry price, close price, and final PnL.",
         position: "top"
     },
     {
         targetId: "tutorial-leaderboard",
-        title: "Step 9: Competition",
-        content: "Check the 'Leaderboard' to compare your performance with other traders.",
+        title: "Step 8: Leaderboard",
+        content: "Compare your net PnL and hit rate against other traders on the live board.",
         position: "bottom"
     }
 ];

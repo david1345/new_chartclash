@@ -1,6 +1,13 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextRequest, NextResponse } from 'next/server';
-import { createRoundOnChain, settleRoundOnChain } from '@/lib/contract-server';
+import {
+    createRoundOnChain,
+    getBetOnChain,
+    getRoundOnChain,
+    getWalletAddressFromTransaction,
+    settleRoundOnChain
+} from '@/lib/contract-server';
+import { requireAdminOrCron } from '@/lib/server-access';
 
 // 1. Setup Supabase Client (Service Role needed for RPC)
 const supabase = createClient(
@@ -12,13 +19,80 @@ const supabase = createClient(
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const getTimestamp = () => `[${new Date().toLocaleTimeString()}]`;
+const FEE_DENOM = 10_000;
+const GREEN_FEE_BPS = 100;
+const HOUSE_FEE_BPS = 300;
+
+function getDurationMs(timeframe: string) {
+    const tfVal = parseInt(timeframe, 10);
+    if (timeframe.endsWith('m')) return tfVal * 60 * 1000;
+    if (timeframe.endsWith('h')) return tfVal * 60 * 60 * 1000;
+    if (timeframe.endsWith('d')) return tfVal * 24 * 60 * 60 * 1000;
+    return 60 * 60 * 1000;
+}
+
+function parseTxHash(comment?: string | null) {
+    if (!comment?.startsWith('tx:')) return null;
+    const txHash = comment.slice(3).trim();
+    return /^0x[a-fA-F0-9]{64}$/.test(txHash) ? txHash : null;
+}
+
+function getFallbackMirror(direction: 'UP' | 'DOWN', openPrice: number, closePrice: number, betAmount: number) {
+    if (closePrice === openPrice) {
+        return { status: 'ND', profit: 0 };
+    }
+
+    const isWin = direction === 'UP' ? closePrice > openPrice : closePrice < openPrice;
+    return {
+        status: isWin ? 'WIN' : 'LOSS',
+        profit: isWin ? betAmount : -betAmount,
+    };
+}
+
+function getOnChainMirror(params: {
+    direction: 'UP' | 'DOWN';
+    betAmount: number;
+    round: {
+        openPrice: number;
+        closePrice: number;
+        upPool: number;
+        downPool: number;
+        cancelled: boolean;
+    };
+    bet: {
+        amount: number;
+        zone: number;
+    };
+}) {
+    const { direction, betAmount, round, bet } = params;
+
+    if (round.cancelled || round.closePrice === round.openPrice || round.upPool === 0 || round.downPool === 0) {
+        return { status: 'ND', profit: 0 };
+    }
+
+    const upWon = round.closePrice > round.openPrice;
+    const didWin = direction === 'UP' ? upWon : !upWon;
+
+    if (!didWin) {
+        return { status: 'LOSS', profit: -betAmount };
+    }
+
+    const winPool = upWon ? round.upPool : round.downPool;
+    const losePool = upWon ? round.downPool : round.upPool;
+    const winnerLoseShare = (bet.amount * losePool) / winPool;
+    const feeBps = bet.zone === 0 ? GREEN_FEE_BPS : HOUSE_FEE_BPS;
+    const houseFee = (winnerLoseShare * feeBps) / FEE_DENOM;
+    const payout = bet.amount + (winnerLoseShare - houseFee);
+
+    return {
+        status: 'WIN',
+        profit: Math.round(payout - bet.amount),
+    };
+}
 
 export async function GET(req: NextRequest) {
-    // Verify CRON_SECRET to prevent unauthorized resolution triggers
-    const secret = req.headers.get('x-cron-secret');
-    if (!process.env.CRON_SECRET || secret !== process.env.CRON_SECRET) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const authError = await requireAdminOrCron(req);
+    if (authError) return authError;
 
     try {
         const now = Date.now();
@@ -26,7 +100,7 @@ export async function GET(req: NextRequest) {
         // 2. Fetch Pending Predictions
         const { data: predictions, error: fetchError } = await supabase
             .from('predictions')
-            .select('id, asset_symbol, timeframe, created_at, entry_price, direction, target_percent, user_id, bet_amount, candle_close_at')
+            .select('id, asset_symbol, timeframe, created_at, entry_price, direction, user_id, bet_amount, candle_close_at, comment')
             .eq('status', 'pending')
             .order('created_at', { ascending: false })
             .limit(50);
@@ -45,163 +119,62 @@ export async function GET(req: NextRequest) {
             tf: string;
             openTime: number;
             closeTime: number;
+            isReady: boolean;
+            isUpcoming: boolean;
             preds: any[];
         }> = {};
 
         for (const pred of predictions) {
-            // Use DB source of truth for close time
             const closeTime = new Date(pred.candle_close_at).getTime();
-
-            // Calculate duration to derive Open Time
-            let duration = 0;
-            const tfVal = parseInt(pred.timeframe);
-            if (pred.timeframe.endsWith('m')) duration = tfVal * 60 * 1000;
-            else if (pred.timeframe.endsWith('h')) duration = tfVal * 60 * 60 * 1000;
-            else if (pred.timeframe.endsWith('d')) duration = tfVal * 24 * 60 * 60 * 1000;
+            const duration = getDurationMs(pred.timeframe);
 
             const openTime = closeTime - duration;
-
-            // Check if candle is closed (plus buffer)
             const isReady = now > closeTime + 20000; // 20s buffer
+            const isUpcoming = now < closeTime;     // Round still active
 
-            if (isReady) {
-                console.log(`${getTimestamp()} [Resolution] Pred ${pred.id} (${pred.timeframe}): CloseTime ${new Date(closeTime).toISOString()} is READY.`);
-                const key = `${pred.asset_symbol}-${pred.timeframe}-${openTime}`;
-                if (!candleGroups[key]) {
-                    candleGroups[key] = {
-                        symbol: pred.asset_symbol,
-                        tf: pred.timeframe,
-                        openTime,
-                        closeTime,
-                        preds: []
-                    };
-                }
-                candleGroups[key].preds.push(pred);
+            console.log(`${getTimestamp()} [Debug] Pred ${pred.id}: closeTime=${new Date(closeTime).toISOString()}, now=${new Date(now).toISOString()}, isReady=${isReady}, diff=${now - closeTime}`);
+
+            const key = `${pred.asset_symbol}-${pred.timeframe}-${openTime}`;
+            if (!candleGroups[key]) {
+                candleGroups[key] = {
+                    symbol: pred.asset_symbol,
+                    tf: pred.timeframe,
+                    openTime,
+                    closeTime,
+                    isReady,
+                    isUpcoming,
+                    preds: []
+                };
             }
+            candleGroups[key].preds.push(pred);
         }
 
         const groupKeys = Object.keys(candleGroups);
-        if (groupKeys.length === 0) {
-            // Log a summary instead of individual "not ready" lines
-            console.log(`${getTimestamp()} [Resolution] Scan complete. ${predictions.length} pending, 0 ready.`);
-            return NextResponse.json({ message: 'No candles completed yet' });
-        }
-
-        console.log(`${getTimestamp()} [Resolution] Processing ${groupKeys.length} candle groups...`);
-
         const results = {
             resolved: 0,
+            created: 0,
             errors: 0,
             details: [] as any[]
         };
+
+        if (groupKeys.length === 0) {
+            console.log(`${getTimestamp()} [Resolution] Scan complete. 0 groups found.`);
+            return NextResponse.json({ message: 'No candles to process' });
+        }
+
+        console.log(`${getTimestamp()} [Resolution] Processing ${groupKeys.length} candle groups...`);
+        const txWalletCache: Record<string, string> = {};
 
         // 4. Process Each Group
         for (const key of groupKeys) {
             const group = candleGroups[key];
             let openPrice: number | null = null;
             let closePrice: number | null = null;
-            let errorMsg: string | null = null;
 
-            console.log(`${getTimestamp()} [Resolution] Group ${key} -> Start processing (${group.preds.length} preds)`);
+            console.log(`${getTimestamp()} [Resolution] Group ${key} -> State: isUpcoming=${group.isUpcoming}, isReady=${group.isReady}`);
 
-            // Rate Limiting
-            await sleep(500); // 0.5s sleep
-
-            try {
-                // Fetch Official Prices for this Candle
-                // Crypto: Use CryptoCompare History for better reliability
-                const cleanSymbol = group.symbol.replace('/', '').toUpperCase();
-                const cryptoPairs = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT', 'DOGEUSDT', 'XRPUSDT', 'BNBUSDT', 'ADAUSDT', 'AVAXUSDT', 'DOTUSDT', 'LINKUSDT', 'MATICUSDT'];
-                const isCrypto = cryptoPairs.includes(cleanSymbol) || cleanSymbol.endsWith('USDT');
-
-                if (isCrypto) {
-                    try {
-                        const baseSymbol = cleanSymbol.replace('USDT', '').replace('USD', '');
-                        // Fetch a wider range of minute data to ensure we find the exact minute
-                        const cryptoRes = await fetch(`https://min-api.cryptocompare.com/data/v2/histominute?fsym=${baseSymbol}&tsym=USD&limit=2000&toTs=${Math.floor(group.closeTime / 1000) + 1}`, {
-                            headers: {
-                                'Authorization': `Apikey ${process.env.CRYPTOCOMPARE_API_KEY}`,
-                                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-                            }
-                        });
-                        const cryptoData = await cryptoRes.json();
-
-                        if (cryptoData.Response === 'Success' && cryptoData.Data?.Data?.length > 0) {
-                            const list = cryptoData.Data.Data;
-                            // Find closest to OpenTime and CloseTime within a tolerance
-                            const findClosest = (targetTime: number) => {
-                                let bestMatch = null;
-                                let minDiff = Infinity;
-                                for (const d of list) {
-                                    const diff = Math.abs(d.time * 1000 - targetTime);
-                                    if (diff < minDiff) {
-                                        minDiff = diff;
-                                        bestMatch = d;
-                                    }
-                                }
-                                // Increased tolerance to 120 seconds for API lag
-                                return minDiff < 120000 ? bestMatch : null;
-                            };
-
-                            const openMatch = findClosest(group.openTime);
-                            // For 1m bets, search exactly at close time. Otherwise, refer to the close price of the candle 1 minute prior.
-                            const closeTarget = group.tf === '1m' ? group.closeTime : group.closeTime - 60000;
-                            const closeMatch = findClosest(closeTarget);
-
-                            if (openMatch) openPrice = openMatch.open;
-                            if (closeMatch) closePrice = group.tf === '1m' ? closeMatch.open : closeMatch.close;
-
-                            if (openPrice && closePrice) {
-                                console.log(`${getTimestamp()} [Resolution] Group ${key} -> CryptoCompare (Advanced) Success: Open=${openPrice}, Close=${closePrice}`);
-                            } else {
-                                console.warn(`${getTimestamp()} [Resolution] Group ${key} -> CryptoCompare (Advanced) Incomplete: Open=${openPrice}, Close=${closePrice}. Target: ${group.openTime} / ${closeTarget}`);
-                            }
-                        } else {
-                            console.warn(`${getTimestamp()} [Resolution] CryptoCompare (advanced) failed for ${group.symbol}:`, cryptoData.Message || 'No data');
-                        }
-                    } catch (e: any) {
-                        console.error(`${getTimestamp()} [Resolution] Group ${key} -> CryptoCompare (Advanced) Error:`, e.message);
-                    }
-                }
-
-                // fallback
-                if (openPrice === null || closePrice === null) {
-                    console.log(`${getTimestamp()} [Resolution] Group ${key} -> Falling back to Priority 1/2 Fetchers...`);
-                    // Log current state
-                    console.log(`${getTimestamp()} [Resolution] Current State: openPrice=${openPrice}, closePrice=${closePrice}`);
-
-                    const totalEntry = group.preds.reduce((sum: number, p: any) => sum + (p.entry_price || 0), 0);
-                    const avgEntry = totalEntry / (group.preds.length || 1);
-
-                    // Fetch individually if null
-                    if (openPrice === null) {
-                        openPrice = await fetchPrice(group.symbol, group.tf, group.openTime, group.openTime, avgEntry, 'open');
-                        console.log(`${getTimestamp()} [Resolution] Fallback openPrice result: ${openPrice}`);
-                    }
-
-                    if (closePrice === null) {
-                        // For non-1m timeframes, we look at the candle ending just before the boundary
-                        const closeTarget = group.tf === '1m' ? group.closeTime : group.closeTime - 60000;
-                        closePrice = await fetchPrice(group.symbol, group.tf, closeTarget, group.closeTime, avgEntry, 'close');
-                        console.log(`${getTimestamp()} [Resolution] Fallback closePrice result: ${closePrice}`);
-                    }
-                }
-
-                console.log(`${getTimestamp()} [Resolution] Group ${key} -> Final Prices: Open=${openPrice}, Close=${closePrice}`);
-
-                if (!openPrice || !closePrice) {
-                    throw new Error("Could not determine both prices (Open or Close is zero/null)");
-                }
-
-            } catch (e: any) {
-                console.error(`${getTimestamp()} [Resolution] Group ${key} -> Data Fetch Error:`, e.message);
-                errorMsg = e.message;
-            }
-
-            // If we have prices, resolve
-            if (openPrice !== null && closePrice !== null) {
-                // ── ON-CHAIN SETTLEMENT ─────────────────────────────────────
-                // Look up or create round in Supabase `rounds` table, then settle on-chain
+            // Phase 1: Pre-creation (Upcoming Rounds)
+            if (group.isUpcoming || group.isReady) {
                 try {
                     const { data: existingRound } = await supabase
                         .from('rounds')
@@ -211,78 +184,139 @@ export async function GET(req: NextRequest) {
                         .eq('open_time', group.openTime)
                         .maybeSingle();
 
-                    let onChainId = existingRound?.on_chain_id;
-
-                    // Create round on-chain if not yet registered
-                    if (!onChainId) {
-                        console.log(`${getTimestamp()} [OnChain] Creating round for ${key}...`);
-                        const closeTimeSec = Math.floor(group.closeTime / 1000);
-                        onChainId = await createRoundOnChain(group.symbol, group.tf, openPrice, closeTimeSec);
-                        await supabase.from('rounds').upsert({
-                            asset: group.symbol,
-                            timeframe: group.tf,
-                            open_time: group.openTime,
-                            close_time: group.closeTime,
-                            open_price: openPrice,
-                            on_chain_id: onChainId,
-                            status: 'open'
-                        }, { onConflict: 'asset,timeframe,open_time' });
-                        console.log(`${getTimestamp()} [OnChain] Round created: id=${onChainId}`);
+                    if (!existingRound?.on_chain_id) {
+                        // Only create if closeTime is still in the future
+                        if (group.closeTime > Date.now()) {
+                            console.log(`${getTimestamp()} [OnChain] Pre-creating round for ${key}...`);
+                            openPrice = await fetchPrice(group.symbol, group.tf, group.openTime, group.openTime, 0, 'open');
+                            if (openPrice) {
+                                const closeTimeSec = Math.floor(group.closeTime / 1000);
+                                const onChainId = await createRoundOnChain(group.symbol, group.tf, openPrice, closeTimeSec);
+                                await supabase.from('rounds').upsert({
+                                    asset: group.symbol,
+                                    timeframe: group.tf,
+                                    open_time: group.openTime,
+                                    close_time: group.closeTime,
+                                    open_price: openPrice,
+                                    on_chain_id: onChainId,
+                                    status: 'open'
+                                }, { onConflict: 'asset,timeframe,open_time' });
+                                results.created++;
+                                console.log(`${getTimestamp()} [OnChain] Round created: id=${onChainId}`);
+                            }
+                        }
                     }
-
-                    if (existingRound?.status !== 'settled') {
-                        const settleTx = await settleRoundOnChain(onChainId, closePrice);
-                        await supabase.from('rounds').update({
-                            close_price: closePrice,
-                            status: 'settled',
-                            settle_tx: settleTx
-                        }).eq('on_chain_id', onChainId);
-                        console.log(`${getTimestamp()} [OnChain] Round ${onChainId} settled. tx=${settleTx}`);
-                    }
-                } catch (chainErr: any) {
-                    console.error(`${getTimestamp()} [OnChain] Settlement failed for ${key}:`, chainErr.message);
-                    // On-chain failure doesn't block Supabase settlement — log and continue
+                } catch (ce: any) {
+                    console.error(`${getTimestamp()} [OnChain] Pre-creation failed for ${key}:`, ce.message);
                 }
-                // ────────────────────────────────────────────────────────────
+            }
 
-                // ── SUPABASE SETTLEMENT (legacy points system) ───────────────
-                for (const pred of group.preds) {
-                    let success = false;
-                    let lastError = '';
+            // Phase 2: Settlement (Closed Rounds)
+            if (group.isReady) {
+                await sleep(500);
+                try {
+                    // Fetch Prices
+                    openPrice = await fetchPrice(group.symbol, group.tf, group.openTime, group.openTime, 0, 'open');
+                    const closeTarget = group.tf === '1m' ? group.closeTime : group.closeTime - 60000;
+                    closePrice = await fetchPrice(group.symbol, group.tf, closeTarget, group.closeTime, 0, 'close');
 
-                    for (let attempt = 0; attempt < 3; attempt++) {
-                        const { data, error } = await supabase.rpc('resolve_prediction_pari_mutuel', {
-                            target_prediction_id: Number(pred.id),
-                            resolved_close_price: closePrice
-                        });
+                    if (openPrice && closePrice) {
+                        const { data: roundData } = await supabase
+                            .from('rounds')
+                            .select('on_chain_id, status')
+                            .eq('asset', group.symbol)
+                            .eq('timeframe', group.tf)
+                            .eq('open_time', group.openTime)
+                            .maybeSingle();
 
-                        if (!error && data && data.success) {
-                            success = true;
-                            break;
+                        if (roundData?.on_chain_id && roundData.status !== 'settled') {
+                            const settleTx = await settleRoundOnChain(roundData.on_chain_id, closePrice);
+                            await supabase.from('rounds').update({
+                                close_price: closePrice,
+                                status: 'settled',
+                                settle_tx: settleTx
+                            }).eq('on_chain_id', roundData.on_chain_id);
+                            console.log(`${getTimestamp()} [OnChain] Round ${roundData.on_chain_id} settled. tx=${settleTx}`);
                         }
 
-                        lastError = error ? error.message : (data?.error || 'Unknown RPC error');
-                        await sleep(100 * (attempt + 1));
-                    }
+                        let settledRound = null;
+                        if (roundData?.on_chain_id) {
+                            try {
+                                settledRound = await getRoundOnChain(roundData.on_chain_id);
+                            } catch (roundError: any) {
+                                console.warn(`${getTimestamp()} [Mirror] Round fetch failed for ${roundData.on_chain_id}: ${roundError.message}`);
+                            }
+                        }
 
-                    if (success) {
-                        results.resolved++;
-                        results.details.push({ id: pred.id, status: 'resolved', open: openPrice, close: closePrice });
-                        console.log(`${getTimestamp()} Successfully resolved prediction ${pred.id} (Fairness Model Applied)`);
+                        // Settlement in Supabase (mirror only, no off-chain balance payout)
+                        for (const pred of group.preds) {
+                            try {
+                                const fallback = getFallbackMirror(
+                                    pred.direction as 'UP' | 'DOWN',
+                                    openPrice,
+                                    closePrice,
+                                    Number(pred.bet_amount)
+                                );
+
+                                let outcome = fallback;
+                                const txHash = parseTxHash(pred.comment);
+
+                                if (settledRound && roundData?.on_chain_id && txHash) {
+                                    try {
+                                        const walletAddress = txWalletCache[txHash] || await getWalletAddressFromTransaction(txHash);
+                                        txWalletCache[txHash] = walletAddress;
+
+                                        const bet = await getBetOnChain(roundData.on_chain_id, walletAddress);
+                                        if (bet.amount > 0) {
+                                            outcome = getOnChainMirror({
+                                                direction: pred.direction as 'UP' | 'DOWN',
+                                                betAmount: Number(pred.bet_amount),
+                                                round: settledRound,
+                                                bet,
+                                            });
+                                        }
+                                    } catch (mirrorError: any) {
+                                        console.warn(`${getTimestamp()} [Mirror] Falling back for prediction ${pred.id}: ${mirrorError.message}`);
+                                    }
+                                }
+
+                                const { error: updateError } = await supabase
+                                    .from('predictions')
+                                    .update({
+                                        status: outcome.status,
+                                        actual_price: closePrice,
+                                        profit: outcome.profit,
+                                        resolved_at: new Date().toISOString(),
+                                    })
+                                    .eq('id', pred.id);
+
+                                if (updateError) {
+                                    throw updateError;
+                                }
+
+                                results.resolved++;
+                                results.details.push({
+                                    id: pred.id,
+                                    status: outcome.status,
+                                    open: openPrice,
+                                    close: closePrice,
+                                    profit: outcome.profit
+                                });
+                                console.log(`${getTimestamp()} Successfully resolved prediction ${pred.id}`);
+                            } catch (predError: any) {
+                                results.errors++;
+                                results.details.push({ id: pred.id, status: 'error', error: predError.message });
+                            }
+                        }
                     } else {
-                        if (lastError !== 'Already resolved') {
-                            results.errors++;
-                            results.details.push({ id: pred.id, status: 'error', error: lastError });
-                            console.error(`${getTimestamp()} [Resolution Error] ID: ${pred.id}, Error: ${lastError}`);
-                        } else {
-                            results.details.push({ id: pred.id, status: 'already_resolved' });
-                        }
+                        throw new Error("Price fetch failed");
                     }
-                }
-            } else {
-                for (const pred of group.preds) {
-                    results.errors++;
-                    results.details.push({ id: pred.id, status: 'error', error: errorMsg || 'Price fetch failed' });
+                } catch (se: any) {
+                    console.error(`${getTimestamp()} [Resolution] Group ${key} failed:`, se.message);
+                    for (const pred of group.preds) {
+                        results.errors++;
+                        results.details.push({ id: pred.id, status: 'error', error: se.message });
+                    }
                 }
             }
         }

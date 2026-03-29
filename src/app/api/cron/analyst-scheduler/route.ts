@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 import OpenAI from 'openai';
 import { NextResponse } from 'next/server';
 import { ASSETS, isMarketOpen, type Asset } from '@/lib/constants';
+import { verifyCronSecret } from '@/lib/server-access';
 
 // Vercel Cron Job endpoint for AI Analyst Scheduler
 // 상용망 스케줄러 - 중복 실행 방지 및 비용 제어
@@ -97,7 +98,8 @@ export async function GET(req: Request) {
     const startTime = Date.now();
     console.log(`[${new Date().toISOString()}] 🚀 Analyst Scheduler Cron triggered`);
 
-    // Note: Auth removed - distributed lock prevents concurrent abuse, URL is not public
+    const authError = verifyCronSecret(req);
+    if (authError) return authError;
 
     // 2. Acquire distributed lock
     const lockResult = await acquireLock();
@@ -308,7 +310,7 @@ export async function GET(req: Request) {
                                 direction: analysis.direction || 'UP',
                                 target_percent: parseFloat(analysis.confidence) || 70,
                                 entry_price: price,
-                                bet_amount: 10, // Default 10pts for AI
+                                bet_amount: 10, // Default mirrored stake size for analyst posts
                                 is_opinion: true,
                                 channel: 'analyst_hub',
                                 comment: analysis.reasoning || 'Analysis unavailable',

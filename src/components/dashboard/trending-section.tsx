@@ -153,7 +153,7 @@ export function TrendingSection() {
                                                     </div>
                                                 </div>
                                                 <div className="text-[10px] font-mono font-bold text-yellow-500">
-                                                    {leader.points.toLocaleString()}
+                                                    {leader.total_wins.toLocaleString()}W
                                                 </div>
                                             </div>
                                         ))
@@ -167,5 +167,4 @@ export function TrendingSection() {
         </section>
     );
 }
-
 

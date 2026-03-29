@@ -28,18 +28,21 @@ export declare namespace ChartClash {
     amount: BigNumberish;
     isUp: boolean;
     claimed: boolean;
+    zone: BigNumberish;
   };
 
   export type BetStructOutput = [
     amount: bigint,
     isUp: boolean,
-    claimed: boolean
-  ] & { amount: bigint; isUp: boolean; claimed: boolean };
+    claimed: boolean,
+    zone: bigint
+  ] & { amount: bigint; isUp: boolean; claimed: boolean; zone: bigint };
 
   export type RoundStruct = {
     asset: string;
     timeframe: string;
     openPrice: BigNumberish;
+    openTime: BigNumberish;
     closeTime: BigNumberish;
     upPool: BigNumberish;
     downPool: BigNumberish;
@@ -52,6 +55,7 @@ export declare namespace ChartClash {
     asset: string,
     timeframe: string,
     openPrice: bigint,
+    openTime: bigint,
     closeTime: bigint,
     upPool: bigint,
     downPool: bigint,
@@ -62,6 +66,7 @@ export declare namespace ChartClash {
     asset: string;
     timeframe: string;
     openPrice: bigint;
+    openTime: bigint;
     closeTime: bigint;
     upPool: bigint;
     downPool: bigint;
@@ -75,6 +80,7 @@ export interface ChartClashInterface extends Interface {
   getFunction(
     nameOrSignature:
       | "FEE_DENOM"
+      | "GREEN_FEE_BPS"
       | "HOUSE_FEE_BPS"
       | "accumulatedFees"
       | "balances"
@@ -123,6 +129,10 @@ export interface ChartClashInterface extends Interface {
   ): EventFragment;
 
   encodeFunctionData(functionFragment: "FEE_DENOM", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "GREEN_FEE_BPS",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "HOUSE_FEE_BPS",
     values?: undefined
@@ -228,6 +238,10 @@ export interface ChartClashInterface extends Interface {
 
   decodeFunctionResult(functionFragment: "FEE_DENOM", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "GREEN_FEE_BPS",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "HOUSE_FEE_BPS",
     data: BytesLike
   ): Result;
@@ -306,19 +320,22 @@ export namespace BetPlacedEvent {
     roundId: BigNumberish,
     user: AddressLike,
     isUp: boolean,
-    amount: BigNumberish
+    amount: BigNumberish,
+    zone: BigNumberish
   ];
   export type OutputTuple = [
     roundId: bigint,
     user: string,
     isUp: boolean,
-    amount: bigint
+    amount: bigint,
+    zone: bigint
   ];
   export interface OutputObject {
     roundId: bigint;
     user: string;
     isUp: boolean;
     amount: bigint;
+    zone: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -411,18 +428,21 @@ export namespace RoundCreatedEvent {
     roundId: BigNumberish,
     asset: string,
     timeframe: string,
+    openTime: BigNumberish,
     closeTime: BigNumberish
   ];
   export type OutputTuple = [
     roundId: bigint,
     asset: string,
     timeframe: string,
+    openTime: bigint,
     closeTime: bigint
   ];
   export interface OutputObject {
     roundId: bigint;
     asset: string;
     timeframe: string;
+    openTime: bigint;
     closeTime: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
@@ -528,6 +548,8 @@ export interface ChartClash extends BaseContract {
 
   FEE_DENOM: TypedContractMethod<[], [bigint], "view">;
 
+  GREEN_FEE_BPS: TypedContractMethod<[], [bigint], "view">;
+
   HOUSE_FEE_BPS: TypedContractMethod<[], [bigint], "view">;
 
   accumulatedFees: TypedContractMethod<[], [bigint], "view">;
@@ -537,10 +559,11 @@ export interface ChartClash extends BaseContract {
   bets: TypedContractMethod<
     [arg0: BigNumberish, arg1: AddressLike],
     [
-      [bigint, boolean, boolean] & {
+      [bigint, boolean, boolean, bigint] & {
         amount: bigint;
         isUp: boolean;
         claimed: boolean;
+        zone: bigint;
       }
     ],
     "view"
@@ -628,12 +651,14 @@ export interface ChartClash extends BaseContract {
         bigint,
         bigint,
         bigint,
+        bigint,
         boolean,
         boolean
       ] & {
         asset: string;
         timeframe: string;
         openPrice: bigint;
+        openTime: bigint;
         closeTime: bigint;
         upPool: bigint;
         downPool: bigint;
@@ -681,6 +706,9 @@ export interface ChartClash extends BaseContract {
     nameOrSignature: "FEE_DENOM"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
+    nameOrSignature: "GREEN_FEE_BPS"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
     nameOrSignature: "HOUSE_FEE_BPS"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
@@ -694,10 +722,11 @@ export interface ChartClash extends BaseContract {
   ): TypedContractMethod<
     [arg0: BigNumberish, arg1: AddressLike],
     [
-      [bigint, boolean, boolean] & {
+      [bigint, boolean, boolean, bigint] & {
         amount: bigint;
         isUp: boolean;
         claimed: boolean;
+        zone: bigint;
       }
     ],
     "view"
@@ -791,12 +820,14 @@ export interface ChartClash extends BaseContract {
         bigint,
         bigint,
         bigint,
+        bigint,
         boolean,
         boolean
       ] & {
         asset: string;
         timeframe: string;
         openPrice: bigint;
+        openTime: bigint;
         closeTime: bigint;
         upPool: bigint;
         downPool: bigint;
@@ -915,7 +946,7 @@ export interface ChartClash extends BaseContract {
   >;
 
   filters: {
-    "BetPlaced(uint256,address,bool,uint256)": TypedContractEvent<
+    "BetPlaced(uint256,address,bool,uint256,uint8)": TypedContractEvent<
       BetPlacedEvent.InputTuple,
       BetPlacedEvent.OutputTuple,
       BetPlacedEvent.OutputObject
@@ -992,7 +1023,7 @@ export interface ChartClash extends BaseContract {
       RoundCancelledEvent.OutputObject
     >;
 
-    "RoundCreated(uint256,string,string,uint256)": TypedContractEvent<
+    "RoundCreated(uint256,string,string,uint256,uint256)": TypedContractEvent<
       RoundCreatedEvent.InputTuple,
       RoundCreatedEvent.OutputTuple,
       RoundCreatedEvent.OutputObject

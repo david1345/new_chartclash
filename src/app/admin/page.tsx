@@ -6,7 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Input } from "@/components/ui/input";
 import {
     Activity,
     Users,
@@ -23,14 +22,14 @@ export default function AdminDashboard() {
 
     // Auth State
     const [isAuthorized, setIsAuthorized] = useState(false);
-    const [password, setPassword] = useState("");
+    const [authChecked, setAuthChecked] = useState(false);
 
     // Dashboard State
     const [stats, setStats] = useState({
         totalUsers: 0,
         totalPredictions: 0,
         pendingPredictions: 0,
-        totalPointsInCirculation: 0,
+        openVolume: 0,
         winRate: 0,
         activeNow: 0
     });
@@ -42,11 +41,16 @@ export default function AdminDashboard() {
 
     // Initial Auth Check
     useEffect(() => {
-        const adminPass = localStorage.getItem('admin_auth');
-        if (adminPass === 'your-secret-password') {
-            setIsAuthorized(true);
-            fetchAllData(); // Fetch immediately if authorized
-        }
+        const verifyAdmin = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                setIsAuthorized(true);
+                fetchAllData();
+            }
+            setAuthChecked(true);
+        };
+
+        verifyAdmin();
     }, []);
 
     // Polling Effect (only when authorized)
@@ -60,17 +64,6 @@ export default function AdminDashboard() {
         const interval = setInterval(fetchAllData, 30000);
         return () => clearInterval(interval);
     }, [isAuthorized]);
-
-    const handleLogin = () => {
-        if (password === 'your-secret-password') {
-            localStorage.setItem('admin_auth', password);
-            setIsAuthorized(true);
-            toast.success("Welcome back, Admin");
-            fetchAllData();
-        } else {
-            toast.error('Invalid password');
-        }
-    };
 
     const fetchAllData = async () => {
         setIsLoading(true);
@@ -100,21 +93,18 @@ export default function AdminDashboard() {
             .select('*', { count: 'exact', head: true })
             .eq('status', 'pending');
 
-        // Total points
-        const { data: pointsData } = await supabase
-            .from('profiles')
-            .select('points');
-        const totalPoints = pointsData?.reduce((sum, u) => sum + (u.points || 0), 0) || 0;
-
-        // Win rate calculation
-        const { data: resolved } = await supabase
+        // Win rate and mirrored open-volume calculation
+        const { data: predictionMetrics } = await supabase
             .from('predictions')
-            .select('status')
-            .in('status', ['WIN', 'LOSS']);
+            .select('status, bet_amount');
 
-        const wins = resolved?.filter(p => p.status === 'WIN').length || 0;
-        const total = resolved?.length || 1;
+        const wins = predictionMetrics?.filter(p => p.status === 'WIN').length || 0;
+        const losses = predictionMetrics?.filter(p => p.status === 'LOSS').length || 0;
+        const total = wins + losses || 1;
         const winRate = (wins / total) * 100;
+        const openVolume = predictionMetrics?.reduce((sum, prediction) => {
+            return prediction.status === 'pending' ? sum + Number(prediction.bet_amount || 0) : sum;
+        }, 0) || 0;
 
         // Recently active users (last 1h)
         const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
@@ -127,7 +117,7 @@ export default function AdminDashboard() {
             totalUsers: userCount || 0,
             totalPredictions: predCount || 0,
             pendingPredictions: pendingCount || 0,
-            totalPointsInCirculation: totalPoints,
+            openVolume,
             winRate: winRate,
             activeNow: activeCount || 0
         });
@@ -149,8 +139,8 @@ export default function AdminDashboard() {
     const fetchTopUsers = async () => {
         const { data } = await supabase
             .from('profiles')
-            .select('id, username, email, points')
-            .order('points', { ascending: false })
+            .select('id, username, email, total_earnings, total_games, total_wins')
+            .order('total_earnings', { ascending: false })
             .limit(10);
 
         setTopUsers(data || []);
@@ -160,7 +150,7 @@ export default function AdminDashboard() {
         try {
             // API response test
             const start = Date.now();
-            const res = await fetch('/api/cron/resolve'); // Use the actual cron endpoint we made
+            const res = await fetch('/api/debug/status');
             const latency = Date.now() - start;
 
             // Even if it returns 200, we check latency
@@ -195,43 +185,37 @@ export default function AdminDashboard() {
     };
 
     const handleResetUser = async (userId: string) => {
-        if (!confirm('Reset user points to 1000?')) return;
+        if (!confirm('Reset mirrored stats for this user?')) return;
 
         const { error } = await supabase
             .from('profiles')
-            .update({ points: 1000 })
+            .update({
+                total_games: 0,
+                total_wins: 0,
+                total_earnings: 0
+            })
             .eq('id', userId);
 
         if (!error) {
-            toast.success('User reset successfully');
+            toast.success('User stats reset successfully');
             fetchAllData();
         } else {
             toast.error('Reset failed');
         }
     };
 
-    // Auth Screen
+    if (!authChecked) {
+        return (
+            <div className="min-h-screen bg-black flex items-center justify-center p-4 text-white">
+                Verifying admin access...
+            </div>
+        );
+    }
+
     if (!isAuthorized) {
         return (
-            <div className="min-h-screen bg-black flex items-center justify-center p-4">
-                <Card className="w-full max-w-md bg-gray-900 border-gray-800 text-white">
-                    <CardHeader>
-                        <CardTitle className="text-center">Admin Access</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <Input
-                            type="password"
-                            placeholder="Enter admin password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
-                            className="bg-gray-800 border-gray-700 text-white"
-                        />
-                        <Button onClick={handleLogin} className="w-full">
-                            Login
-                        </Button>
-                    </CardContent>
-                </Card>
+            <div className="min-h-screen bg-black flex items-center justify-center p-4 text-white">
+                Admin access required.
             </div>
         );
     }
@@ -264,8 +248,8 @@ export default function AdminDashboard() {
                         <Button
                             variant="destructive"
                             onClick={() => {
-                                localStorage.removeItem('admin_auth');
                                 setIsAuthorized(false);
+                                window.location.href = "/";
                             }}
                         >
                             Logout
@@ -348,12 +332,12 @@ export default function AdminDashboard() {
                         <CardHeader className="pb-2">
                             <CardTitle className="text-sm flex items-center gap-2">
                                 <DollarSign className="w-4 h-4" />
-                                Total Points
+                                Open Volume
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <p className="text-3xl font-bold">{stats.totalPointsInCirculation.toLocaleString()}</p>
-                            <p className="text-xs text-gray-400">In circulation</p>
+                            <p className="text-3xl font-bold">{stats.openVolume.toLocaleString(undefined, { maximumFractionDigits: 2 })}</p>
+                            <p className="text-xs text-gray-400">USDT in unresolved bets</p>
                         </CardContent>
                     </Card>
                 </div>
@@ -382,8 +366,8 @@ export default function AdminDashboard() {
                                                     <span className="text-xs font-normal text-gray-500">({pred.asset_symbol})</span>
                                                 </p>
                                                 <p className="text-sm text-gray-400">
-                                                    {pred.direction} {pred.target_percent}%
-                                                    · <span className="text-yellow-400">{pred.bet_amount} pts</span>
+                                                    {pred.direction}
+                                                    · <span className="text-yellow-400">{Number(pred.bet_amount || 0).toFixed(2)} USDT</span>
                                                 </p>
                                             </div>
                                             <div className="text-right">
@@ -414,7 +398,7 @@ export default function AdminDashboard() {
                     <TabsContent value="users">
                         <Card className="bg-white/5 border-white/10 text-white">
                             <CardHeader>
-                                <CardTitle>Top Users by Points</CardTitle>
+                                <CardTitle>Top Users by Net P&amp;L</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <div className="space-y-2">
@@ -431,7 +415,10 @@ export default function AdminDashboard() {
                                             </div>
                                             <div className="text-right flex items-center gap-2">
                                                 <div>
-                                                    <p className="text-xl font-bold text-yellow-500">{user.points.toLocaleString()}</p>
+                                                    <p className="text-xl font-bold text-yellow-500">{Number(user.total_earnings || 0).toFixed(2)} USDT</p>
+                                                    <p className="text-[10px] text-gray-500">
+                                                        {user.total_wins || 0} wins · {user.total_games || 0} settled
+                                                    </p>
                                                 </div>
                                                 <Button
                                                     size="sm"

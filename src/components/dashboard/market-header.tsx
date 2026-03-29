@@ -29,6 +29,7 @@ export function MarketHeader({
     user, username, userPoints
 }: HeaderProps) {
     const pathname = usePathname() || "";
+    const formattedBalance = Number.isFinite(userPoints) ? userPoints.toFixed(2) : "0.00";
 
     return (
         <header className="sticky top-0 z-50 w-full border-b border-[#1E2D45] bg-[#0F1623]">
@@ -47,7 +48,7 @@ export function MarketHeader({
                             ⚡ Battle
                         </Button>
                     </Link>
-                    <Link href="/leaderboard">
+                    <Link href="/leaderboard" id="tutorial-leaderboard">
                         <Button variant="ghost" size="sm" className={cn("text-[13px] font-bold h-9 px-4 rounded-lg", pathname.includes("/leaderboard") ? "bg-[#00E5B4]/10 text-[#00E5B4]" : "text-[#5A7090] hover:text-white")}>
                             🏆 Leaderboard
                         </Button>
@@ -64,7 +65,7 @@ export function MarketHeader({
                     {/* Wallet Badge */}
                     <div className="h-8 bg-[#141D2E] border border-[#1E2D45] rounded-full px-3 flex items-center gap-1.5">
                         <span className="font-mono text-[11px] sm:text-[13px] font-bold text-[#00E5B4] whitespace-nowrap mt-[1px]">
-                            💰 {(userPoints ?? 1000).toLocaleString()} <span className="text-[9px] sm:text-[10px] text-[#00E5B4]/70">USDT</span>
+                            BAL {formattedBalance} <span className="text-[9px] sm:text-[10px] text-[#00E5B4]/70">USDT</span>
                         </span>
                     </div>
 
