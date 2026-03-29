@@ -27,6 +27,11 @@ export default function LoginPage() {
     const oauthCode = searchParams.get("code");
     const nextPath = searchParams.get("next")?.startsWith("/") ? searchParams.get("next")! : "/play/BTCUSDT/1h";
     const providerError = searchParams.get("error_description") || searchParams.get("error");
+    const hasOAuthHash = typeof window !== "undefined" && (
+        window.location.hash.includes("access_token") ||
+        window.location.hash.includes("refresh_token") ||
+        window.location.hash.includes("error_description")
+    );
 
     useEffect(() => {
         if (oauthHandledRef.current) {
@@ -81,9 +86,28 @@ export default function LoginPage() {
         };
     }, [oauthCode, authError, authReason, nextPath, providerError, supabase]);
 
+    useEffect(() => {
+        const {
+            data: { subscription },
+        } = supabase.auth.onAuthStateChange((event, session) => {
+            if ((event === "SIGNED_IN" || event === "INITIAL_SESSION") && session && window.location.pathname === "/login") {
+                window.location.replace(nextPath);
+            }
+        });
+
+        if (hasOAuthHash) {
+            setOauthState("working");
+            setOauthMessage("Completing your sign-in session...");
+        }
+
+        return () => {
+            subscription.unsubscribe();
+        };
+    }, [hasOAuthHash, nextPath, supabase]);
+
     const handleOAuthLogin = async (provider: 'google' | 'discord' | 'github') => {
         setLoading(true);
-        const callbackUrl = new URL("/auth/callback", window.location.origin);
+        const callbackUrl = new URL("/login", window.location.origin);
         callbackUrl.searchParams.set("next", "/play/BTCUSDT/1h");
 
         const { data, error } = await supabase.auth.signInWithOAuth({
