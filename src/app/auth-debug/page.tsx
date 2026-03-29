@@ -94,11 +94,13 @@ export default function AuthDebugPage() {
         setProvider(nextProvider);
         setOauthUrl("");
         setErrorMessage("");
+        const callbackUrl = new URL("/auth/callback", window.location.origin);
+        callbackUrl.searchParams.set("next", "/play/BTCUSDT/1h");
 
         const { data, error } = await supabase.auth.signInWithOAuth({
             provider: nextProvider,
             options: {
-                redirectTo: `${window.location.origin}/auth/callback`,
+                redirectTo: callbackUrl.toString(),
                 skipBrowserRedirect: true,
                 queryParams: nextProvider === "google" ? {
                     prompt: "select_account",

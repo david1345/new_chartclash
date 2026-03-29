@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,15 +17,20 @@ export default function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const searchParams = useSearchParams();
     const supabase = createClient();
+    const authError = searchParams.get("error");
+    const authReason = searchParams.get("reason");
 
     const handleOAuthLogin = async (provider: 'google' | 'discord' | 'github') => {
         setLoading(true);
+        const callbackUrl = new URL("/auth/callback", window.location.origin);
+        callbackUrl.searchParams.set("next", "/play/BTCUSDT/1h");
 
         const { data, error } = await supabase.auth.signInWithOAuth({
             provider,
             options: {
-                redirectTo: `${window.location.origin}/auth/callback`,
+                redirectTo: callbackUrl.toString(),
                 skipBrowserRedirect: true,
                 queryParams: provider === 'google' ? {
                     prompt: 'select_account',
@@ -130,6 +136,20 @@ export default function LoginPage() {
                 </div>
 
                 <div className="space-y-3 pb-2 px-2">
+                    {authError ? (
+                        <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-[11px] leading-5 text-amber-100">
+                            <div className="font-semibold uppercase tracking-[0.16em] text-amber-300">
+                                Social login did not complete
+                            </div>
+                            <div className="mt-1">
+                                {authReason || "The OAuth callback failed before a session could be created."}
+                            </div>
+                            <div className="mt-2 text-amber-200/80">
+                                If this happened inside an in-app browser, open the site in Safari or Chrome and try again.
+                            </div>
+                        </div>
+                    ) : null}
+
                     <div className="space-y-1.5">
                         <Input
                             data-testid="email-input"
