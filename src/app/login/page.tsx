@@ -1,12 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { createClient } from "@/lib/supabase/client";
 import { motion } from "framer-motion";
-import { Sparkles, TrendingUp, Lock, Github, MessageSquare } from "lucide-react";
+import { Lock, Github, MessageSquare } from "lucide-react";
 
 import { toast } from "sonner";
 import { DISPOSABLE_EMAIL_DOMAINS } from "@/lib/constants/disposable-domains";
@@ -241,6 +241,15 @@ export default function LoginPage() {
                     <p className="text-[10px] text-muted-foreground flex items-center">
                         <Lock className="w-3 h-3 mr-1" /> Secured by Supabase
                     </p>
+                </div>
+
+                <div className="flex justify-center mt-3">
+                    <Link
+                        href="/auth-debug"
+                        className="text-[10px] text-muted-foreground underline underline-offset-4 hover:text-primary transition-colors"
+                    >
+                        Trouble with mobile social login?
+                    </Link>
                 </div>
             </motion.div>
         </div>
