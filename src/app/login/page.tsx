@@ -83,7 +83,7 @@ export default function LoginPage() {
 
     const handleOAuthLogin = async (provider: 'google' | 'discord' | 'github') => {
         setLoading(true);
-        const callbackUrl = new URL("/login", window.location.origin);
+        const callbackUrl = new URL("/auth/callback", window.location.origin);
         callbackUrl.searchParams.set("next", "/play/BTCUSDT/1h");
 
         const { data, error } = await supabase.auth.signInWithOAuth({
