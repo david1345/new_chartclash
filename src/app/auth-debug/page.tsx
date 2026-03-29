@@ -57,7 +57,7 @@ export default function AuthDebugPage() {
     const [healthResult, setHealthResult] = useState<HealthResult | null>(null);
 
     const browserContext = detectBrowserContext(userAgent);
-    const callbackUrl = origin ? `${origin}/auth/complete?next=%2Fplay%2FBTCUSDT%2F1h` : "";
+    const callbackUrl = origin ? `${origin}/login?next=%2Fplay%2FBTCUSDT%2F1h` : "";
 
     useEffect(() => {
         setOrigin(window.location.origin);
@@ -94,7 +94,7 @@ export default function AuthDebugPage() {
         setProvider(nextProvider);
         setOauthUrl("");
         setErrorMessage("");
-        const callbackUrl = new URL("/auth/complete", window.location.origin);
+        const callbackUrl = new URL("/login", window.location.origin);
         callbackUrl.searchParams.set("next", "/play/BTCUSDT/1h");
 
         const { data, error } = await supabase.auth.signInWithOAuth({

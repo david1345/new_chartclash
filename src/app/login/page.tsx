@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { createClient } from "@/lib/supabase/client";
@@ -17,14 +17,73 @@ export default function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const [oauthState, setOauthState] = useState<"idle" | "working" | "error">("idle");
+    const [oauthMessage, setOauthMessage] = useState("");
     const searchParams = useSearchParams();
+    const oauthHandledRef = useRef(false);
     const supabase = createClient();
     const authError = searchParams.get("error");
     const authReason = searchParams.get("reason");
+    const oauthCode = searchParams.get("code");
+    const nextPath = searchParams.get("next")?.startsWith("/") ? searchParams.get("next")! : "/play/BTCUSDT/1h";
+    const providerError = searchParams.get("error_description") || searchParams.get("error");
+
+    useEffect(() => {
+        if (oauthHandledRef.current) {
+            return;
+        }
+
+        if (!oauthCode && !authError && !providerError) {
+            return;
+        }
+
+        oauthHandledRef.current = true;
+
+        if (providerError && !oauthCode) {
+            setOauthState("error");
+            setOauthMessage(providerError);
+            return;
+        }
+
+        if (!oauthCode) {
+            setOauthState("error");
+            setOauthMessage(authReason || "The OAuth callback failed before a session could be created.");
+            return;
+        }
+
+        let cancelled = false;
+
+        const finishOAuth = async () => {
+            setOauthState("working");
+            setOauthMessage("Completing your sign-in session...");
+
+            const { error } = await supabase.auth.exchangeCodeForSession(oauthCode);
+
+            if (cancelled) {
+                return;
+            }
+
+            if (error) {
+                setOauthState("error");
+                setOauthMessage(error.message);
+                return;
+            }
+
+            setOauthState("working");
+            setOauthMessage("Sign-in complete. Redirecting to the live market...");
+            window.location.replace(nextPath);
+        };
+
+        finishOAuth();
+
+        return () => {
+            cancelled = true;
+        };
+    }, [oauthCode, authError, authReason, nextPath, providerError, supabase]);
 
     const handleOAuthLogin = async (provider: 'google' | 'discord' | 'github') => {
         setLoading(true);
-        const callbackUrl = new URL("/auth/complete", window.location.origin);
+        const callbackUrl = new URL("/login", window.location.origin);
         callbackUrl.searchParams.set("next", "/play/BTCUSDT/1h");
 
         const { data, error } = await supabase.auth.signInWithOAuth({
@@ -136,16 +195,20 @@ export default function LoginPage() {
                 </div>
 
                 <div className="space-y-3 pb-2 px-2">
-                    {authError ? (
+                    {oauthState !== "idle" || authError ? (
                         <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-[11px] leading-5 text-amber-100">
                             <div className="font-semibold uppercase tracking-[0.16em] text-amber-300">
-                                Social login did not complete
+                                {oauthState === "working" ? "Social login in progress" : "Social login did not complete"}
                             </div>
                             <div className="mt-1">
-                                {authReason || "The OAuth callback failed before a session could be created."}
+                                {oauthState !== "idle"
+                                    ? oauthMessage
+                                    : authReason || "The OAuth callback failed before a session could be created."}
                             </div>
                             <div className="mt-2 text-amber-200/80">
-                                If this happened inside an in-app browser, open the site in Safari or Chrome and try again.
+                                {oauthState === "working"
+                                    ? "Please stay on this page until the session exchange completes."
+                                    : "If this happened inside an in-app browser, open the site in Safari or Chrome and try again."}
                             </div>
                         </div>
                     ) : null}
