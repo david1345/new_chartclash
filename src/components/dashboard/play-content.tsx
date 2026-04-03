@@ -90,6 +90,19 @@ interface ThesisCardData {
     stake: string;
 }
 
+interface RoundCadence {
+    openWindow: string;
+    lockWindow: string;
+    resolveWindow: string;
+    integrityNote: string;
+}
+
+interface ThesisLevel {
+    label: string;
+    value: string;
+    tone: "bull" | "bear" | "neutral";
+}
+
 function formatDisplaySymbol(symbol: string) {
     return symbol.endsWith("USDT") ? `${symbol.slice(0, -4)}/USDT` : symbol;
 }
@@ -105,6 +118,74 @@ function getResolutionSource(asset: Asset) {
     if (asset.type === "CRYPTO") return "Binance candle close";
     if (asset.type === "STOCK") return "Primary US cash session close";
     return "Primary commodity session settlement";
+}
+
+function getReferenceShiftPercent(timeframe: string) {
+    if (timeframe.endsWith("m")) {
+        const minutes = parseInt(timeframe.replace("m", ""), 10);
+        return Math.max(0.2, minutes / 45);
+    }
+
+    if (timeframe.endsWith("h")) {
+        const hours = parseInt(timeframe.replace("h", ""), 10);
+        return Math.max(0.35, hours * 0.28);
+    }
+
+    if (timeframe.endsWith("d")) {
+        const days = parseInt(timeframe.replace("d", ""), 10);
+        return Math.max(1, days * 0.9);
+    }
+
+    return 0.5;
+}
+
+function buildThesisLevels(referencePrice: number | null, timeframe: string): ThesisLevel[] {
+    if (!referencePrice) {
+        return [
+            { label: "Reference", value: "Syncing...", tone: "neutral" },
+            { label: "Long trigger", value: "Waiting for open", tone: "bull" },
+            { label: "Short reclaim", value: "Waiting for open", tone: "bear" },
+        ];
+    }
+
+    const shiftPercent = getReferenceShiftPercent(timeframe);
+    const longTrigger = referencePrice * (1 + shiftPercent / 100);
+    const shortReclaim = referencePrice * (1 - shiftPercent / 100);
+
+    return [
+        { label: "Reference", value: formatReferencePrice(referencePrice), tone: "neutral" },
+        { label: "Long trigger", value: formatReferencePrice(longTrigger), tone: "bull" },
+        { label: "Short reclaim", value: formatReferencePrice(shortReclaim), tone: "bear" },
+    ];
+}
+
+function buildRoundCadence(timeframe: string): RoundCadence {
+    const upper = timeframe.toUpperCase();
+
+    if (timeframe.endsWith("m")) {
+        return {
+            openWindow: `${upper} rolling round`,
+            lockWindow: "Final 10% blocks fresh size",
+            resolveWindow: "Settles on the close print",
+            integrityNote: "Short rounds reward timing discipline and punish late chase.",
+        };
+    }
+
+    if (timeframe.endsWith("h")) {
+        return {
+            openWindow: `${upper} decision window`,
+            lockWindow: "Final 10% becomes no-snipe zone",
+            resolveWindow: "Resolves against the hourly close",
+            integrityNote: "Use the chart to judge acceptance versus failed breakout before the lock.",
+        };
+    }
+
+    return {
+        openWindow: `${upper} thesis window`,
+        lockWindow: "Late entries shut off before settlement",
+        resolveWindow: "Resolves against the scheduled closing print",
+        integrityNote: "Longer windows reward cleaner scenario building over pure reaction speed.",
+    };
 }
 
 function buildCampCards(asset: Asset, timeframe: string) {
@@ -339,6 +420,8 @@ export function PlayContent() {
 
     const marketStatus = isMarketOpen(selectedAsset.symbol, selectedAsset.type);
     const displaySymbol = formatDisplaySymbol(selectedAsset.symbol);
+    const thesisLevels = buildThesisLevels(roundOpenPrice, selectedTimeframe);
+    const roundCadence = buildRoundCadence(selectedTimeframe);
 
     const adjustedNow = Date.now() + serverTimeOffset;
     const { bullCards, bearCards } = buildCampCards(selectedAsset, selectedTimeframe);
@@ -501,7 +584,7 @@ export function PlayContent() {
                                         </div>
                                         <div className="flex items-start justify-between gap-3 rounded-2xl border border-white/10 bg-black/20 px-4 py-3">
                                             <span className="text-[#7E92AB]">Beta preview</span>
-                                            <span className="text-right font-bold text-white">Structured thesis cards are mocked for layout validation</span>
+                                            <span className="text-right font-bold text-white">Camp cards are curated seed thesis until live community depth fills in</span>
                                         </div>
                                     </div>
 
@@ -538,9 +621,14 @@ export function PlayContent() {
                         <div className="order-1 lg:order-2 lg:col-span-6">
                             <Card className="h-[360px] overflow-hidden rounded-[28px] border border-white/10 bg-[#0C1624] shadow-[0_20px_70px_rgba(0,0,0,0.35)] lg:h-[560px]">
                                 <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
-                                    <div className="flex items-center gap-2 text-sm font-black uppercase tracking-[0.18em] text-[#9FF8E2]">
-                                        <BarChart3 className="h-4 w-4" />
-                                        {selectedTimeframe.toUpperCase()} Chart Arena
+                                    <div>
+                                        <div className="flex items-center gap-2 text-sm font-black uppercase tracking-[0.18em] text-[#9FF8E2]">
+                                            <BarChart3 className="h-4 w-4" />
+                                            {selectedTimeframe.toUpperCase()} Chart Arena
+                                        </div>
+                                        <div className="mt-1 text-[10px] font-black uppercase tracking-[0.16em] text-[#6F849D]">
+                                            Entry anchor, trigger zones, and fixed resolution cadence
+                                        </div>
                                     </div>
                                     <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-[#D7E3EE]">
                                         {displaySymbol}
@@ -560,8 +648,85 @@ export function PlayContent() {
                                             Source fixed to {getResolutionSource(selectedAsset)}
                                         </div>
                                     </div>
+                                    <div className="pointer-events-none absolute right-4 top-4 hidden w-[220px] rounded-2xl border border-white/10 bg-[#111C2B]/85 p-4 backdrop-blur lg:block">
+                                        <div className="text-[10px] font-black uppercase tracking-[0.18em] text-[#6E839C]">Thesis levels</div>
+                                        <div className="mt-3 space-y-2">
+                                            {thesisLevels.map((level) => (
+                                                <div key={level.label} className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-black/20 px-3 py-2">
+                                                    <span className="text-[10px] font-black uppercase tracking-[0.16em] text-[#7D92AA]">{level.label}</span>
+                                                    <span
+                                                        className={cn(
+                                                            "text-[11px] font-black",
+                                                            level.tone === "bull" && "text-[#8FF6D6]",
+                                                            level.tone === "bear" && "text-[#FFB0B0]",
+                                                            level.tone === "neutral" && "text-white"
+                                                        )}
+                                                    >
+                                                        {level.value}
+                                                    </span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div className="pointer-events-none absolute inset-x-4 bottom-4 hidden rounded-2xl border border-white/10 bg-[#111C2B]/88 p-3 backdrop-blur md:block">
+                                        <div className="grid gap-3 lg:grid-cols-[0.9fr_0.9fr_1.2fr]">
+                                            <div className="rounded-xl border border-white/10 bg-black/20 px-3 py-2">
+                                                <div className="text-[9px] font-black uppercase tracking-[0.16em] text-[#6E839C]">Open window</div>
+                                                <div className="mt-1 text-[11px] font-black text-white">{roundCadence.openWindow}</div>
+                                            </div>
+                                            <div className="rounded-xl border border-white/10 bg-black/20 px-3 py-2">
+                                                <div className="text-[9px] font-black uppercase tracking-[0.16em] text-[#6E839C]">Lock discipline</div>
+                                                <div className="mt-1 text-[11px] font-black text-white">{roundCadence.lockWindow}</div>
+                                            </div>
+                                            <div className="rounded-xl border border-white/10 bg-black/20 px-3 py-2">
+                                                <div className="text-[9px] font-black uppercase tracking-[0.16em] text-[#6E839C]">Resolve + read</div>
+                                                <div className="mt-1 text-[11px] font-black text-white">{roundCadence.resolveWindow}</div>
+                                                <div className="mt-1 text-[10px] leading-4 text-[#9CB1C9]">{roundCadence.integrityNote}</div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </Card>
+                            <div className="mt-3 grid gap-3 md:hidden">
+                                <div className="rounded-[22px] border border-white/10 bg-[#0B1624] p-4">
+                                    <div className="text-[10px] font-black uppercase tracking-[0.18em] text-[#6E839C]">Thesis levels</div>
+                                    <div className="mt-3 grid gap-2">
+                                        {thesisLevels.map((level) => (
+                                            <div key={level.label} className="flex items-center justify-between rounded-xl border border-white/10 bg-black/20 px-3 py-2">
+                                                <span className="text-[10px] font-black uppercase tracking-[0.16em] text-[#7D92AA]">{level.label}</span>
+                                                <span
+                                                    className={cn(
+                                                        "text-[11px] font-black",
+                                                        level.tone === "bull" && "text-[#8FF6D6]",
+                                                        level.tone === "bear" && "text-[#FFB0B0]",
+                                                        level.tone === "neutral" && "text-white"
+                                                    )}
+                                                >
+                                                    {level.value}
+                                                </span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className="rounded-[22px] border border-white/10 bg-[#0B1624] p-4">
+                                    <div className="text-[10px] font-black uppercase tracking-[0.18em] text-[#6E839C]">Round cadence</div>
+                                    <div className="mt-3 grid gap-2">
+                                        <div className="rounded-xl border border-white/10 bg-black/20 px-3 py-2">
+                                            <div className="text-[9px] font-black uppercase tracking-[0.16em] text-[#6E839C]">Open window</div>
+                                            <div className="mt-1 text-[11px] font-black text-white">{roundCadence.openWindow}</div>
+                                        </div>
+                                        <div className="rounded-xl border border-white/10 bg-black/20 px-3 py-2">
+                                            <div className="text-[9px] font-black uppercase tracking-[0.16em] text-[#6E839C]">Lock discipline</div>
+                                            <div className="mt-1 text-[11px] font-black text-white">{roundCadence.lockWindow}</div>
+                                        </div>
+                                        <div className="rounded-xl border border-white/10 bg-black/20 px-3 py-2">
+                                            <div className="text-[9px] font-black uppercase tracking-[0.16em] text-[#6E839C]">Resolve + read</div>
+                                            <div className="mt-1 text-[11px] font-black text-white">{roundCadence.resolveWindow}</div>
+                                            <div className="mt-1 text-[10px] leading-4 text-[#9CB1C9]">{roundCadence.integrityNote}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div className="order-3 space-y-4 lg:col-span-3">

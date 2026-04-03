@@ -10,10 +10,22 @@ const getResultDir = () => {
     const minute = String(now.getMinutes()).padStart(2, '0');
 
     const prefix = process.env.TEST_ENV === 'production' ? 'prod_' : '';
-    return `./result/${prefix}${year}-${month}-${day}_${hour}-${minute}`;
+    const resultRoot = process.env.PLAYWRIGHT_RESULT_ROOT || './result';
+    return `${resultRoot}/${prefix}${year}-${month}-${day}_${hour}-${minute}`;
 };
 
 const resultDir = getResultDir();
+const shouldUseRemoteBaseUrl = process.env.TEST_ENV === 'production';
+const baseURL = process.env.BASE_URL || (
+    shouldUseRemoteBaseUrl
+        ? 'https://newchartclash.vercel.app'
+        : 'http://localhost:3000'
+);
+const shouldStartWebServer = process.env.PLAYWRIGHT_USE_WEBSERVER !== 'false' && (
+    baseURL.includes('localhost') ||
+    baseURL.includes('127.0.0.1') ||
+    baseURL.includes('0.0.0.0')
+);
 
 export default defineConfig({
     testDir: './e2e',
@@ -39,7 +51,7 @@ export default defineConfig({
     },
 
     use: {
-        baseURL: process.env.BASE_URL || 'http://localhost:3000',
+        baseURL,
         trace: 'on-first-retry',
         screenshot: 'only-on-failure',
         video: 'retain-on-failure',
@@ -60,11 +72,13 @@ export default defineConfig({
         },
     ],
 
-    webServer: {
-        command: 'npm run dev',
-        url: 'http://localhost:3000',
-        reuseExistingServer: !process.env.CI,
-        timeout: 120000, // 2분 (서버 시작)
-        cwd: '..',  // 프로젝트 루트에서 실행
-    },
+    ...(shouldStartWebServer ? {
+        webServer: {
+            command: 'npm run dev',
+            url: 'http://localhost:3000',
+            reuseExistingServer: !process.env.CI,
+            timeout: 120000, // 2분 (서버 시작)
+            cwd: '..',  // 프로젝트 루트에서 실행
+        },
+    } : {}),
 });

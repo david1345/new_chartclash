@@ -110,8 +110,64 @@ const LEADERBOARD_PREVIEW = [
   { name: "SignalMint", speciality: "BTC Reader", score: "+13.7%", accuracy: "71%" },
 ];
 
+interface HomeLiveRound {
+  asset_symbol: string;
+  timeframe: string;
+  asset_name: string;
+  asset_type: string;
+  participant_count: number;
+  total_volume: number;
+}
+
+interface DocketQueueItem {
+  title: string;
+  subtitle: string;
+  status: string;
+  supportingNote: string;
+  href: string;
+}
+
+const UPCOMING_QUEUE: DocketQueueItem[] = [
+  {
+    title: "BTC breakout battle reopens at the next hourly handoff",
+    subtitle: "Queue primed for ETF flow and macro softness",
+    status: "Opens in the next 1H cycle",
+    supportingNote: "Curated seed docket",
+    href: "/play/BTCUSDT/1h",
+  },
+  {
+    title: "ETH vs BTC leadership clash",
+    subtitle: "Relative-strength market with a clean weekly framing",
+    status: "Next wave in 4H",
+    supportingNote: "Rotation surface",
+    href: "/play/ETHUSDT/4h",
+  },
+  {
+    title: "SOL momentum continuation window",
+    subtitle: "Designed for squeeze-versus-exhaustion debate",
+    status: "Queued for the next 1H open",
+    supportingNote: "Catalyst lane",
+    href: "/play/SOLUSDT/1h",
+  },
+  {
+    title: "Macro spillover radar",
+    subtitle: "Analyst-seeded thesis around rates, CPI, and dollar pressure",
+    status: "Open via Analyst Hub",
+    supportingNote: "Macro surface",
+    href: "/community?tab=analyst-hub",
+  },
+];
+
+function formatCompactVolume(value: number) {
+  if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1)}M USDT`;
+  if (value >= 1_000) return `${(value / 1_000).toFixed(1)}k USDT`;
+  return `${value.toFixed(0)} USDT`;
+}
+
 function LandingContent() {
   const [user, setUser] = useState<any>(null);
+  const [liveRounds, setLiveRounds] = useState<HomeLiveRound[]>([]);
+  const [docketLoading, setDocketLoading] = useState(true);
   const supabase = createClient();
 
   useEffect(() => {
@@ -136,7 +192,63 @@ function LandingContent() {
     });
   }, [supabase]);
 
+  useEffect(() => {
+    let cancelled = false;
+
+    const fetchLiveRounds = async () => {
+      try {
+        const response = await fetch("/api/market/live-rounds?category=ALL&limit=8");
+        const json = await response.json();
+
+        if (cancelled) return;
+
+        if (json.success && Array.isArray(json.data)) {
+          setLiveRounds(json.data);
+        } else {
+          setLiveRounds([]);
+        }
+      } catch (error) {
+        if (!cancelled) {
+          console.error("Failed to fetch home live rounds:", error);
+          setLiveRounds([]);
+        }
+      } finally {
+        if (!cancelled) {
+          setDocketLoading(false);
+        }
+      }
+    };
+
+    fetchLiveRounds();
+    const interval = window.setInterval(fetchLiveRounds, 45000);
+
+    return () => {
+      cancelled = true;
+      window.clearInterval(interval);
+    };
+  }, []);
+
   const { userPoints, userRank, username, activeCount } = useUserStats(user);
+  const hasLiveRounds = liveRounds.length > 0;
+  const docketQueue: DocketQueueItem[] = hasLiveRounds
+    ? liveRounds.slice(0, 4).map((round) => ({
+      title: `${round.asset_name} ${round.timeframe.toUpperCase()} thesis window`,
+      subtitle: `${round.participant_count} traders active on ${round.asset_symbol}`,
+      status: round.total_volume > 0 ? formatCompactVolume(Number(round.total_volume)) : "Live now",
+      supportingNote: round.asset_type,
+      href: `/play/${round.asset_symbol}/${round.timeframe}`,
+    }))
+    : UPCOMING_QUEUE;
+  const liveSignalCount = hasLiveRounds ? liveRounds.length : docketQueue.length;
+  const totalDocketVolume = hasLiveRounds
+    ? liveRounds.reduce((sum, round) => sum + Number(round.total_volume || 0), 0)
+    : 128000;
+  const queueStatusLabel = docketLoading
+    ? "Syncing live docket"
+    : hasLiveRounds
+      ? "Live markets across active surfaces"
+      : "Seeded queue keeps the docket warm";
+  const queueModeLabel = hasLiveRounds ? "Live now" : "Curated queue";
 
   return (
     <main className="min-h-[100dvh] overflow-x-hidden bg-[#060914] text-white selection:bg-[#00E5B4]/30">
@@ -205,8 +317,11 @@ function LandingContent() {
                       Active signal board
                     </div>
                     <div className="mt-2 flex items-end justify-between gap-4">
-                      <div className="text-4xl font-black text-white">{activeCount || 0}</div>
+                      <div className="text-4xl font-black text-white">{docketLoading ? "..." : liveSignalCount}</div>
                       <Users className="h-5 w-5 text-[#00E5B4]" />
+                    </div>
+                    <div className="mt-1 text-xs leading-5 text-[#8CA0B7]">
+                      {queueStatusLabel}
                     </div>
                   </div>
                   <div className="rounded-[24px] border border-white/10 bg-black/20 p-4">
@@ -218,6 +333,17 @@ function LandingContent() {
                     </div>
                     <div className="mt-1 text-xs text-[#8CA0B7]">
                       {user ? `${username || "Trader"} · live contract balance` : "Sign in and connect MetaMask to fund your staking balance"}
+                    </div>
+                  </div>
+                  <div className="rounded-[24px] border border-white/10 bg-black/20 p-4">
+                    <div className="text-[10px] font-black uppercase tracking-[0.18em] text-[#6C819A]">
+                      Docket flow
+                    </div>
+                    <div className="mt-2 text-2xl font-black text-white">
+                      {docketLoading ? "Syncing" : formatCompactVolume(totalDocketVolume)}
+                    </div>
+                    <div className="mt-1 text-xs leading-5 text-[#8CA0B7]">
+                      {hasLiveRounds ? "Visible stack across live rounds" : "Fallback queue volume target while live stack forms"}
                     </div>
                   </div>
                   <div className="rounded-[24px] border border-white/10 bg-black/20 p-4">
@@ -250,7 +376,7 @@ function LandingContent() {
                     Live docket
                   </div>
                   <div className="rounded-full border border-[#00E5B4]/20 bg-[#00E5B4]/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-[#9FF8E2]">
-                    {FEATURED_BATTLE.closeLabel}
+                    {queueModeLabel}
                   </div>
                 </div>
 
@@ -275,6 +401,35 @@ function LandingContent() {
                       <div className="mt-2 text-sm font-black text-white">{FEATURED_BATTLE.bear.title}</div>
                       <p className="mt-1 text-xs leading-5 text-[#A7BDD6]">{FEATURED_BATTLE.bear.summary}</p>
                     </div>
+                  </div>
+                </div>
+
+                <div className="mt-4 rounded-[22px] border border-white/10 bg-[#07111C] p-4">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="text-[10px] font-black uppercase tracking-[0.18em] text-[#6F849D]">
+                      Queue monitor
+                    </div>
+                    <div className="text-[10px] font-black uppercase tracking-[0.16em] text-[#9FF8E2]">
+                      {hasLiveRounds ? "Routing to live rounds" : "Routing to seeded upcoming clashes"}
+                    </div>
+                  </div>
+                  <div className="mt-3 space-y-2">
+                    {docketQueue.map((item) => (
+                      <Link
+                        key={item.title}
+                        href={item.href}
+                        className="flex items-start justify-between gap-3 rounded-2xl border border-white/10 bg-black/20 px-4 py-3 transition-colors hover:bg-white/[0.06]"
+                      >
+                        <div>
+                          <div className="text-sm font-black text-white">{item.title}</div>
+                          <div className="mt-1 text-xs leading-5 text-[#97ADC5]">{item.subtitle}</div>
+                        </div>
+                        <div className="shrink-0 text-right">
+                          <div className="text-[10px] font-black uppercase tracking-[0.16em] text-white">{item.status}</div>
+                          <div className="mt-1 text-[10px] uppercase tracking-[0.16em] text-[#6E839C]">{item.supportingNote}</div>
+                        </div>
+                      </Link>
+                    ))}
                   </div>
                 </div>
               </div>
